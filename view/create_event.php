@@ -1,3 +1,5 @@
+<?php echo '
+
 <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1"></div>
 <div class="col-lg-9 col-md-9 col-xs-9 col-sm-9" style="margin-top:26vh;">
     <form action="" method="post" id="mapform">
@@ -28,6 +30,7 @@
             <input type="hidden" data-geoend="lng" name="lngEnd"><br>
         </center>
     </form>
+    '?>
 
   
     <?php
@@ -39,8 +42,8 @@
         echo 'rundate'.' '.date('Y-m-d',strtotime($_POST['run_date'])).'<br>';
         echo 'rundate'.' '.$_POST['run_time'].'<br>';
     }
-    ?>
-</div>
+
+         echo '</div>
 
 <script type="text/javascript">
     $(function(){
@@ -54,14 +57,14 @@
         });
       });
       $(function(){
-         $('#date').combodate();     
+         $("date".combodate();     
       });
       $(function(){
-    $('#time').combodate({
-        firstItem: 'name', 
+    $("time".combodate({
+        firstItem: "ame" 
         minuteStep: 1
     });  
 });
     
     
-</script>
+</script> ';?>

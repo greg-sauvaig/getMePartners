@@ -11,6 +11,7 @@
         <script src="./lib/moment/moment.js" type='text/javascript'></script>
         <script src="./lib/combodate/combodate.js" type='text/javascript'></script>
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBY2_9mOiVb_bKdrck5FMzVrJwAJPbefvk&libraries=places&amp"></script>
+        <script src="./js/nav.js" type="text/javascript"></script>
         <title>Get Me Partners</title>
     </head>
     <body>
@@ -27,8 +28,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Create Event</a></li>
-                                <li><a href="#">Search Event</a></li>
+                                <li><a href="./index.php?page=create">Create Event</a></li>
+                                <li><a href="./index.php?page=search">Search Event</a></li>
                             </ul>
                         </li>
                     </ul>

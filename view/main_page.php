@@ -48,40 +48,16 @@
 
 <!-- right container -->
 <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1"></div>
-<div class="col-lg-9 col-md-9 col-xs-9 col-sm-9">
-
-<?php 
-	for ($i = 0; $i < 10; $i++){ 
-?>
-		<!-- events list-->
-		<div class="col-lg-8 col-md-8 col-xs-8 col-sm-8" style="border:1px solid black; -webkit-box-shadow: 0 5px 1px #777;
-		  -moz-box-shadow: 0 15px 10px #777;
-		  box-shadow: 0 5px 1px #777;">
-		    <div class="row">
-		        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="    ">
-<?php if($v->getProfil_pic() == null){echo '<img src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" style="height:100px;width:100px;">';}
- ?>
-		        </div>		
-
-		        <div class="col-lg-2 col-md-2 col-xs-2 col-sm-2" style="margin-top:1vh">
-		            <h5>Michel</h5>
-		            <h5>En cours<img src="pictures/on.jpg" style="height:10px;width:10px;"></h5>
-		        </div>
-		        <div class="col-lg-4 col-md-4 col-xs-4 col-sm-4" style="margin-top:1vh;">
-		            <h5>Le 09/03/2016 à 14h</h5>
-		            <h5>Houilles - 13 km</h5>
-		        </div>
-		        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="">
-		            <img src="http://www.developpez.net/forums/attachments/p166896d1421856637/java/general-java/java-mobiles/android/integrer-personnaliser-carte-type-google-maps/googlemap.gif/" style="height:80px; width:80px;padding:5px;">
-		        </div>
-		        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="">
-		            <a href="#" title="info"><img src="./image/zoom.jpg" style="height:50px;width:50px;margin-top:2vh;margin-left:0.5vw;"></a>
-		        </div>		
-
-		    </div>
-		</div>
-		<!-- fin events list-->
+<div class="col-lg-9 col-md-9 col-xs-9 col-sm-9" id="right_container">
 <?php
-	}
+    if(isset($_GET['page'])){
+        if ($_GET['page'] == 'create'){
+            include_once './view/create_event.php';
+        }else if ($_GET['page'] == 'search'){
+            include_once './view/search.php';
+        }
+    }else{
+        include_once './view/event_list.php';
+    }
 ?>
 </div>
