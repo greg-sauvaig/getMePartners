@@ -1,0 +1,15 @@
+#deco{
+  display:inline-block;
+  float:right;
+  width:120px;
+  height:48px;
+  background:red;
+  padding:10px;
+  margin:1px;
+  border-radius:5px;
+  border: 1px solid grey;
+}
+
+#deco:hover{
+	background:yellow;
+}
