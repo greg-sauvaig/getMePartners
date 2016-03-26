@@ -5,7 +5,7 @@
 		<div class="">vous pouvez modifier vos parametres ici !</div>
 <?php
 	$v = $user;
-	$at = get_object_vars ( $user );
+	$at = get_object_vars ( $user ); // i know (^_^)...! 
 	$a = 0;
 			//var_dump($at);
 	echo "<form action='' method='post' id='f0'>";
@@ -82,33 +82,33 @@
 	</div>
 	<div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" id="right-setting-container">
 		<h4 class="col-lg-12 col-md-12 col-xs-12 col-sm-12">todo aperçu en javascript </h4>
-			<div    class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
+			<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 	<?php if($v->getProfil_pic() == null){echo '<img id="picture" src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img id="picture" src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" style="height:100px;">';}
 	 ?>
 	        </div>
 	    <div class="row">
-	        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-	            <h6>nom d'utilisateur:</h6><h5 id='1'><?php  echo $v->getUsername();?></h5>
+	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+	            <h6>nom d'utilisateur:</h6><h5 id='1' class='center-text'><?php  echo $v->getUsername();?></h5>
 	        </div>
 	    </div>  
 	    <div class="row">
-	        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-	            <h6>birthdate:</h6><h5 id="4"><?php if ($v->getBirthdate() != "0000-00-00 00:00:00"){ echo $v->getBirthdate(); }else{ echo("pas renseigné");} ?></h5>
+	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+	            <h6>birthdate:</h6><h5 id="4" class='center-text'><?php if ($v->getBirthdate() != "0000-00-00 00:00:00"){ echo $v->getBirthdate(); }else{ echo("pas renseigné");} ?></h5>
 	        </div>
 	    </div>
 	    <div class="row">
-	        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-	            <h6>adresse:</h6><h5 id="5"><?php if ($v->getAddr() != null){ echo $v->getAddr(); }else{ echo("pas renseigné");} ?> </h5>
+	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+	            <h6>adresse:</h6><h5 id="5" class='center-text'><?php if ($v->getAddr() != null){ echo $v->getAddr(); }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	    <div class="row">
-	        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-	            <h6>email:</h6><h5 id='3'><?php if ($v->getmail() != null){ echo $v->getmail(); }else{ echo("pas renseigné");} ?> </h5>
+	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+	            <h6>email:</h6><h5 id='3' class='center-text'><?php if ($v->getmail() != null){ echo $v->getmail(); }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	    <div class="row">
-	        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-	            <h6>mot de passe:</h6><h5 id='2'><?php if ($v->getpassword() != null){ echo $v->getpassword(); }else{ echo("pas renseigné");} ?> </h5>
+	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+	            <h6>mot de passe:</h6><h5 id='2' class='center-text'><?php if ($v->getpassword() != null){ echo $v->getpassword(); }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	</div>
