@@ -27,8 +27,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Create Event</a></li>
-                                <li><a href="#">Search Event</a></li>
+                                <li><a href="./index.php?page=create">Create Event</a></li>
+                                <li><a href="./index.php?page=search">Search Event</a></li>
                             </ul>
                         </li>
                     </ul>

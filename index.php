@@ -18,19 +18,31 @@
     include_once './view/header.php';
 
     //Views
-    if (isset($_COOKIE['getMePartners']) && $_COOKIE['getMePartners'] != null && $valid){
+    if (isset($_COOKIE['getMePartners']) && $_COOKIE['getMePartners'] != null && $valid)
+    {
         $user = new User($_COOKIE['getMePartners'], $bdd);
-        if(isset($_GET["setting"]) ){
+        if(isset($_GET["setting"]) && $_GET["setting"] != null ){
             if($_GET["setting"] === "account_setting"){
                 include_once './view/account_setting.php';
             }
         }
+        if(isset($_GET['page']) && $_GET['page']!= null){
+            if ($_GET['page'] == 'create'){
+                include_once './view/create_event.php';
+            }else if ($_GET['page'] == 'search'){
+                include_once './view/left-container-profil.php';
+                include_once './view/search.php';
+            }
+        }
         else{
+            include_once './view/left-container-profil.php';
             include_once './view/main_page.php';
         }
+        
         if(isset($_POST['upload'])){
             $user->uploadAvatar($user, $bdd);
         }
+    
     }else{
         include_once './view/login_register.php';
     }
