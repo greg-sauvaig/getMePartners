@@ -53,7 +53,7 @@
 	
 ?>	<fieldset >changez votre photo de profil ici:		
 
-	<form method="post" enctype="multipart/form-data" action="./model/upload.php" id="f1">
+	<form method="post" enctype="multipart/form-data" action="./index.php" id="f1">
 		<p>
 			<input id="imageField" type="file" name="fichier" size="30">
 			<input type="submit" name="upload" value="Uploader">
