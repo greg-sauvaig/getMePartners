@@ -25,8 +25,12 @@
                 include_once './view/account_setting.php';
             }
         }
-        else
+        else{
             include_once './view/main_page.php';
+        }
+        if(isset($_POST['upload'])){
+            $user->uploadAvatar($user, $bdd);
+        }
     }else{
         include_once './view/login_register.php';
     }
