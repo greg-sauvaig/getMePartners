@@ -45,8 +45,8 @@
     	});
     </script>
     <!-- Fin Profil-->
-    
-<!-- right container-->
+
+<!-- right container -->
 <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1"></div>
 <div class="col-lg-9 col-md-9 col-xs-9 col-sm-9">
 

@@ -8,9 +8,9 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.js'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-        <script type='text/javascript' src="controller/js/geocomplete/jquery.geocomplete.js"></script>
-        <script src="controller/js/moment/moment.js"></script>
-        <script src="controller/js/combodate/combodate.js"></script>
+        <script type='text/javascript' src="./js/geocomplete/jquery.geocomplete.js"></script>
+        <script src="./js/moment/moment.js"></script>
+        <script src="./js/combodate/combodate.js"></script>
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBY2_9mOiVb_bKdrck5FMzVrJwAJPbefvk&libraries=places&amp"></script>
         <title>Get Me Partners</title>
     </head>
