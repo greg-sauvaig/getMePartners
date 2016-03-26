@@ -2,13 +2,12 @@
 
 abstract class Logs
 {
-	private static $_bdd;
 	public static $message;
 
-	private static function checkLogs($mail, $pswd){
+	private static function checkLogs($mail, $pswd, $bdd){
 		try {
 			$query = "CALL checkLogs('$mail', '$pswd')";
-			$prepared = self::$_bdd->prepare($query);
+			$prepared = $bdd->prepare($query);
 			$prepared->execute();
 			if($prepared->rowCount() == 1){
 				return True;
@@ -20,23 +19,21 @@ abstract class Logs
 		return False;
 	}
 
-	public static function login($mail, $pswd)
+	public static function login($mail, $pswd, $bdd)
 	{	
-		self::$_bdd = Db::dbConnect();
 		if ($mail && $pswd)
 		{	
-			if (self::checkLogs($mail, $pswd))
+			if (self::checkLogs($mail, $pswd, $bdd))
 			{
-				Session::setSession($mail, $pswd);
+				Session::setSession($mail, $pswd, $bdd);
 				self::$message = "Bienvenu sur Get Me Partners !";
 			}else self::$message = "Identifiants invalides."; //message d'erreur.
 		}else self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
 	}
 	
 
-	public static function register($username, $mail, $pass, $pass2)
+	public static function register($username, $mail, $pass, $pass2, $bdd)
 	{
-		self::$_bdd = Db::dbConnect();
 		if ($username && $mail && $pass && $pass2)
 		{
 			if ($pass === $pass2)
@@ -44,7 +41,7 @@ abstract class Logs
 				if (strlen($pass) > 6)
 				{
 					$query = "CALL register('$username', '$pass', '$mail')";
-					$prepared = self::$_bdd->prepare($query);
+					$prepared = $bdd->prepare($query);
 					$prepared->execute();
 					//mail($mail, 'Inscription GET ME PARTNERS !', )
 					return "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé.";
@@ -54,15 +51,14 @@ abstract class Logs
 		}else return "Un ou plusieurs champs sont vides !"; //message d'erreur.
 	}
 
-	public static function sessionIsValid(){
-		self::$_bdd = Db::dbConnect();
+	public static function sessionIsValid($bdd){
 		if (isset($_COOKIE['getMePartners'])) {
 			$cookie = $_COOKIE['getMePartners'];
 			if($cookie != null){
 				try {
 					$time = time();
 					$query = "SELECT `id` from `user` where `session` = '$cookie' and `time` > '$time' ;";
-					$prepared = self::$_bdd->prepare($query);
+					$prepared = $bdd->prepare($query);
 					$prepared->execute();
 					$res = $prepared->fetch(PDO::FETCH_ASSOC);
 					if($res != null){
