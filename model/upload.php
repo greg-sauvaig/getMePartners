@@ -24,13 +24,10 @@ if(isset($_POST['upload'])){// si formulaire soumis
     }
     try {
         $id = $at->getId();
-        var_dump("a");
         $req = "UPDATE `user` set `profil_pic` = '".'/image/avatar/' .  $at->getUsername() . "-" . $name_file."' WHERE ID = $id ;";
-        var_dump("aa");
         $data = $bdd->prepare($req);
         $data->execute();
         if($data->rowCount() == 1){
-            var_dump("aaa");
             echo "Le fichier a bien été uploadé";
             header("location: ../index.php?setting=account_setting");
         }

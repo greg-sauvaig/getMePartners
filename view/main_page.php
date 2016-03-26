@@ -56,7 +56,8 @@
 		  box-shadow: 0 5px 1px #777;">
 		    <div class="row">
 		        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="    ">
-		            <img src="http://www.bonjourlesmoches.fr/moches/1286272786.jpg" style="height:80px; width:80px;padding:5px;">
+<?php if($v->getProfil_pic() == null){echo '<img src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" style="height:100px;width:100px;">';}
+ ?>
 		        </div>		
 
 		        <div class="col-lg-2 col-md-2 col-xs-2 col-sm-2" style="margin-top:1vh">
