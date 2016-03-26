@@ -1,6 +1,8 @@
 <?php $v = $user; ?>
 
+<!-- left container -->
 <div id="left_container.php" class="col-lg-2 col-md-2 col-xs-2 col-sm-2" style="border-right:2px solid black;box-shadow: inset -10px 0 5px -5px hsla(0,0%,0%,.25);">
+    <!-- Profil-->
     <div class="row">
         <div class="col-lg-2 col-md-2 col-xs-2 col-sm-2"></div>
         <div    class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
@@ -43,6 +45,7 @@
     	});
     </script>
     <!-- Fin Profil-->
+    
 <!-- right container-->
 <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1"></div>
 <div class="col-lg-9 col-md-9 col-xs-9 col-sm-9">
