@@ -41,14 +41,14 @@ class User
 		}
 	}
 
-	public function maj_profil($username, $password, $password2, $email, $birthdate){
+	public function maj_profil($username, $password, $password2, $email, $birthdate, $addr){
 		if (strlen($password) > 6 && ($password === $password2)){
 			//var_dump("expression");
 			try {
 				$bdd = Db::dbConnect();	
 				$id = $this->getId();
-				var_dump($id);
-				$req = "UPDATE `user` set `username` = '$username', `password` = '$password', `mail` = '$email', `birthdate` = $birthdate WHERE ID = $id ;";
+				var_dump($birthdate);
+				$req = "UPDATE `user` set `username` = '$username', `password` = '$password', `mail` = '$email', `birthdate` = '$birthdate', `addr` = '$addr' WHERE ID = $id ;";
 				$data = $bdd->prepare($req);
 				$data->execute();
 				if($data->rowCount() == 1){

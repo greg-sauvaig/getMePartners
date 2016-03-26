@@ -26,7 +26,7 @@
 		if ($a == 4){
 			echo ("<label>".str_replace('_', '', $key)." : ");
 			echo ("</br>");
-			echo ("<input id='date' data-format='DD-MM-YYYY' data-template='DD MM YYYY' name='".($a)."'  type='text' placeholder='".substr($value,0,-9)."' value='".substr($value,0,-9)."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
+			echo ("<input id='date' data-format='YYYY-MM-DD' data-template='YYYY MM DD' name='".($a)."'  type='text' placeholder='".substr($value,0,-9)."' value='".substr($value,0,-9)."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
 		}
 		$a++;
 	}
@@ -35,14 +35,15 @@
 	echo "<input class='btn' type='submit' name='send-maj-profil' value='mettre à jours'>";
 	echo "</form>";
 		// handling form validation 
-	if(isset($_POST["send-maj-profil"], $_POST["1"], $_POST["2"], $_POST["3"], $_POST["4"], $_POST["pass2"])){
+	if(isset($_POST["send-maj-profil"], $_POST["1"], $_POST["2"], $_POST["3"], $_POST["4"], $_POST["pass2"], $_POST["5"])){
 		$username = $_POST["1"];
 		$password = $_POST["2"];
 		$password2 = $_POST["pass2"];
 		$email = $_POST["3"];
 		$birthdate = $_POST["4"];
+		$addr = $_POST["5"];
 			//$pic = $_POST["6"];
-		if($user->maj_profil($username, $password, $password2, $email, $birthdate)){
+		if($user->maj_profil($username, $password, $password2, $email, $birthdate, $addr)){
 			header("location: ./index.php?setting=account_setting");
 		}
 		else{
