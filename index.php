@@ -12,7 +12,7 @@
     require_once './controller/Session.php';
 
     $bdd = Db::dbConnect();
-    $valid = Logs::sessionIsValid();
+    $valid = Logs::sessionIsValid($bdd);
 
     //header
     include_once './view/header.php';
@@ -36,10 +36,10 @@
     }
 
     if(isset($_POST['login'])){
-        Logs::login($_POST['email'], $_POST['pass']);
+        Logs::login($_POST['email'], $_POST['pass'], $bdd);
     }   
     if(isset($_POST['register'])){
-        Logs::register($_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2']);
+        Logs::register($_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2'], $bdd);
     }
     
     echo '</div>';

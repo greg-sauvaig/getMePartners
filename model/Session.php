@@ -12,9 +12,8 @@ abstract class Session{
 		return $code;
 	}
 
-	public static function setSession($mail, $pswd)
+	public static function setSession($mail, $pswd, $bdd)
 	{
-		$bdd = Db::dbConnect();
 		$mail = htmlspecialchars($mail, ENT_QUOTES);
 		
 		//Instanciations des variables de Cookie.
