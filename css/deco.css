@@ -13,3 +13,11 @@
 #deco:hover{
 	background:yellow;
 }
+
+#right-setting-container,#left-setting-container{
+  margin:10px;
+  -moz-box-shadow: 0px 0px 5px 0px #656565;
+  -webkit-box-shadow: 0px 0px 5px 0px #656565;
+  -o-box-shadow: 0px 0px 5px 0px #656565;
+  box-shadow: 0px 0px 5px 0px #656565;
+}
