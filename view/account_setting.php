@@ -82,7 +82,7 @@
 	</script>
 	</div>
 	<div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" id="right-setting-container">
-		<h4 class="col-lg-12 col-md-12 col-xs-12 col-sm-12">todo aperçu en javascript </h4>
+		<h4 class="col-lg-12 col-md-12 col-xs-12 col-sm-12">Aperçu avant validation</h4>
 			<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 	<?php if($v->getProfil_pic() == null){echo '<img id="picture" src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img id="picture" src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" style="height:100px;">';}
 	 ?>
