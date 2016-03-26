@@ -43,7 +43,7 @@ class User
 
 	public function maj_profil($username, $password, $password2, $email, $birthdate){
 		if (strlen($password) > 6 && ($password === $password2)){
-			var_dump("expression");
+			//var_dump("expression");
 			try {
 				$bdd = Db::dbConnect();	
 				$id = $this->getId();

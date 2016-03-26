@@ -26,7 +26,7 @@
 		if ($a == 4){
 			echo ("<label>".str_replace('_', '', $key)." : ");
 			echo ("</br>");
-			echo ("<input name='".($a)."' type='text' placeholder='".substr($value,0,-9)."' value='".substr($value,0,-9)."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
+			echo ("<input id='date' data-format='DD-MM-YYYY' data-template='DD MM YYYY' name='".($a)."'  type='text' placeholder='".substr($value,0,-9)."' value='".substr($value,0,-9)."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
 		}
 		$a++;
 	}
@@ -51,18 +51,19 @@
 		}
 	}
 	
-?>	<fieldset >changez votre photo de profil ici:		
-
-	<form method="post" enctype="multipart/form-data" action="./index.php" id="f1">
-		<p>
-			<input id="imageField" type="file" name="fichier" size="30">
-			<input type="submit" name="upload" value="Uploader">
-		</p>
-	</form>
+?>	    
+	<fieldset >changez votre photo de profil ici:		
+		<form method="post" enctype="multipart/form-data" action="./index.php" id="f1">
+			<p>
+				<input id="imageField" type="file" name="fichier" size="30">
+				<input type="submit" name="upload" value="Uploader">
+			</p>
+		</form>
 	</fieldset>
 	<script language="javascript" type="text/javascript">
 	$(function () {
-	    $('#imageField').on('change', function (e) {
+		$('#date').combodate();
+		    $('#imageField').on('change', function (e) {
 	    	var files = $(this)[0].files;
 	    	if (files.length > 0) {
 	            var file = files[0],
