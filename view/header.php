@@ -6,7 +6,6 @@
         <link href="css/deco.css" rel="stylesheet" type="text/css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.js'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script type='text/javascript' src="./js/geocomplete/jquery.geocomplete.js"></script>
         <script src="./js/moment/moment.js"></script>
