@@ -1,34 +1,22 @@
 <?php $v = $user;?>
-<div id="left_container.php" class="col-lg-2 col-md-2 col-xs-2 col-sm-2" style="border-right:2px solid black;box-shadow: inset -10px 0 5px -5px hsla(0,0%,0%,.25);">
-    <!-- Profil-->
-    <div class="row">
-        <div class="col-lg-2 col-md-2 col-xs-2 col-sm-2"></div>
-        <div    class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-<?php if($v->getProfil_pic() == null){echo '<img src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" style="height:100px;width:100px;">';}
- ?>
+<!-- Profil-->
+<div id="left_container_profil">
+    <div id="left_content_profil">
+        <div id="left-profil-pic">
+    <?php if($v->getProfil_pic() == null){echo '<img src="./image/info.jpg">';}else{echo '<img src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" >';}
+     ?>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-            <h3>nom:</br><?php  echo $v->getUsername();?></h3>
+        <div>
+            <label>nom:</br><?php  echo $v->getUsername();?></label>
         </div>
-    </div>  
-    <div class="row">
-        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-            <h3>birthdate:</br><?php if ($v->getBirthdate() != "0000-00-00 00:00:00"){ echo $v->getBirthdate(); }else{ echo("pas renseigné");} ?></h3>
+        <div>
+            <label>birthdate:</br><?php if ($v->getBirthdate() != "0000-00-00 00:00:00"){ echo $v->getBirthdate(); }else{ echo("pas renseigné");} ?></label>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
-            <h3>adresse:</br><?php if ($v->getAddr() != null){ echo $v->getAddr(); }else{ echo("pas renseigné");} ?> </h3>
+        <div>
+            <label>adresse:</br><?php if ($v->getAddr() != null){ echo $v->getAddr(); }else{ echo("pas renseigné");} ?> </label>
         </div>
-    </div>
-    <div class="row" style="height:250px;">
-
-    </div>
-    <div class="row">
-        <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7">
-            <button id="btn-settings" class="btn btn-default" style="padding : 0px ;">&nbsp;<img src="./image/setting.png" style="height:20px;width:20px;">&nbsp;Account Settings&nbsp;</button>
+        <div>
+            <button id="btn-settings" class="btn btn-default">&nbsp;<img src="./image/setting.png" style="height:20px;width:20px;">&nbsp;Account Settings&nbsp;</button>
         </div>
     </div>
 </div>

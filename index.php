@@ -53,7 +53,10 @@
     if(isset($_POST['register'])){
         Logs::register($_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2'], $bdd);
     }
-    
+
+
+    echo '</div>';
+
     //footer
     include_once 'view/footer.php'; 
 ?>

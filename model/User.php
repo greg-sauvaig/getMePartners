@@ -73,12 +73,10 @@ class User
 			try {
 				$bdd = Db::dbConnect();	
 				$id = $this->getId();
-				var_dump($birthdate);
 				$req = "UPDATE `user` set `username` = '$username', `password` = '$password', `mail` = '$email', `birthdate` = '$birthdate', `addr` = '$addr' WHERE ID = $id ;";
 				$data = $bdd->prepare($req);
 				$data->execute();
 				if($data->rowCount() == 1){
-					var_dump("expression");
 					self::login($email, $password);
 					return True;
 				}
@@ -119,7 +117,7 @@ class User
 	        $data = $bdd->prepare($req);
 	        $data->execute();
 	        if($data->rowCount() == 1){
-	            header("location: ../index.php?setting=account_setting");
+	            header("location: index.php/?setting=account_setting");
 	        }
 	    } catch (Exception $e) {
 	        echo $e->getMessage();
