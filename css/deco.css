@@ -43,3 +43,10 @@
   margin-top: 20px;
   padding:5px;
 }
+
+.footer{
+  margin-top: 40px;
+  position: relative;
+  bottom: 0;
+  width:100%;
+}

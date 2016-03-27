@@ -54,8 +54,11 @@
             details : "#mapform",
             detailsAttribute : "data-geoend"
         });
-        $('#date').combodate();
-            $('#time').combodate({
+        $('#date').combodate({
+            minYear: 2015,
+            maxYear: 2017
+        });
+        $('#time').combodate({
             firstItem: 'name', 
             minuteStep: 1
         });
