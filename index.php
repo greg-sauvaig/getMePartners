@@ -9,8 +9,7 @@
     require_once './model/User.php';
     require_once './model/Logs.php';
     require_once './model/Event.php';
-    //controller
-    require_once './controller/Session.php';
+    require_once './model/Session.php';
 
     $bdd = Db::dbConnect();
     $valid = Logs::sessionIsValid($bdd);
@@ -54,9 +53,9 @@
     if(isset($_POST['register'],$_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2']) && $_POST['username']!= null && $_POST['mail'] != null && $_POST['pass'] != null && $_POST['pass2'] != null){
         Logs::register($_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2'], $bdd);
     }
+
     
     echo '</div>';
-
     //footer
     include_once 'view/footer.php'; 
 ?>
