@@ -1,11 +1,12 @@
 
 <!-- right container -->
+
 <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1"></div>
 
 <div class="col-lg-9 col-md-9 col-xs-9 col-sm-9" id="my-event-container">
     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12"><h3 class="center-text">Mes evenements:</h3></div>
-<?php
-	for ($i = 0; $i < 1; $i++){ 
+<?php 
+	for ($i = 0; $i < 10; $i++){ 
 ?>
 		<!-- events list-->
 		<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 event-container" >
@@ -33,7 +34,7 @@
 		</div>
 		<!-- fin events list-->
 
-<div class="col-lg-9 col-md-9 col-xs-9 col-sm-9" id="right_container">
+
 
 <?php
 
