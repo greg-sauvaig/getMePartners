@@ -21,7 +21,7 @@ abstract class Logs
 
 	public static function login($mail, $pswd, $bdd)
 	{	
-		if ($mail && $pswd)
+		if ($mail && $pswd && $mail != null && $pswd != null)
 		{	
 			if (self::checkLogs($mail, $pswd, $bdd))
 			{
@@ -34,21 +34,43 @@ abstract class Logs
 
 	public static function register($username, $mail, $pass, $pass2, $bdd)
 	{
-		if ($username && $mail && $pass && $pass2)
+		if ($username && $mail && $pass && $pass2 && $username != null && $mail != null && $pass != null && $pass2 != null)
 		{
 			if ($pass === $pass2)
 			{
 				if (strlen($pass) > 6)
 				{
-					$query = "CALL register('$username', '$pass', '$mail')";
-					$prepared = $bdd->prepare($query);
-					$prepared->execute();
-					//mail($mail, 'Inscription GET ME PARTNERS !', )
-					return "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé.";
+					try{
+						$query = "CALL register('$username', '$pass', '$mail')";
+						$prepared = $bdd->prepare($query);
+						$prepared->execute();
+						//mail($mail, 'Inscription GET ME PARTNERS !', )
+					}catch (Exception $e){
+						echo "Error : ", $e->getMessage, "\n";
+						return False;
+					}
+					if ($prepared->rowCount() === 1)
+					{	
+						self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé."; 
+						return true;
 
-				}else return "Le mot de passe doit faire plus de 6 charactères."; //message d'erreur.
-			}else return "Les mots de passes ne correspondent pas."; //message d'erreur.
-		}else return "Un ou plusieurs champs sont vides !"; //message d'erreur.
+					}else{
+						self::$message = "Un compte utilise déjà cette adresse mail";
+						return false;
+					}
+
+				}else{
+					self::$message = "Le mot de passe doit faire plus de 6 charactères."; //message d'erreur.
+					return false;
+				} 
+			}else{
+				self::$message = "Les mots de passes ne correspondent pas."; //message d'erreur.
+				return false;
+			}
+		}else{
+			self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
+			return false;
+		}
 	}
 
 	public static function sessionIsValid($bdd){

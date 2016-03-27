@@ -23,8 +23,7 @@
         $user = new User($_COOKIE['getMePartners'], $bdd);
         if(isset($_GET["setting"]) && $_GET["setting"] != null && $_GET["setting"] === "account_setting"){
             include_once './view/account_setting.php';
-        }
-        else if(isset($_GET['page']) && $_GET['page']!= null){
+        }else if(isset($_GET['page']) && $_GET['page']!= null){
             if ($_GET['page'] == 'create'){
                 include_once './view/left-container-profil.php';
                 include_once './view/create_event.php';
@@ -32,11 +31,7 @@
                 include_once './view/left-container-profil.php';
                 include_once './view/search.php';
             }
-        }
-        else if(isset($_POST['upload']) && $_POST["upload"] != null){
-            $user->uploadAvatar($user, $bdd);
-        }
-        else{
+        }else{
             include_once './view/left-container-profil.php';
             include_once './view/main_page.php';
         }
@@ -46,16 +41,19 @@
     }else{
         include_once './view/login_register.php';
     }
-
-    if(isset( $_POST['login'], $_POST['email'], $_POST['pass']) && $_POST['email'] != null && $_POST['pass'] != null){
+    if(isset($_POST['upload']) && $_POST["upload"] != null){
+        $user->uploadAvatar($user, $bdd);
+    }
+    if(isset( $_POST['login'])){
         Logs::login($_POST['email'], $_POST['pass'], $bdd);
     }   
-    if(isset($_POST['register'],$_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2']) && $_POST['username']!= null && $_POST['mail'] != null && $_POST['pass'] != null && $_POST['pass2'] != null){
+    if(isset($_POST['register'])){
         Logs::register($_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2'], $bdd);
     }
 
-    
+
     echo '</div>';
+
     //footer
     include_once 'view/footer.php'; 
 ?>
