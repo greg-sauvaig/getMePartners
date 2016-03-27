@@ -8,6 +8,7 @@
     //model
     require_once './model/User.php';
     require_once './model/Logs.php';
+    require_once './model/Event.php';
     //controller
     require_once './controller/Session.php';
 
@@ -28,6 +29,7 @@
         }
         if(isset($_GET['page']) && $_GET['page']!= null){
             if ($_GET['page'] == 'create'){
+                include_once './view/left-container-profil.php';
                 include_once './view/create_event.php';
             }else if ($_GET['page'] == 'search'){
                 include_once './view/left-container-profil.php';
@@ -41,6 +43,9 @@
         
         if(isset($_POST['upload'])){
             $user->uploadAvatar($user, $bdd);
+        }
+        if (isset($_POST['create_event'])){
+            $user->createEvent($bdd);
         }
     
     }else{

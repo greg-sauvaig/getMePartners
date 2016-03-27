@@ -11,6 +11,7 @@ class User
 	public $_time;
 	public $_profil_pic;
 	public $_addr;
+	public $event_List = array();
 	public $_private = array();
 
 	public function __construct($session, $bdd)
@@ -98,6 +99,54 @@ class User
 	    } catch (Exception $e) {
 	        echo $e->getMessage();
 	    }
+	}
+
+	public function createEvent($bdd){
+		    array_push($this->event_List, new Event());
+			$name = $_POST['event_name'];
+			$date = $_POST['run_date'];
+			$time = intval($_POST['run_time']);
+			$lngStart = floatval($_POST['lngStart']);
+			$latStart = floatval($_POST['latStart']);
+		try{
+			$query = "CALL insertEvent('$name', '$date', $time, $lngStart, $latStart, $this->_id, @p_id_event)";
+			$prepared = $bdd->prepare($query);
+			$prepared->execute();
+			if ($prepared->rowCount() === 1){
+				try{
+					$var = $bdd->prepare("SELECT max(`id`) FROM `event`");
+					$var->execute();
+					$var = $var->fetch();
+					if ($var[0] != null){
+						try{
+							$query = "CALL addUserEvent($this->_id, $var[0])";
+							$prepared = $bdd->prepare($query);
+							$prepared->execute();
+							if($prepared->rowCount() === 1){
+								return true;
+							}else{
+								return false;
+							}
+						}catch (Exception $e){
+							echo "Error : ", $e->getMessage(), "\n";
+							return false;
+						}
+					}else{
+						return false;
+					}
+				}catch (Exception $e){
+					echo "Error : ", $e->getMessage(), "\n";
+					return false;					
+				}
+				var_dump($var);
+			}else{
+				var_dump("4");
+				return false;
+			}
+		}catch (Exception $e){
+			echo "Error : ", $e->getMessage(), "\n";
+			return false;
+		}
 	}
 }
 
