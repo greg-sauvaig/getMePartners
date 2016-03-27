@@ -41,17 +41,9 @@
             include_once './view/left-container-profil.php';
             include_once './view/main_page.php';
         }
-<<<<<<< HEAD
-        
-        if(isset($_POST['upload'])){
-            $user->uploadAvatar($user, $bdd);
-        }
         if (isset($_POST['create_event'])){
             $user->createEvent($bdd);
         }
-    
-=======
->>>>>>> 03d166bb5c0fc68cbe79308e72d26282e32c635a
     }else{
         include_once './view/login_register.php';
     }
