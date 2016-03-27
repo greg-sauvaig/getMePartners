@@ -21,6 +21,9 @@
     if (isset($_COOKIE['getMePartners']) && $_COOKIE['getMePartners'] != null && $valid)
     {
         $user = new User($_COOKIE['getMePartners'], $bdd);
+        echo("<pre>");
+        var_dump($user->myEvents);
+        echo("</pre>");
         if(isset($_GET["setting"]) && $_GET["setting"] != null && $_GET["setting"] === "account_setting"){
             include_once './view/account_setting.php';
         }else if(isset($_GET['page']) && $_GET['page']!= null){

@@ -11,26 +11,51 @@ class User
 	public $_time;
 	public $_profil_pic;
 	public $_addr;
-	public $event_List = array();
+	public $myEvents = array();
 	public $_private = array();
 
 	public function __construct($session, $bdd)
 	{
-		//On SELECT les données User correspondant à $session que l'on fetch dans $data.
-		$query = "CALL getUserBySession('$session')";
-		$data = $bdd->prepare($query);
-		$data->execute();
-		$data = $data->fetch(PDO::FETCH_ASSOC);
+		try{
+			//On SELECT les données User correspondant à $session que l'on fetch dans $data.
+			$query = "CALL getUserBySession('$session')";
+			$data = $bdd->prepare($query);
+			$data->execute();
+			if ($data->rowCount() === 1){
+				$data = $data->fetch(PDO::FETCH_ASSOC);
+				//foreach parcourant l'array $data et permettant la récupération des index ($key).
+				foreach ($data as $key => $value)
+				{
+					//On Set les attributs de l'instance de User depuis la bdd.
+					$key = '_'.$key;
+					$this->$key = $value;
+				}
+				try{
+					$query = "CALL getEventNamesById($this->_id)";
+					$data = $bdd->prepare($query);
+					$data->execute();
+					$row = $data->rowCount();
+					$data = $data->fetchAll();
 
-		//foreach parcourant l'array $data et permettant la récupération des index ($key).
-		foreach ($data as $key => $value)
-		{
-			//On Set les attributs de l'instance de User depuis la bdd.
-			$key = '_'.$key;
-			$this->$key = $value;
+					for($i = 0; $row > 0 && $i < $row; $i++){
+						$name = $data[$i];
+						array_push($this->myEvents, new Event($name[0], $bdd));
+					}
+					//On détermine les attributs privés de l'instance de User.
+					$this->_private = array('_private', '_id');
+					return true;
+				}catch (Exception $e){
+					echo "Error: ", $e->getMessage(), "\n";
+					return false;
+				}
+			}else{
+				return false;
+			}
+
+		}catch (Exception $e){
+			echo "Error : ", $e->getMessage(), "\n";
+			return false;
 		}
-		//On détermine les attributs privés de l'instance de User.
-		$this->_private = array('_private', '_id');
 	}
 
 	public function __call($call, $param){
@@ -102,52 +127,50 @@ class User
 	}
 
 	public function createEvent($bdd){
-		    array_push($this->event_List, new Event());
-			$name = $_POST['event_name'];
-			$date = $_POST['run_date'];
-			$time = intval($_POST['run_time']);
-			$lngStart = floatval($_POST['lngStart']);
-			$latStart = floatval($_POST['latStart']);
-		try{
-			$query = "CALL insertEvent('$name', '$date', $time, $lngStart, $latStart, $this->_id, @p_id_event)";
-			$prepared = $bdd->prepare($query);
-			$prepared->execute();
-			if ($prepared->rowCount() === 1){
-				try{
-					$var = $bdd->prepare("SELECT max(`id`) FROM `event`");
-					$var->execute();
-					$var = $var->fetch();
-					if ($var[0] != null){
-						try{
-							$query = "CALL addUserEvent($this->_id, $var[0])";
-							$prepared = $bdd->prepare($query);
-							$prepared->execute();
-							if($prepared->rowCount() === 1){
-								return true;
-							}else{
-								return false;
-							}
-						}catch (Exception $e){
-							echo "Error : ", $e->getMessage(), "\n";
+		$name = $_POST['event_name'];
+		$date = $_POST['run_date'];
+		$time = intval($_POST['run_time']);
+		$lngStart = floatval($_POST['lngStart']);
+		$latStart = floatval($_POST['latStart']);
+		$lngEnd = floatval($_POST['lngEnd']);
+		$latEnd = floatval($_POST['latEnd']);
+
+		$query = "CALL insertEvent('$name', '$date', $time, $lngStart, $latStart, $lngEnd, $latEnd, $this->_id, @p_id_event)";
+		$prepared = $bdd->prepare($query);
+		$prepared->execute();
+		if ($prepared->rowCount() === 1){
+			try{
+				$var = $bdd->prepare("SELECT max(`id`) FROM `event`");
+				$var->execute();
+				$var = $var->fetch();
+				if ($var[0] != null){
+					try{
+						$query = "CALL addUserEvent($this->_id, $var[0])";
+						$prepared = $bdd->prepare($query);
+						$prepared->execute();
+						if($prepared->rowCount() === 1){
+							array_push($this->myEvents, new Event($name, $bdd));
+							return true;
+						}else{
 							return false;
 						}
-					}else{
+					}catch (Exception $e){
+						echo "Error : ", $e->getMessage(), "\n";
 						return false;
 					}
-				}catch (Exception $e){
-					echo "Error : ", $e->getMessage(), "\n";
-					return false;					
+				}else{
+					return false;
 				}
-				var_dump($var);
-			}else{
-				var_dump("4");
-				return false;
+			}catch (Exception $e){
+				echo "Error : ", $e->getMessage(), "\n";
+				return false;					
 			}
-		}catch (Exception $e){
-			echo "Error : ", $e->getMessage(), "\n";
+		}else{
 			return false;
 		}
+
 	}
+
 }
 
 ?>
