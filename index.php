@@ -21,6 +21,9 @@
     if (isset($_COOKIE['getMePartners']) && $_COOKIE['getMePartners'] != null && $valid)
     {
         $user = new User($_COOKIE['getMePartners'], $bdd);
+        if(isset($_POST['upload']) && $_POST["upload"] != null){
+            $user->uploadAvatar($bdd);
+        }
         if(isset($_GET["setting"]) && $_GET["setting"] != null && $_GET["setting"] === "account_setting"){
             include_once './view/account_setting.php';
         }else if(isset($_GET['page']) && $_GET['page']!= null){
@@ -40,9 +43,6 @@
         }
     }else{
         include_once './view/login_register.php';
-    }
-    if(isset($_POST['upload']) && $_POST["upload"] != null){
-        $user->uploadAvatar($user, $bdd);
     }
     if(isset( $_POST['login'])){
         Logs::login($_POST['email'], $_POST['pass'], $bdd);

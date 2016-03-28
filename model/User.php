@@ -55,17 +55,15 @@ class User
 		}
 	}
 
-	public function maj_profil($username, $password, $password2, $email, $birthdate, $addr){
-		if (strlen($password) > 6 && ($password === $password2)){
+	public function maj_profil($username, $password, $password2, $email, $birthdate, $addr, $bdd){
+		if (strlen($password) >= 8 && ($password === $password2)){
 			//var_dump("expression");
 			try {
-				$bdd = Db::dbConnect();	
-				$id = $this->getId();
-				$req = "UPDATE `user` set `username` = '$username', `password` = '$password', `mail` = '$email', `birthdate` = '$birthdate', `addr` = '$addr' WHERE ID = $id ;";
-				$data = $bdd->prepare($req);
+				$query = "CALL updateUser('$username', '$password', '$email', '$birthdate', '$addr', $this->id )";
+				$data = $bdd->prepare($query);
 				$data->execute();
 				if($data->rowCount() == 1){
-					self::login($email, $password);
+					Logs::login($email, $password, $bdd);
 					return True;
 				}
 				else{
@@ -80,7 +78,7 @@ class User
 		}
 	}
 
-	public function uploadAvatar($user, $bdd)
+	public function uploadAvatar($bdd)
 	{
 		$content_dir = './image/avatar/'; // dossier où sera déplacé le fichier
 	    $tmp_file = $_FILES['fichier']['tmp_name'];
@@ -92,20 +90,21 @@ class User
 	    if(!strstr($type_file, 'jpg') && !strstr($type_file, 'jpeg') && !strstr($type_file, 'bmp') && !strstr($type_file, 'gif') && !strstr($type_file, 'png')){
 	        exit("Le fichier n'est pas une image");
 	    }
-	    $at = $user;
 	    // on copie le fichier dans le dossier de destination
 	    $name_file = $_FILES['fichier']['name'];
-	    if(!move_uploaded_file($tmp_file, $content_dir . $at->username . "-" . $name_file))
+	    if(!move_uploaded_file($tmp_file, $content_dir . $this->username . "-" . $name_file))
 	    {
 	        exit("Impossible de copier le fichier dans $content_dir");
 	    }
+	    $fullPath = "/image/avatar/" . $this->username . "-" . $name_file;
 	    try {
-	        $id = $at->getId();
-	        $req = "UPDATE `user` set `profil_pic` = '".'/image/avatar/' .  $at->username . "-" . $name_file."' WHERE ID = $id ;";
-	        $data = $bdd->prepare($req);
+	        $query = "CALL updateAvatar('$fullPath', $this->id)";
+	        $data = $bdd->prepare($query);
 	        $data->execute();
 	        if($data->rowCount() == 1){
-	            header("location: index.php/?setting=account_setting");
+	            header("location: index.php");
+	        }else{
+	        	return false;
 	        }
 	    } catch (Exception $e) {
 	        echo $e->getMessage();
@@ -122,7 +121,7 @@ class User
 		$lngEnd = floatval($_POST['lngEnd']);
 		$latEnd = floatval($_POST['latEnd']);
 
-		//Insertion du nouvel Event en base
+		//Insertion du nouvel Event en base via les paramètres ci-dessus
 		$query = "CALL insertEvent('$name', '$date', $time, $lngStart, $latStart, $lngEnd, $latEnd, $this->_id, @p_id_event)";
 		$prepared = $bdd->prepare($query);
 		$prepared->execute();
