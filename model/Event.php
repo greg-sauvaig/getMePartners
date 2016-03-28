@@ -19,12 +19,13 @@ class Event{
 
 	public function getEventByName($name, $bdd){
 		try{
+			//Recuperation de l'evenement en fonction de son nom (champ unique en bdd)
 			$query = "CALL getEventByName('$name')";
 			$data = $bdd->prepare($query);
 			$data->execute();
 			if ($data->rowCount() === 1){
 				$data = $data->fetch(PDO::FETCH_ASSOC);
-				foreach ($data as $key => $value) {
+				foreach ($data as $key => $value) { //Definition de chaque attribut de l'event depuis la bdd
 					$this->$key = $value;
 				}
 				return $this;

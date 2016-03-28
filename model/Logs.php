@@ -38,37 +38,39 @@ abstract class Logs
 		{
 			if ($pass === $pass2)
 			{
-				if (strlen($pass) > 6)
+				if (strlen($pass) >= 8)
 				{
 					try{
 						$query = "CALL register('$username', '$pass', '$mail')";
 						$prepared = $bdd->prepare($query);
 						$prepared->execute();
-						//mail($mail, 'Inscription GET ME PARTNERS !', )
+						if ($prepared->rowCount() === 1)
+						{
+							//mail($mail, 'Inscription GET ME PARTNERS !', )	
+							self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé."; 
+							return true;
+						}else{
+							self::$message = "Un compte utilise déjà cette adresse mail"; //message d'erreur.
+							echo "<script> alert(\"", self::$message, "\") </script>";
+							return false;
+						}
 					}catch (Exception $e){
 						echo "Error : ", $e->getMessage, "\n";
 						return False;
 					}
-					if ($prepared->rowCount() === 1)
-					{	
-						self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé."; 
-						return true;
-
-					}else{
-						self::$message = "Un compte utilise déjà cette adresse mail";
-						return false;
-					}
-
 				}else{
-					self::$message = "Le mot de passe doit faire plus de 6 charactères."; //message d'erreur.
+					self::$message = "Le mot de passe doit faire 8 charactères minimum"; //message d'erreur.
+					echo "<script> alert(\"", self::$message, "\") </script>";
 					return false;
 				} 
 			}else{
 				self::$message = "Les mots de passes ne correspondent pas."; //message d'erreur.
+				echo "<script> alert(\"", self::$message, "\") </script>";
 				return false;
 			}
 		}else{
 			self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
+			echo "<script> alert(\"", self::$message, "\") </script>";
 			return false;
 		}
 	}

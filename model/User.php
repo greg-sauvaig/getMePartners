@@ -17,7 +17,7 @@ class User
 	public function __construct($session, $bdd)
 	{
 		try{
-			//On SELECT les données User correspondant à $session que l'on fetch dans $data.
+			//On récupère les données de l'utilisateur via sa session.
 			$query = "CALL getUserBySession('$session')";
 			$data = $bdd->prepare($query);
 			$data->execute();
@@ -31,13 +31,14 @@ class User
 					$this->$key = $value;
 				}
 				try{
+					//On récupère ensuite les noms des event auxquels participent le user via l'id de ce dernier 
 					$query = "CALL getEventNamesById($this->_id)";
 					$data = $bdd->prepare($query);
 					$data->execute();
 					$row = $data->rowCount();
 					$data = $data->fetchAll();
 
-					for($i = 0; $row > 0 && $i < $row; $i++){
+					for($i = 0; $row > 0 && $i < $row; $i++){ //On push chaque instance d'event dans la liste d'event du user
 						$name = $data[$i];
 						array_push($this->myEvents, new Event($name[0], $bdd));
 					}
@@ -125,6 +126,7 @@ class User
 	}
 
 	public function createEvent($bdd){
+		//formatage des parametres en vue d'une requète vers la bdd
 		$name = $_POST['event_name'];
 		$date = $_POST['run_date'];
 		$time = intval($_POST['run_time']);
@@ -133,20 +135,26 @@ class User
 		$lngEnd = floatval($_POST['lngEnd']);
 		$latEnd = floatval($_POST['latEnd']);
 
+		//Insertion du nouvel Event en base
 		$query = "CALL insertEvent('$name', '$date', $time, $lngStart, $latStart, $lngEnd, $latEnd, $this->_id, @p_id_event)";
 		$prepared = $bdd->prepare($query);
 		$prepared->execute();
+		var_dump("not yet");
 		if ($prepared->rowCount() === 1){
+			var_dump("ok");
 			try{
+				//Recuperation du max id de la table event en vue d'une requete
 				$var = $bdd->prepare("SELECT max(`id`) FROM `event`");
 				$var->execute();
 				$var = $var->fetch();
 				if ($var[0] != null){
 					try{
+						//Mise en relation de Event et User dans la table user_event via l'id du user et le max id de event
 						$query = "CALL addUserEvent($this->_id, $var[0])";
 						$prepared = $bdd->prepare($query);
 						$prepared->execute();
 						if($prepared->rowCount() === 1){
+							//instanciation de l'evenement
 							array_push($this->myEvents, new Event($name, $bdd));
 							return true;
 						}else{
@@ -164,6 +172,7 @@ class User
 				return false;					
 			}
 		}else{
+			echo "<script> alert(\"Ce nom d'Event est déjà pris ! choisissez en un autre.\") </script>";
 			return false;
 		}
 
