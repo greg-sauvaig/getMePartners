@@ -2,17 +2,16 @@
 
 class User
 {
-	public $_id;
-	public $_username;
-	public $_password;
-	public $_mail;
-	public $_birthdate;
-	public $_session;
-	public $_time;
-	public $_profil_pic;
-	public $_addr;
+	public $id;
+	public $username;
+	public $password;
+	public $mail;
+	public $birthdate;
+	public $session;
+	public $time;
+	public $profil_pic;
+	public $addr;
 	public $myEvents = array();
-	public $_private = array();
 
 	public function __construct($session, $bdd)
 	{
@@ -27,12 +26,11 @@ class User
 				foreach ($data as $key => $value)
 				{
 					//On Set les attributs de l'instance de User depuis la bdd.
-					$key = '_'.$key;
 					$this->$key = $value;
 				}
 				try{
 					//On récupère ensuite les noms des event auxquels participent le user via l'id de ce dernier 
-					$query = "CALL getEventNamesById($this->_id)";
+					$query = "CALL getEventNamesById($this->id)";
 					$data = $bdd->prepare($query);
 					$data->execute();
 					$row = $data->rowCount();
@@ -42,8 +40,6 @@ class User
 						$name = $data[$i];
 						array_push($this->myEvents, new Event($name[0], $bdd));
 					}
-					//On détermine les attributs privés de l'instance de User.
-					$this->_private = array('_private', '_id');
 					return true;
 				}catch (Exception $e){
 					echo "Error: ", $e->getMessage(), "\n";
@@ -56,15 +52,6 @@ class User
 		}catch (Exception $e){
 			echo "Error : ", $e->getMessage(), "\n";
 			return false;
-		}
-	}
-
-	public function __call($call, $param){
-		$attr = '_' . strtolower(substr($call, 3));
-		if (!strncasecmp($call,'get', 3)) return $this->$attr;
-		if (!strncasecmp($call,'set', 3) && (!in_array($attr, $this->_private) || $this->$attr == NULL)) {
-			$this->$attr = $param[0];
-			return $this->$attr;
 		}
 	}
 
@@ -108,13 +95,13 @@ class User
 	    $at = $user;
 	    // on copie le fichier dans le dossier de destination
 	    $name_file = $_FILES['fichier']['name'];
-	    if(!move_uploaded_file($tmp_file, $content_dir . $at->getUsername() . "-" . $name_file))
+	    if(!move_uploaded_file($tmp_file, $content_dir . $at->username . "-" . $name_file))
 	    {
 	        exit("Impossible de copier le fichier dans $content_dir");
 	    }
 	    try {
 	        $id = $at->getId();
-	        $req = "UPDATE `user` set `profil_pic` = '".'/image/avatar/' .  $at->getUsername() . "-" . $name_file."' WHERE ID = $id ;";
+	        $req = "UPDATE `user` set `profil_pic` = '".'/image/avatar/' .  $at->username . "-" . $name_file."' WHERE ID = $id ;";
 	        $data = $bdd->prepare($req);
 	        $data->execute();
 	        if($data->rowCount() == 1){
@@ -150,7 +137,7 @@ class User
 				if ($var[0] != null){
 					try{
 						//Mise en relation de Event et User dans la table user_event via l'id du user et le max id de event
-						$query = "CALL addUserEvent($this->_id, $var[0])";
+						$query = "CALL addUserEvent($this->id, $var[0])";
 						$prepared = $bdd->prepare($query);
 						$prepared->execute();
 						if($prepared->rowCount() === 1){

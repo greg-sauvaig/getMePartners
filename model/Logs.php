@@ -89,23 +89,26 @@ abstract class Logs
 			if($cookie != null){
 				try {
 					$time = time();
-					$query = "SELECT `id` from `user` where `session` = '$cookie' and `time` > '$time' ;";
+					$query = "CALL sessionIsValid('$cookie', '$time')";
 					$prepared = $bdd->prepare($query);
 					$prepared->execute();
 					$res = $prepared->fetch(PDO::FETCH_ASSOC);
 					if($res != null){
-						return True;
+						return true;
+					}else{
+						return false;
 					}
 				} catch (Exception $e) {
-					echo $e->getMessage;
-					return False;
+					echo "Error : ", $e->getMessage, "\n";
+					return false;
 				}
-				return False;
+			}else{
+				return false;					
 			}
-			return True;
+		}else{
+			return false;
 		}
 	}
-
 }
 
 ?>

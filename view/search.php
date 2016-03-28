@@ -25,7 +25,7 @@
                 <option>Above 20 km</option>
             </select>
         </div>
-        <center><button type="submit" value="Submit" name="submit" style="background-color:white; border:none;padding:45px;" title="search"><img src="view/img/radar.png"></button></center>
+        <center><button type="submit" value="Submit" name="submit" style="background-color:white; border:none;padding:45px;" title="search"><img src="./imgage/radar.png"></button></center>
     </form>
 </div>
 

@@ -9,7 +9,7 @@
 	<div class="event-container" >
 		<div class="event-content">
 			<div class="event-author-pic">
-				<?php if($v->getProfil_pic() == null){echo '<img src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" style="height:110px;">';}
+				<?php if($user->profil_pic == null){echo '<img src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$user->profil_pic.'" style="height:110px;">';}
 				?>
 			</div>		
 			<div class="event-text">
