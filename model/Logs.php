@@ -13,7 +13,7 @@ abstract class Logs
 				return True;
 			}
 		} catch (Exception $e) {
-			echo $e->getMessage;
+			echo "Error : ", $e->getMessage, "\n";
 			return False;
 		}
 		return False;
@@ -27,8 +27,15 @@ abstract class Logs
 			{
 				Session::setSession($mail, $pswd, $bdd);
 				self::$message = "Bienvenu sur Get Me Partners !";
-			}else self::$message = "Identifiants invalides."; //message d'erreur.
-		}else self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
+				echo "<script> alert(\"", self::$message, "\") </script>";
+			}else{
+				self::$message = "Identifiants invalides."; //message d'erreur.
+				echo "<script> alert(\"", self::$message, "\") </script>";
+			}
+		}else{
+			echo "<script> alert(\"", self::$message, "\") </script>";
+			self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
+		}
 	}
 	
 
@@ -47,7 +54,8 @@ abstract class Logs
 						if ($prepared->rowCount() === 1)
 						{
 							//mail($mail, 'Inscription GET ME PARTNERS !', )	
-							self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé."; 
+							self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé.";
+							echo "<script> alert(\"", self::$message, "\") </script>";
 							return true;
 						}else{
 							self::$message = "Un compte utilise déjà cette adresse mail"; //message d'erreur.
