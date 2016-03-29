@@ -2,7 +2,8 @@
 <div  id="my-event-container">
     <div ><h3 class="center-text">Mes evenements:</h3></div>
 <?php 
-	for ($i = 0; $i < 10; $i++){ 
+	for ($i = 0; $user->myEvents[$i]; $i++){
+		$event = $user->myEvents[$i];
 ?>
 	<!-- events list-->
 	<div class="event-container" >

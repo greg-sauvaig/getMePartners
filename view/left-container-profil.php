@@ -1,9 +1,8 @@
-<?php $v = $user;?>
 <!-- Profil-->
 <div id="left_container_profil">
     <div id="left_content_profil">
         <div id="left-profil-pic">
-    <?php if($v->getProfil_pic() == null){echo '<img src="./image/info.jpg">';}else{echo '<img src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" >';}
+    <?php if($user->profil_pic == null){echo '<img src="./image/info.jpg">';}else{echo '<img src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$user->profil_pic.'" >';}
      ?>
         </div>
         <div class="left-profil-text">

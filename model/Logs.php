@@ -13,7 +13,7 @@ abstract class Logs
 				return True;
 			}
 		} catch (Exception $e) {
-			echo $e->getMessage;
+			echo "Error : ", $e->getMessage, "\n";
 			return False;
 		}
 		return False;
@@ -27,8 +27,15 @@ abstract class Logs
 			{
 				Session::setSession($mail, $pswd, $bdd);
 				self::$message = "Bienvenu sur Get Me Partners !";
-			}else self::$message = "Identifiants invalides."; //message d'erreur.
-		}else self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
+				echo "<script> alert(\"", self::$message, "\") </script>";
+			}else{
+				self::$message = "Identifiants invalides."; //message d'erreur.
+				echo "<script> alert(\"", self::$message, "\") </script>";
+			}
+		}else{
+			echo "<script> alert(\"", self::$message, "\") </script>";
+			self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
+		}
 	}
 	
 
@@ -38,38 +45,40 @@ abstract class Logs
 		{
 			if ($pass === $pass2)
 			{
-				if (strlen($pass) > 6)
+				if (strlen($pass) >= 8)
 				{
 					try{
 						$query = "CALL register('$username', '$pass', '$mail')";
 						$prepared = $bdd->prepare($query);
 						$prepared->execute();
-						//mail($mail, 'Inscription GET ME PARTNERS !', )
 						if ($prepared->rowCount() === 1)
-						{	
-							self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé."; 
+						{
+							//mail($mail, 'Inscription GET ME PARTNERS !', )	
+							self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé.";
+							echo "<script> alert(\"", self::$message, "\") </script>";
 							return true;
-
 						}else{
-							self::$message = "Un compte utilise déjà cette adresse mail";
+							self::$message = "Un compte utilise déjà cette adresse mail"; //message d'erreur.
+							echo "<script> alert(\"", self::$message, "\") </script>";
 							return false;
 						}
 					}catch (Exception $e){
 						echo "Error : ", $e->getMessage, "\n";
 						return False;
 					}
-
-
 				}else{
-					self::$message = "Le mot de passe doit faire plus de 6 charactères."; //message d'erreur.
+					self::$message = "Le mot de passe doit faire 8 charactères minimum"; //message d'erreur.
+					echo "<script> alert(\"", self::$message, "\") </script>";
 					return false;
 				} 
 			}else{
 				self::$message = "Les mots de passes ne correspondent pas."; //message d'erreur.
+				echo "<script> alert(\"", self::$message, "\") </script>";
 				return false;
 			}
 		}else{
 			self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
+			echo "<script> alert(\"", self::$message, "\") </script>";
 			return false;
 		}
 	}
@@ -80,22 +89,27 @@ abstract class Logs
 			if($cookie != null){
 				try {
 					$time = time();
-					$query = "SELECT `id` from `user` where `session` = '$cookie' and `time` > '$time' ;";
+					$query = "CALL sessionIsValid('$cookie', '$time')";
 					$prepared = $bdd->prepare($query);
 					$prepared->execute();
 					$res = $prepared->fetch(PDO::FETCH_ASSOC);
 					if($res != null){
-						return True;
+						return true;
+					}else{
+						return false;
 					}
 				} catch (Exception $e) {
-					echo $e->getMessage;
-					return False;
+					echo "Error : ", $e->getMessage, "\n";
+					return false;
 				}
-				return False;
+			}else{
+				return false;					
 			}
-			return True;
+		}else{
+			return false;
 		}
 	}
+
 
 	public static function genKeyPass(){
 		$chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

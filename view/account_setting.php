@@ -4,7 +4,6 @@
 		<h4 class="col-lg-12 col-md-12 col-xs-12 col-sm-12" >Mon Compte</h4>
 		<div class="">vous pouvez modifier vos parametres ici !</div>
 <?php
-	$v = $user;
 	$at = get_object_vars ( $user ); // i know (^_^)...! 
 	$a = 0;
 			//var_dump($at);
@@ -31,7 +30,7 @@
 		$a++;
 	}
 	echo ("<label>adresse : ");
-	echo ("<input name='5' type='text' placeholder='".$v->getaddr()."' value='".$v->getaddr()."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
+	echo ("<input name='5' type='text' placeholder='".$user->addr."' value='".$user->addr."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
 	echo "<input class='btn' type='submit' name='send-maj-profil' value='mettre à jours'>";
 	echo "</form>";
 		// handling form validation 
@@ -43,7 +42,7 @@
 		$birthdate = $_POST["4"];
 		$addr = $_POST["5"];
 			//$pic = $_POST["6"];
-		if($user->maj_profil($username, $password, $password2, $email, $birthdate, $addr)){
+		if($user->maj_profil($username, $password, $password2, $email, $birthdate, $addr, $bdd)){
 			header("location: ./index.php?setting=account_setting");
 		}
 		else{
@@ -85,32 +84,32 @@
 	<div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" id="right-setting-container">
 		<h4 class="col-lg-12 col-md-12 col-xs-12 col-sm-12">Aperçu avant validation</h4>
 			<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	<?php if($v->getProfil_pic() == null){echo '<img id="picture" src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img id="picture" src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$v->getProfil_pic().'" style="height:100px;">';}
+	<?php if($user->profil_pic == null){echo '<img id="picture" src="./image/info.jpg" style="height:100px;width:100px;">';}else{echo '<img id="picture" src="'."http://".$_SERVER["SERVER_NAME"] ."/getMePartners/".$user->profil_pic.'" style="height:100px;">';}
 	 ?>
 	        </div>
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>nom d'utilisateur:</h6><h5 id='1' class='center-text'><?php  echo $v->getUsername();?></h5>
+	            <h6>nom d'utilisateur:</h6><h5 id='1' class='center-text'><?php  echo $user->username;?></h5>
 	        </div>
 	    </div>  
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>birthdate:</h6><h5 id="4" class='center-text'><?php if ($v->getBirthdate() != "0000-00-00 00:00:00"){ echo $v->getBirthdate(); }else{ echo("pas renseigné");} ?></h5>
+	            <h6>birthdate:</h6><h5 id="4" class='center-text'><?php if ($user->birthdate != "0000-00-00 00:00:00"){ echo $user->birthdate; }else{ echo("pas renseigné");} ?></h5>
 	        </div>
 	    </div>
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>adresse:</h6><h5 id="5" class='center-text'><?php if ($v->getAddr() != null){ echo $v->getAddr(); }else{ echo("pas renseigné");} ?> </h5>
+	            <h6>adresse:</h6><h5 id="5" class='center-text'><?php if ($user->addr != null){ echo $user->addr; }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>email:</h6><h5 id='3' class='center-text'><?php if ($v->getmail() != null){ echo $v->getmail(); }else{ echo("pas renseigné");} ?> </h5>
+	            <h6>email:</h6><h5 id='3' class='center-text'><?php if ($user->mail != null){ echo $user->mail; }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>mot de passe:</h6><h5 id='2' class='center-text'><?php if ($v->getpassword() != null){ echo $v->getpassword(); }else{ echo("pas renseigné");} ?> </h5>
+	            <h6>mot de passe:</h6><h5 id='2' class='center-text'><?php if ($user->password != null){ echo $user->password; }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	</div>
