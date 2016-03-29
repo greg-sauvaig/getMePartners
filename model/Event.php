@@ -12,6 +12,9 @@ class Event{
 	public $latEnd;
 	public $lead_user;
 
+	public $lead_user_name;
+	public $lead_user_pic;
+
 	public function __construct($name, $bdd){
 		return $this->getEventByName($name, $bdd);
 	}
@@ -37,4 +40,16 @@ class Event{
 			return false;
 		}
 	}
+
+	public function getAddr($lat,$lng){
+		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&sensor=false';
+		$json = @file_get_contents($url);
+		$data=json_decode($json);
+		$status = $data->status;
+		if($status=="OK")
+		return $data->results[0]->formatted_address;
+		else
+		return false;
+	}
+	
 }

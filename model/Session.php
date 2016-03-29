@@ -25,11 +25,19 @@ abstract class Session{
 			$query = "CALL updateSession('$code', '$time', '$mail')";
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
+			if($prepared->rowCount() === 1){
+				var_dump("expression");
+				header('location: ./index.php');
+			}
+			else{
+				header('location: ./index.php');
+			}
 		}catch (Exception $e){
-			echo "error : ", $e->getMessage(), "\n";
+			$a = "error : ". $e->getMessage() ."\n";
 		}
 		header('location: ./index.php');
 	}
+
 }
 
 ?>

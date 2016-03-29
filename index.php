@@ -22,9 +22,6 @@
     if (isset($_COOKIE['getMePartners']) && $_COOKIE['getMePartners'] != null && $valid)
     {
         $user = new User($_COOKIE['getMePartners'], $bdd);
-        if(isset($_POST['upload']) && $_POST["upload"] != null){
-            $user->uploadAvatar($bdd);
-        }
         if(isset($_GET["setting"]) && $_GET["setting"] != null && $_GET["setting"] === "account_setting"){
             if(isset($_POST['upload']) && $_POST["upload"] != null){
                 $user->uploadAvatar($user, $bdd);
@@ -47,19 +44,21 @@
         if (isset($_POST['create_event'])){
             $user->createEvent($bdd);
         }
-<<<<<<< HEAD
-=======
-    }else{
-        include_once './view/login_register.php';
->>>>>>> origin/master
     }
-    if(isset( $_POST['login'])){
+    else if(isset( $_POST['login'])){
         Logs::login($_POST['email'], $_POST['pass'], $bdd);
+        include_once './view/login_register.php';
     }   
-    if(isset($_POST['register'])){
-        Logs::register($_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2'], $bdd);
+    else if(isset($_POST['register'])){
+        if(Logs::register($_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2'], $bdd)){
+            include_once './view/login_register.php';
+        }
+        else{
+            $a = Logs::$message;
+            include_once './view/login_register.php';
+        }
     }
-    if(isset($_POST['retrieve']) && isset($_POST['forgotten']) && $_POST['forgotten'] != null){
+    else if(isset($_POST['retrieve']) && isset($_POST['forgotten']) && $_POST['forgotten'] != null){
         $pass = Logs::genKeyPass();
         if(Logs::isUser($bdd, $_POST['forgotten'])){
             if(Logs::updatePass($bdd, $_POST['forgotten'], $pass)){
@@ -72,8 +71,6 @@
     }else{
         include_once './view/login_register.php';
     }
-
-
     echo '</div>';
 
     //footer

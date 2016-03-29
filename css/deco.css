@@ -1,11 +1,21 @@
 body,html{
-	display:block;
 	position:relative;
 	margin: 0px;
 	padding:0px;
 	width:100%;
 	height:100%;
 }
+
+.no-js{
+	display:none;
+}
+.no-js:after {
+	content:"Sur votre navigateur, JavaScript est DÉSACTIVÉ.Ce site utilise JavaScript pour vous proposer la meilleure expérience du Web. Suivez ces <a href='http://javascripton.com/'' target='_blank'>instructions pour activer JavaScript dans votre navigateur</a>";
+}
+.js{
+	display:block;
+}
+
 #deco{
 	display:inline-block;
 	float:right;
@@ -229,10 +239,12 @@ input:focus {
 }
 
 #btn-settings-container{
-	margin-top:220px;
+	position:relative;
+	bottom:20px;
 }
 
 #btn-settings{
+	position:relative;
 	width:80%;
 	margin: 10%;
 	bottom:0px;
@@ -346,4 +358,8 @@ input:focus {
 	height:100%;
 	display:inline-block;
 	float:right;
+}
+
+#profil-container{
+	margin-bottom:50px;
 }

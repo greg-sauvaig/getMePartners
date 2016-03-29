@@ -27,13 +27,11 @@ abstract class Logs
 			{
 				Session::setSession($mail, $pswd, $bdd);
 				self::$message = "Bienvenu sur Get Me Partners !";
-				echo "<script> alert(\"", self::$message, "\") </script>";
+
 			}else{
 				self::$message = "Identifiants invalides."; //message d'erreur.
-				echo "<script> alert(\"", self::$message, "\") </script>";
 			}
 		}else{
-			echo "<script> alert(\"", self::$message, "\") </script>";
 			self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
 		}
 	}
@@ -45,7 +43,7 @@ abstract class Logs
 		{
 			if ($pass === $pass2)
 			{
-				if (strlen($pass) >= 8)
+				if (strlen($pass) >= 6)
 				{
 					try{
 						$query = "CALL register('$username', '$pass', '$mail')";
@@ -53,13 +51,11 @@ abstract class Logs
 						$prepared->execute();
 						if ($prepared->rowCount() === 1)
 						{
+							self::smtpMailer($pass,$mail);
 							//mail($mail, 'Inscription GET ME PARTNERS !', )	
-							self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé.";
-							echo "<script> alert(\"", self::$message, "\") </script>";
 							return true;
 						}else{
 							self::$message = "Un compte utilise déjà cette adresse mail"; //message d'erreur.
-							echo "<script> alert(\"", self::$message, "\") </script>";
 							return false;
 						}
 					}catch (Exception $e){
@@ -68,17 +64,14 @@ abstract class Logs
 					}
 				}else{
 					self::$message = "Le mot de passe doit faire 8 charactères minimum"; //message d'erreur.
-					echo "<script> alert(\"", self::$message, "\") </script>";
 					return false;
 				} 
 			}else{
 				self::$message = "Les mots de passes ne correspondent pas."; //message d'erreur.
-				echo "<script> alert(\"", self::$message, "\") </script>";
 				return false;
 			}
 		}else{
 			self::$message = "Un ou plusieurs champs sont vides !"; //message d'erreur.
-			echo "<script> alert(\"", self::$message, "\") </script>";
 			return false;
 		}
 	}
@@ -89,7 +82,7 @@ abstract class Logs
 			if($cookie != null){
 				try {
 					$time = time();
-					$query = "CALL sessionIsValid('$cookie', '$time')";
+					$query = "CALL sessionIsValid('$time','$cookie')";
 					$prepared = $bdd->prepare($query);
 					$prepared->execute();
 					$res = $prepared->fetch(PDO::FETCH_ASSOC);
@@ -160,7 +153,7 @@ abstract class Logs
 	    	return False;
 	    } else {
 	    	global $a;
-	    	$a = "le mail n'est partit!";
+	    	$a = "le mail est partit!";
 	    	return true;
 	    }
 	}

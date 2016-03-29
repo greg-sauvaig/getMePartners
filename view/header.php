@@ -13,7 +13,8 @@
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBY2_9mOiVb_bKdrck5FMzVrJwAJPbefvk&libraries=places&amp"></script>
         <title>Get Me Partners</title>
     </head>
-    <body>
+    <body class="no-js">
+        <script type="text/javascript">$(document).ready(function(){ $('.no-js').removeClass( "no-js" ).addClass( "js" );});</script>
         <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">
