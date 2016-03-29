@@ -33,7 +33,7 @@ body,html{
 	margin: 10px;
 }
 #deco:hover{
-	background:yellow;
+	background:rgb(40,96,144);
 }
 
 #right-setting-container,#left-setting-container{

@@ -19,6 +19,23 @@ class Event{
 		return $this->getEventByName($name, $bdd);
 	}
 
+	public function getUserById($id, $bdd){
+		try{
+			//Recuperation de l'evenement en fonction de son nom (champ unique en bdd)
+			$query = "SELECT * from `user` where `id` = $id;";
+			$data = $bdd->prepare($query);
+			$data->execute();
+			$data = $data->fetch(PDO::FETCH_ASSOC);
+			if (sizeof($data) > 0){
+				return $data;
+			}else{
+				return false;
+			}
+		}catch (Exception $e){
+			echo "Error : ", $e->getMessage(), "\n";
+			return false;
+		}
+	}
 
 	public function getEventByName($name, $bdd){
 		try{

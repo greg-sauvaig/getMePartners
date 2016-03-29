@@ -26,7 +26,6 @@ abstract class Session{
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
 			if($prepared->rowCount() === 1){
-				var_dump("expression");
 				header('location: ./index.php');
 			}
 			else{
@@ -34,8 +33,8 @@ abstract class Session{
 			}
 		}catch (Exception $e){
 			$a = "error : ". $e->getMessage() ."\n";
+			header('location: ./index.php');
 		}
-		header('location: ./index.php');
 	}
 
 }

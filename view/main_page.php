@@ -18,13 +18,14 @@ function getAddr($lat,$lng){
 
 	for ($i = 0; $i < sizeof($user->myEvents); $i++){
 		$event = $user->myEvents[$i];
+		$author = $user->getUserById($event->lead_user, $bdd);
 	 	?>
 	 		<!-- events list-->
 	<div class="event-container" >
 		<div class="event-content">
 			<div class="event-author-pic">
-				<?php 	if($event->lead_user_pic){ 
-							echo '<img src="'.$event->lead_user_pic.'" style="height:100px;width:100px;">'; 
+				<?php 	if($author['profil_pic'] != null){ 
+							echo '<img src="'."http://".$_SERVER["REMOTE_ADDR"].'/getMePartners/'.$author['profil_pic'].'" style="height:100px;width:100px;">'; 
 						}
 						else{
 							echo '<img src="./image/info.jpg" style="height:100px;width:100px;">';
@@ -57,7 +58,7 @@ function getAddr($lat,$lng){
 			<div class="event-text">
 				<label>Auteur : </label><h5>
 					<?php
-						if($event->lead_user_name != null){echo $event->lead_user_name;}else{echo "pas de nom définit";}
+						if($author['username'] != null){echo $author['username'];}else{echo "pas de nom définit";}
 					?>
 				</h5>
 			</div>

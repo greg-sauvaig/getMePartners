@@ -39,7 +39,7 @@
         echo 'latEnd'.' '.$_POST['latEnd'];
         echo 'lngEnd'.' '.$_POST['lngEnd'].'<br>';
         echo 'rundate'.' '.date('Y-m-d',strtotime($_POST['run_date'])).'<br>';
-        echo 'rundate'.' '.$_POST['run_time'].'<br>';
+        echo 'runtime'.' '.$_POST['run_time'].'<br>';
     }
     ?>
 </div>

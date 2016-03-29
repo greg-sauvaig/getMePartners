@@ -30,7 +30,7 @@ class User
 				}
 				try{
 					//On récupère ensuite les noms des event auxquels participent le user via l'id de ce dernier 
-					$query = "CALL getEventNamesById($this->id)";
+					$query = "CALL getEventNamesByIdUser($this->id)";
 					$data = $bdd->prepare($query);
 					$data->execute();
 					$row = $data->rowCount();
@@ -55,9 +55,26 @@ class User
 		}
 	}
 
+	public function getUserById($id, $bdd){
+		try{
+			//Recuperation de l'evenement en fonction de son nom (champ unique en bdd)
+			$query = "SELECT * from `user` where `id` = $id;";
+			$data = $bdd->prepare($query);
+			$data->execute();
+			$data = $data->fetch(PDO::FETCH_ASSOC);
+			if (sizeof($data) > 0){
+				return $data;
+			}else{
+				return false;
+			}
+		}catch (Exception $e){
+			echo "Error : ", $e->getMessage(), "\n";
+			return false;
+		}
+	}
+
 	public function maj_profil($username, $password, $password2, $email, $birthdate, $addr){
-		if (strlen($password) > 6 && ($password === $password2)){
-			//var_dump("expression");
+		if (strlen($password) >= 6 && ($password === $password2)){
 			try {
 				$bdd = Db::dbConnect();	
 				$id = $this->id;
@@ -105,7 +122,7 @@ class User
 			$data = $bdd->prepare($req);
 			$data->execute();
 			if($data->rowCount() == 1){
-				header("location: index.php/?setting=account_setting");
+				header("location: ../index.php?setting=account_setting");
 			}
 		} catch (Exception $e) {
 			echo $e->getMessage();
@@ -115,18 +132,21 @@ class User
 	public function createEvent($bdd){
 		//formatage des parametres en vue d'une requète vers la bdd
 		$name = $_POST['event_name'];
-		$date = $_POST['run_date'];
-		$time = intval($_POST['run_time']);
+		var_dump(substr($_POST['run_date'], 0,10));
+		var_dump($_POST['run_time']);
+		$date = substr($_POST['run_date'], 0,10);
+		$time = strtotime($_POST['run_time']);
 		$lngStart = floatval($_POST['lngStart']);
 		$latStart = floatval($_POST['latStart']);
 		$lngEnd = floatval($_POST['lngEnd']);
 		$latEnd = floatval($_POST['latEnd']);
 		try {
 			//Insertion du nouvel Event en base via les paramètres ci-dessus
-			$query = "CALL insertEvent('$name', '$date', $time, $lngStart, $latStart, $lngEnd, $latEnd, $this->id, @p_id_event)";
+			$query = "CALL insertEvent('$name', '$date', '$time', $lngStart, $latStart, $lngEnd, $latEnd, $this->id)";
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
 			if ($bdd->lastInsertId() != null){
+				var_dump("expression");	
 				try{
 				//Recuperation du max id de la table event en vue d'une requete
 					$var = $bdd->prepare("SELECT max(`id`) FROM `event`");
