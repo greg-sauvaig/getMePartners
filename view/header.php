@@ -23,7 +23,7 @@
                     <ul class="nav navbar-nav">
                     <?php if($valid){ ?>
                         <li class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">EVENT
+                            <button class="btn btn-primary dropdown-toggle" id="drop-header-btn" type="button" data-toggle="dropdown">EVENT
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">

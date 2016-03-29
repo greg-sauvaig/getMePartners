@@ -13,7 +13,8 @@
 
     $bdd = Db::dbConnect();
     $valid = Logs::sessionIsValid($bdd);
-
+    global $a;
+    $a = "no";
     //header
     include_once './view/header.php';
 
@@ -22,7 +23,12 @@
     {
         $user = new User($_COOKIE['getMePartners'], $bdd);
         if(isset($_GET["setting"]) && $_GET["setting"] != null && $_GET["setting"] === "account_setting"){
-            include_once './view/account_setting.php';
+            if(isset($_POST['upload']) && $_POST["upload"] != null){
+                $user->uploadAvatar($user, $bdd);
+            }
+            else{
+                include_once './view/account_setting.php';
+            }
         }else if(isset($_GET['page']) && $_GET['page']!= null){
             if ($_GET['page'] == 'create'){
                 include_once './view/left-container-profil.php';
@@ -38,17 +44,25 @@
         if (isset($_POST['create_event'])){
             $user->createEvent($bdd);
         }
-    }else{
-        include_once './view/login_register.php';
-    }
-    if(isset($_POST['upload']) && $_POST["upload"] != null){
-        $user->uploadAvatar($user, $bdd);
     }
     if(isset( $_POST['login'])){
         Logs::login($_POST['email'], $_POST['pass'], $bdd);
     }   
     if(isset($_POST['register'])){
         Logs::register($_POST['username'], $_POST['mail'], $_POST['pass'], $_POST['pass2'], $bdd);
+    }
+    if(isset($_POST['retrieve']) && isset($_POST['forgotten']) && $_POST['forgotten'] != null){
+        $pass = Logs::genKeyPass();
+        if(Logs::isUser($bdd, $_POST['forgotten'])){
+            if(Logs::updatePass($bdd, $_POST['forgotten'], $pass)){
+                if(Logs::smtpMailer($pass, $_POST['forgotten'])){
+                    $a = "Un email récapitulatif vous a été adressé, il contient votre nouveau mot de passe, vous pouvez vous connecter dès à présent !";
+                    include_once './view/login_register.php';
+                }
+            }
+        }
+    }else{
+        include_once './view/login_register.php';
     }
 
 

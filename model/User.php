@@ -136,9 +136,7 @@ class User
 					echo "Error : ", $e->getMessage(), "\n";
 					return false;					
 				}
-				var_dump($var);
 			}else{
-				var_dump("4");
 				return false;
 			}
 		}catch (Exception $e){
@@ -146,6 +144,7 @@ class User
 			return false;
 		}
 	}
+
 }
 
 ?>

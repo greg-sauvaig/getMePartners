@@ -45,19 +45,20 @@ abstract class Logs
 						$prepared = $bdd->prepare($query);
 						$prepared->execute();
 						//mail($mail, 'Inscription GET ME PARTNERS !', )
+						if ($prepared->rowCount() === 1)
+						{	
+							self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé."; 
+							return true;
+
+						}else{
+							self::$message = "Un compte utilise déjà cette adresse mail";
+							return false;
+						}
 					}catch (Exception $e){
 						echo "Error : ", $e->getMessage, "\n";
 						return False;
 					}
-					if ($prepared->rowCount() === 1)
-					{	
-						self::$message = "Vôtre compte à bien été crée, activez le via le mail de confirmation qui vient de vous être envoyé."; 
-						return true;
 
-					}else{
-						self::$message = "Un compte utilise déjà cette adresse mail";
-						return false;
-					}
 
 				}else{
 					self::$message = "Le mot de passe doit faire plus de 6 charactères."; //message d'erreur.
@@ -93,6 +94,94 @@ abstract class Logs
 				return False;
 			}
 			return True;
+		}
+	}
+
+	public static function genKeyPass(){
+		$chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		$code = "";
+		for ($i=0; $i < 10; $i++) { 
+			$code .= $chars[rand(0,35)];
+		}
+		return $code;
+	}
+
+	public static function smtpMailer($pass,$login) {
+		$from = "greg.sauvaigo@gmail.com";
+		$from_name = "GetMePartners Registration";
+		$subject = "GetMePartners Registration - Bienvenu sur GetMePartners";
+		$body = '<div style="width:100%;height:100%">'.
+		'<img src="cid:logo" style="width:100px;height:100px;float:right;"/>'.
+		'<h2 style"font-size:40px;padding:20px;">Bienvenue sur le site de la ligue des sports de lorainne.</h2></br></br>'.
+		'<div style="width:100%;background:#ddd;padding:20px;">'.
+		'<div style="width:100%;padding:20px;">Vous pouvez des à présent vous connecter sur le site  à l\'adresse suivante http://'.$_SERVER["REMOTE_ADDR"].'/getMePartners/ </div></br></br>'.
+		'<div style="width:100%;padding:20px;background:#eee;text-align:center;">voici votre login: <div style="background:#fff;">'.$login.'</div></div></br></br>'.
+		'<div style="width:100%;padding:20px;padding:20px;background:#eee;text-align:center;">voici mot de passe: <div style="background:#fff;">'.$pass.'</div></div></br></br>'.
+		'<div style="width:100%;padding:20px;">A bientot sur le site http://'.$_SERVER["REMOTE_ADDR"].'/getMePartners/ </div></br></br>'.
+		'<div style="width:100%;padding:20px;margin-top 5%;font-style:italic;"></br>'.
+		'ce mail est généré automatiquement, ne repondez pas à cette adresse , en cas de problème contactez le support à l\'adresse suivante : greg.sauvaigo@gmail.com'.
+		'</div></br></br>'.
+		'</div></br></br>'.
+		'</div>';
+		require_once('./lib/PHPMailer-master/PHPMailerAutoload.php');
+	    $mail = new PHPMailer();  // Cree un nouvel objet PHPMailer
+	    $mail->IsSMTP(); // active SMTP
+	    $mail->SMTPDebug = 0;  // debogage: 1 = Erreurs et messages, 2 = messages seulement
+	    $mail->SMTPAuth = true;  // Authentification SMTP active
+	    $mail->SMTPSecure = 'ssl'; // Gmail REQUIERT Le transfert securise
+	    $mail->Host = 'smtp.gmail.com';
+	    $mail->Port = 465;
+	    $mail->Username = "greg.sauvaigo@gmail.com";
+	    $mail->Password = "Th3rapt0r";
+	    $mail->SetFrom($from, $from_name);
+	    $mail->Subject = $subject;
+	    $mail->IsHTML(true);
+	    $mail->CharSet = 'UTF-8';
+	    $mail->AddEmbeddedImage('./images/logo.png', 'logo', 'lsl.png'); 
+	    $mail->Body = $body;
+	    $mail->AddAddress($login);
+	    if(!$mail->Send()) {
+	    	global $a;
+	    	$a = "le mail n'est pas partit!";
+	    	return False;
+	    } else {
+	    	global $a;
+	    	$a = "le mail n'est partit!";
+	    	return true;
+	    }
+	}
+
+	public static function isUser($bdd, $mail){
+		try {
+			$pdo = $bdd;
+			$req = $pdo->prepare("SELECT `id` from `user` where `mail` = '$mail' ");
+			$req->execute();
+			$res =  $req->fetch();
+			if($res[0] != null){
+				return True;
+			}
+			else{
+				return False;
+			}
+		} catch (Exception $e) {
+			return False;
+		}
+	}
+
+	public static function updatePass($bdd, $mail, $code){
+		try {
+			$pdo = $bdd;
+			$req = $pdo->prepare("UPDATE `user` set `password` = '$code' where `mail` = '$mail' ");
+			$req->execute();
+			$res = $req->rowCount();
+			if($res === 1){
+				return True;
+			}
+			else{
+				return False;
+			}
+		} catch (Exception $e) {
+			return False;
 		}
 	}
 
