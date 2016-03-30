@@ -37,16 +37,16 @@ function getAddr($lat,$lng){
 				<?php
 				switch ($event->statut) {
 						case 0:
-							echo "en cours : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
+							echo "non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						case 1:
 							echo "en cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						case 10:
-							echo "en cours : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
+							echo "course fini : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						case 11:
-							echo "en cours : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
+							echo "course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						default:
 							echo "pas de status definit";
@@ -65,7 +65,7 @@ function getAddr($lat,$lng){
 			<div class="event-text">
 				<label>Date de l'evenement : </label><h5>
 					<?php
-						if($event->event_date != null){echo $event->event_date;}else{ echo "pas de date définit";}
+						if($event->event_time != 0){echo date('l jS \of F Y h:i:s A',$event->event_time);}else{ echo "pas de date définit";}
 					?>
 				</h5>
 			</div>

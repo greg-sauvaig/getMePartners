@@ -132,10 +132,20 @@ class User
 	public function createEvent($bdd){
 		//formatage des parametres en vue d'une requète vers la bdd
 		$name = $_POST['event_name'];
-		var_dump(substr($_POST['run_date'], 0,10));
 		var_dump($_POST['run_time']);
 		$date = substr($_POST['run_date'], 0,10);
-		$time = strtotime($_POST['run_time']);
+		$timestamp = strtotime( $date);
+		$date = $timestamp;
+		var_dump($date);
+		$time = str_replace(":", "", $_POST['run_time']);
+		$hour = substr($time, 0,2);
+		var_dump($hour);
+		$min = substr($time, 2);
+		var_dump($min);
+		$time = $timestamp + $hour * 3600 + $min * 60;
+		$date = $time;
+		var_dump($time);
+		var_dump(date('l jS \of F Y h:i:s A',1457003400));
 		$lngStart = floatval($_POST['lngStart']);
 		$latStart = floatval($_POST['latStart']);
 		$lngEnd = floatval($_POST['lngEnd']);
@@ -146,7 +156,6 @@ class User
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
 			if ($bdd->lastInsertId() != null){
-				var_dump("expression");	
 				try{
 				//Recuperation du max id de la table event en vue d'une requete
 					$var = $bdd->prepare("SELECT max(`id`) FROM `event`");

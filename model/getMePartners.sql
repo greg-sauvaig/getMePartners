@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Mar 28, 2016 at 03:01 AM
--- Server version: 5.6.28-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.14
+-- Client :  127.0.0.1
+-- Généré le :  Mar 29 Mars 2016 à 07:42
+-- Version du serveur :  5.6.17
+-- Version de PHP :  5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,12 +17,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `momo`
+-- Base de données :  `lsl`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Procédures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addUserEvent`(IN `p_user` INT(11), IN `p_event_id` INT(11))
     NO SQL
@@ -60,6 +60,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `register`(IN `p_username` VARCHAR(2
 INSERT INTO `user`
 VALUES ('',p_username, p_pass, p_mail, '','','','','')$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sessionIsValid`(IN `p_time` BIGINT, IN `p_cookie` VARCHAR(255))
+    NO SQL
+SELECT `id` from `user` where `session` = `p_cookie` and `time` > `p_time`$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateSession`(IN `p_code` VARCHAR(255), IN `p_time` BIGINT(55), IN `p_mail` VARCHAR(255))
     NO SQL
 UPDATE `user` SET `session`= p_code,`time`= p_time
@@ -70,7 +74,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `event`
+-- Structure de la table `event`
 --
 
 CREATE TABLE IF NOT EXISTS `event` (
@@ -90,10 +94,11 @@ CREATE TABLE IF NOT EXISTS `event` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=108 ;
 
 --
--- Dumping data for table `event`
+-- Contenu de la table `event`
 --
 
 INSERT INTO `event` (`id`, `name`, `event_date`, `event_insertts`, `statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`) VALUES
+(0, 'à cloche pied', '0000-00-00', '0000-00-00 00:00:00', 0, '2.352221965789795', '48.85661315917969', '3.177846908569336', '50.69270324707031', 0),
 (88, 'bbbbbb', '0000-00-00', '0000-00-00 00:00:00', 0, '-51.9252815246582', '-14.235004425048828', '-51.9252815246582', '-14.235004425048828', 1),
 (89, 'ereeeee', '0000-00-00', '0000-00-00 00:00:00', 0, '-51.9252815246582', '-14.235004425048828', '4.469935894012451', '50.50388717651367', 1),
 (90, 'fffffffffffffff', '0000-00-00', '0000-00-00 00:00:00', 0, '2.2137489318847656', '46.227638244628906', '2.2137489318847656', '46.227638244628906', 1),
@@ -107,7 +112,7 @@ INSERT INTO `event` (`id`, `name`, `event_date`, `event_insertts`, `statut`, `lo
 -- --------------------------------------------------------
 
 --
--- Table structure for table `event_msg`
+-- Structure de la table `event_msg`
 --
 
 CREATE TABLE IF NOT EXISTS `event_msg` (
@@ -120,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `event_msg` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `msg`
+-- Structure de la table `msg`
 --
 
 CREATE TABLE IF NOT EXISTS `msg` (
@@ -133,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `msg` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Structure de la table `user`
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
@@ -148,22 +153,23 @@ CREATE TABLE IF NOT EXISTS `user` (
   `addr` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail` (`mail`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
--- Dumping data for table `user`
+-- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `mail`, `birthdate`, `session`, `time`, `profil_pic`, `addr`) VALUES
+(0, 'greg', '123456', 'nosfe.ratus@laposte.net', '0000-00-00 00:00:00', 'A8U6TI30ROMG70AGR6DH', 1459311328, '/image/avatar/greg-49ea7c13413264aa08b2b7ee3a5696fadf7bbf6dc7cd81f8e49c7cd42651533146958962db8f4e9.jpg', ''),
 (1, 'momo', 'momopass', 'mail@momo.fr', '0000-00-00 00:00:00', '6CKYNPCX0HRYRHJH8SNB', 1459206910, '/image/avatar/momo-arborescence_app.png', ''),
 (9, 'mike', 'mikepass', 'mail@mike.fr', '0000-00-00 00:00:00', '2UUNZI6OB22UGCGGPDV7', 1459194613, '', ''),
-(10, 'greg', 'gregpass', 'mail@greg.fr', '0000-00-00 00:00:00', 'VNHEFUEYF6A9GLWV8N61', 1459212743, '', ''),
+(10, 'greg', 'gregpass', 'mail@greg.fr', '1986-05-24 22:00:00', 'I33WWJ5TPARZK49VK6IG', 1459311280, '/image/avatar/greg-200.gif', '22 rue des rameaux paris'),
 (12, 'clem', 'clempass', 'mail@clem.fr', '0000-00-00 00:00:00', 'LXVU89OZH5S5QJD9Y8X7', 1459185791, '', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_event`
+-- Structure de la table `user_event`
 --
 
 CREATE TABLE IF NOT EXISTS `user_event` (
@@ -174,10 +180,11 @@ CREATE TABLE IF NOT EXISTS `user_event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `user_event`
+-- Contenu de la table `user_event`
 --
 
 INSERT INTO `user_event` (`user_id`, `event_id`) VALUES
+(0, 107),
 (1, 88),
 (1, 89),
 (1, 90),
@@ -191,7 +198,7 @@ INSERT INTO `user_event` (`user_id`, `event_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_msg`
+-- Structure de la table `user_msg`
 --
 
 CREATE TABLE IF NOT EXISTS `user_msg` (
@@ -202,25 +209,25 @@ CREATE TABLE IF NOT EXISTS `user_msg` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables exportées
 --
 
 --
--- Constraints for table `event_msg`
+-- Contraintes pour la table `event_msg`
 --
 ALTER TABLE `event_msg`
   ADD CONSTRAINT `event_msg_ibfk_1` FOREIGN KEY (`msg_id`) REFERENCES `msg` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `event_msg_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `user_event`
+-- Contraintes pour la table `user_event`
 --
 ALTER TABLE `user_event`
   ADD CONSTRAINT `user_event_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_event_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `user_msg`
+-- Contraintes pour la table `user_msg`
 --
 ALTER TABLE `user_msg`
   ADD CONSTRAINT `user_msg_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
