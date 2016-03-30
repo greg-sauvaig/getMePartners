@@ -49,16 +49,17 @@ function getAddr($lat,$lng){
 							echo "course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						default:
-							echo "pas de status definit";
+							echo "pas de status definit</h5>";
 							break;
-					}
+				}
+				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">rejoindre</button></center>';}else{ echo '<div>la course est pleine</div>';}
 				?>
 				
 			</div>
 			<div class="event-text">
 				<label>Auteur : </label><h5>
 					<?php
-						if($author['username'] != null){echo $author['username'];}else{echo "pas de nom définit";}
+						if($author['username'] != null){echo '<center>'.$author['username'].'</center>';}else{echo "pas de nom définit";}
 					?>
 				</h5>
 			</div>
@@ -76,11 +77,9 @@ function getAddr($lat,$lng){
 					?>
 				</h5>
 			</div>
-			<div class="event-info">
-				<a href="#" title="info"><img src="./image/zoom.jpg" style="height:50px;margin:25px;"></a>
-			</div>
 			<div class="event-pic">
 				<img src="http://www.developpez.net/forums/attachments/p166896d1421856637/java/general-java/java-mobiles/android/integrer-personnaliser-carte-type-google-maps/googlemap.gif/" style="">
+				<?php echo '<a class="event-info" href="#" title="info"><img src="./image/zoom.png" style="height:50px;margin:25px;" data-event="'.$event->id.'"></a>'; ?>
 			</div>
 		</div>		
 	</div>
