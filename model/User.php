@@ -23,8 +23,7 @@ class User
 			if ($data->rowCount() === 1){
 				$data = $data->fetch(PDO::FETCH_ASSOC);
 				//foreach parcourant l'array $data et permettant la récupération des index ($key).
-				foreach ($data as $key => $value)
-				{
+				foreach ($data as $key => $value){
 					//On Set les attributs de l'instance de User depuis la bdd.
 					$this->$key = $value;
 				}
@@ -35,14 +34,13 @@ class User
 					$data->execute();
 					$row = $data->rowCount();
 					$data = $data->fetchAll();
-
 					for($i = 0; $row > 0 && $i < $row; $i++){ //On push chaque instance d'event dans la liste d'event du user
 						$name = $data[$i];
 						array_push($this->myEvents, new Event($name[0], $bdd));
 					}
 					return true;
 				}catch (Exception $e){
-					echo "Error: ", $e->getMessage(), "\n";
+					$a = "Error: ". $e->getMessage(). "\n";
 					return false;
 				}
 			}else{
@@ -51,6 +49,25 @@ class User
 
 		}catch (Exception $e){
 			echo "Error : ", $e->getMessage(), "\n";
+			return false;
+		}
+	}
+
+	public function get_event_by_order($order, $AC_DC){
+		try{
+			$this->myEvents = array();			
+			$query = "SELECT `name` FROM `event` INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` WHERE  `user_event`.`user_id` = '$this->id' ORDER BY `$order` '$AC_DC';";
+			$data = $bdd->prepare($query);
+			$data->execute();
+			$row = $data->rowCount();
+			$data = $data->fetchAll();
+			for($i = 0; $row > 0 && $i < $row; $i++){ //On push chaque instance d'event dans la liste d'event du user
+				$name = $data[$i];
+				array_push($this->myEvents, new Event($name[0], $bdd));
+			}
+			return true;
+		}catch (Exception $e){
+			$a = "Error: ". $e->getMessage(). "\n";
 			return false;
 		}
 	}

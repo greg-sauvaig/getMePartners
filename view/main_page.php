@@ -17,7 +17,7 @@ function getAddr($lat,$lng){
 
 $p = $user->myEvents;
 $p_size = count($p);
-$messagesParPage = 1; 
+$messagesParPage = 5; 
 $nombreDePages = ceil ($p_size/$messagesParPage);
 $a = 0;
 $c = 0;
@@ -48,6 +48,7 @@ echo('</div>');
 
 // pages et contenu
 echo("<div class='page' id='page$c' >");
+echo('<div id="order_for_page">Trier par:<button id="status_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspstatus</button><button id="author_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspauteur</button><button id="date_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspdate</button><button id="location_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbsplieu</button></div>');
 for ($b = 0; $b < $p_size ;$b++) {
 			$event = $user->myEvents[$b];
 			$author = $user->getUserById($event->lead_user, $bdd);

@@ -426,5 +426,19 @@ select{
 	background:white;
 	border:1px solid black;
 	padding:10px;
+	width:100%;
+	min-width: 906px;
 	margin-top:-1px;
+}
+
+#order_for_page{
+	width:100%;
+	height:36px;
+	background: grey;
+	padding-left:10px;
+	padding-top: 5px;
+}
+
+#order_for_page>button{
+	margin-left:70px;
 }
