@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 31 Mars 2016 à 01:24
+-- Généré le :  Jeu 31 Mars 2016 à 07:33
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -90,15 +90,26 @@ CREATE TABLE IF NOT EXISTS `event` (
   `lead_user` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
-  KEY `lead_user` (`lead_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=181 ;
+  KEY `lead_user` (`lead_user`),
+  KEY `name_2` (`name`),
+  KEY `event_time` (`event_time`),
+  KEY `statut` (`statut`),
+  KEY `lead_user_2` (`lead_user`),
+  KEY `lonStart` (`lonStart`),
+  KEY `latStart` (`latStart`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=186 ;
 
 --
 -- Contenu de la table `event`
 --
 
 INSERT INTO `event` (`id`, `name`, `nbr_runners`, `event_time`, `statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`) VALUES
-(180, 'run to poutre', 1, 1456963320, 0, '2.280339', '48.897236', '2.4026819000001', '48.8583703', 10);
+(180, 'run to poutre', 1, 1456963320, 0, '2.280339', '48.897236', '2.4026819000001', '48.8583703', 10),
+(181, 'm to p', 1, 1456970520, 0, '5.36978', '43.296482', '0', '0', 10),
+(182, 'lol', 1, 1491091260, 0, '-80.782127', '8.537981', '-75.015152', '-9.189967', 10),
+(183, 'test', 1, 1425434580, 0, '7.4246158', '43.7384176', '2.319287', '48.891986', 10),
+(184, 'm&m', 1, 1459728180, 0, '2.2713699999999', '48.730756', '2.23847', '48.812995', 10),
+(185, 'm to n', 1, 1456876980, 0, '2.619156', '48.98543', '2.55261', '48.848579', 10);
 
 -- --------------------------------------------------------
 
@@ -154,7 +165,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `mail`, `birthdate`, `session`
 (0, 'greg', '8VLLPCA0F0', 'nosfe.ratus@laposte.net', '0000-00-00 00:00:00', '8XPBHJG9NJYBT72EK840', 1459329704, '/image/avatar/greg-greg-[000645].png', ''),
 (1, 'momo', 'momopass', 'mail@momo.fr', '0000-00-00 00:00:00', '6CKYNPCX0HRYRHJH8SNB', 1459206910, '/image/avatar/momo-arborescence_app.png', ''),
 (9, 'mike', 'mikepass', 'mail@mike.fr', '0000-00-00 00:00:00', '2UUNZI6OB22UGCGGPDV7', 1459194613, '', ''),
-(10, 'gregoire', 'gregpass', 'mail@greg.fr', '1992-05-24 22:00:00', '4O3A3ZJ7C5UFGXDGHJY7', 1459454945, '/image/avatar/greg-49ea7c13413264aa08b2b7ee3a5696fadf7bbf6dc7cd81f8e49c7cd42651533146958962db8f4e9.jpg', '22 rue des rameaux paris'),
+(10, 'gregoire', 'gregpass', 'mail@greg.fr', '1992-05-24 22:00:00', 'LF7JM2T61IQX5840U8J4', 1459482365, '/image/avatar/greg-49ea7c13413264aa08b2b7ee3a5696fadf7bbf6dc7cd81f8e49c7cd42651533146958962db8f4e9.jpg', '22 rue des rameaux paris'),
 (12, 'clem', 'clempass', 'mail@clem.fr', '0000-00-00 00:00:00', 'LXVU89OZH5S5QJD9Y8X7', 1459185791, '', '');
 
 -- --------------------------------------------------------
@@ -175,7 +186,12 @@ CREATE TABLE IF NOT EXISTS `user_event` (
 --
 
 INSERT INTO `user_event` (`user_id`, `event_id`) VALUES
-(10, 180);
+(10, 180),
+(10, 181),
+(10, 182),
+(10, 183),
+(10, 184),
+(10, 185);
 
 -- --------------------------------------------------------
 
