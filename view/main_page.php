@@ -15,12 +15,48 @@ function getAddr($lat,$lng){
 		return false;
 }
 
+$p = $user->myEvents;
+$p_size = count($p);
+$messagesParPage = 1; 
+$nombreDePages = ceil ($p_size/$messagesParPage);
+$a = 0;
+$c = 0;
 
-	for ($i = 0; $i < sizeof($user->myEvents); $i++){
-		$event = $user->myEvents[$i];
-		$author = $user->getUserById($event->lead_user, $bdd);
-	 	?>
-	 		<!-- events list-->
+// js pour switch entre les pages
+for ($i=0; $i < $nombreDePages ; ++$i) { 
+	echo(" <script type='text/javascript'>$(document).ready(function(){");echo" $('#btn".$i."').click(function(){";
+	for ($e=0; $e < $nombreDePages; $e++) { 
+		echo("$('#page".$e."').hide();");
+		echo("$('#btn".$e."').css('background','#bbb');");
+		echo("$('#btn".$e."').css('border-bottom','1px solid black');");
+		echo("$('#btn".$e."').css('z-index','1');");
+	}
+	echo("$('#page".$i."').show();");
+	echo("$('#btn".$i."').css('background','#fff');");
+	echo("$('#btn".$i."').css('border-bottom','0px');");
+	echo("$('#btn".$i."').css('z-index','1000');");
+	echo("});});</script>");
+}
+echo('<script type="text/javascript">$(document).ready(function(){$("#btn0").click();});</script>'); 
+
+// bouton pour les pages
+echo('<div id="btn-page-container">');
+for ($i=0; $i < $nombreDePages ; ++$i) {
+	echo("<div class='btn-page' id='btn$i' ><center>".($i+1)."</center></div>");
+}
+echo('</div>');
+
+// pages et contenu
+echo("<div class='page' id='page$c' >");
+for ($b = 0; $b < $p_size ;$b++) {
+			$event = $user->myEvents[$b];
+			$author = $user->getUserById($event->lead_user, $bdd);
+	if($b % $messagesParPage == 0 && $b != 0){
+		$c++;
+		
+		echo("</div>");
+		echo("<div class='page' id='page$c' style='display:none;'>");} 	?>
+			 		<!-- events list-->
 	<div class="event-container" >
 		<div class="event-content">
 			<div class="event-author-pic">
@@ -84,8 +120,10 @@ function getAddr($lat,$lng){
 		</div>		
 	</div>
 	<!-- fin events list-->
-	<?php
-	}
-	?> 
+<?php
+
+}
+
+?> 
 
 </div>
