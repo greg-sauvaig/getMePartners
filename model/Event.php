@@ -3,8 +3,8 @@
 class Event{
 	public $id;
 	public $name;
-	public $event_date;
-	public $event_insertts;
+	public $nbr_runners;
+	public $event_time;
 	public $statut;
 	public $lonStart;
 	public $latStart;
@@ -19,23 +19,6 @@ class Event{
 		return $this->getEventByName($name, $bdd);
 	}
 
-	public function getUserById($id, $bdd){
-		try{
-			//Recuperation de l'evenement en fonction de son nom (champ unique en bdd)
-			$query = "SELECT * from `user` where `id` = $id;";
-			$data = $bdd->prepare($query);
-			$data->execute();
-			$data = $data->fetch(PDO::FETCH_ASSOC);
-			if (sizeof($data) > 0){
-				return $data;
-			}else{
-				return false;
-			}
-		}catch (Exception $e){
-			echo "Error : ", $e->getMessage(), "\n";
-			return false;
-		}
-	}
 
 	public function getEventByName($name, $bdd){
 		try{
@@ -58,15 +41,4 @@ class Event{
 		}
 	}
 
-	public function getAddr($lat,$lng){
-		$url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($lat).','.trim($lng).'&sensor=false';
-		$json = @file_get_contents($url);
-		$data=json_decode($json);
-		$status = $data->status;
-		if($status=="OK")
-		return $data->results[0]->formatted_address;
-		else
-		return false;
-	}
-	
 }

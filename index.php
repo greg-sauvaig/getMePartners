@@ -30,7 +30,7 @@
                 include_once './view/account_setting.php';
             }
         }else if(isset($_GET['page']) && $_GET['page']!= null){
-            if ($_GET['page'] == 'create'){
+            if ($_GET['page'] == 'create' && !isset($_POST['create_event'])){
                 include_once './view/left-container-profil.php';
                 include_once './view/create_event.php';
             }else if ($_GET['page'] == 'search'){
@@ -43,6 +43,8 @@
         }
         if (isset($_POST['create_event'])){
             $user->createEvent($bdd);
+            include_once './view/left-container-profil.php';
+            include_once './view/create_event.php';
         }
     }
     else if(isset( $_POST['login'])){

@@ -13,8 +13,14 @@
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBY2_9mOiVb_bKdrck5FMzVrJwAJPbefvk&libraries=places&amp"></script>
         <title>Get Me Partners</title>
     </head>
-    <body class="no-js">
-        <script type="text/javascript">$(document).ready(function(){ $('.no-js').removeClass( "no-js" ).addClass( "js" );});</script>
+    <body>
+    <script type="text/javascript">$(document).ready(function(){ $('.no-js').removeClass( "no-js" ).addClass( "js" );});</script>
+    <noscript>
+     Sur votre navigateur, JavaScript est DÉSACTIVÉ.
+     Ce site utilise JavaScript pour vous proposer la meilleure expérience du Web.
+     Suivez ces <a href="http://javascripton.com/" target="_blank">instructions pour activer JavaScript dans votre navigateur</a>
+    </noscript>
+    <div class="no-js">
         <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">

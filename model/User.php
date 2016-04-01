@@ -23,8 +23,7 @@ class User
 			if ($data->rowCount() === 1){
 				$data = $data->fetch(PDO::FETCH_ASSOC);
 				//foreach parcourant l'array $data et permettant la récupération des index ($key).
-				foreach ($data as $key => $value)
-				{
+				foreach ($data as $key => $value){
 					//On Set les attributs de l'instance de User depuis la bdd.
 					$this->$key = $value;
 				}
@@ -35,14 +34,13 @@ class User
 					$data->execute();
 					$row = $data->rowCount();
 					$data = $data->fetchAll();
-
 					for($i = 0; $row > 0 && $i < $row; $i++){ //On push chaque instance d'event dans la liste d'event du user
 						$name = $data[$i];
 						array_push($this->myEvents, new Event($name[0], $bdd));
 					}
 					return true;
 				}catch (Exception $e){
-					echo "Error: ", $e->getMessage(), "\n";
+					$a = "Error: ". $e->getMessage(). "\n";
 					return false;
 				}
 			}else{
@@ -51,6 +49,25 @@ class User
 
 		}catch (Exception $e){
 			echo "Error : ", $e->getMessage(), "\n";
+			return false;
+		}
+	}
+
+	public function get_event_by_order($order, $AC_DC){
+		try{
+			$this->myEvents = array();			
+			$query = "SELECT `name` FROM `event` INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` WHERE  `user_event`.`user_id` = '$this->id' ORDER BY `$order` '$AC_DC';";
+			$data = $bdd->prepare($query);
+			$data->execute();
+			$row = $data->rowCount();
+			$data = $data->fetchAll();
+			for($i = 0; $row > 0 && $i < $row; $i++){ //On push chaque instance d'event dans la liste d'event du user
+				$name = $data[$i];
+				array_push($this->myEvents, new Event($name[0], $bdd));
+			}
+			return true;
+		}catch (Exception $e){
+			$a = "Error: ". $e->getMessage(). "\n";
 			return false;
 		}
 	}
@@ -82,7 +99,7 @@ class User
 				$data = $bdd->prepare($req);
 				$data->execute();
 				if($data->rowCount() == 1){
-					Logs::login($email, $password);
+					Logs::login($email, $password, $bdd);
 					return True;
 				}
 				else{
@@ -132,65 +149,50 @@ class User
 	public function createEvent($bdd){
 		//formatage des parametres en vue d'une requète vers la bdd
 		$name = $_POST['event_name'];
-		var_dump($_POST['run_time']);
 		$date = substr($_POST['run_date'], 0,10);
 		$timestamp = strtotime( $date);
-		$date = $timestamp;
-		var_dump($date);
 		$time = str_replace(":", "", $_POST['run_time']);
 		$hour = substr($time, 0,2);
-		var_dump($hour);
 		$min = substr($time, 2);
-		var_dump($min);
 		$time = $timestamp + $hour * 3600 + $min * 60;
-		$date = $time;
-		var_dump($time);
-		var_dump(date('l jS \of F Y h:i:s A',1457003400));
-		$lngStart = floatval($_POST['lngStart']);
-		$latStart = floatval($_POST['latStart']);
-		$lngEnd = floatval($_POST['lngEnd']);
-		$latEnd = floatval($_POST['latEnd']);
+		$lngStart = floatval($_POST['lng_Start']);
+		$latStart = floatval($_POST['lat_Start']);
+		$lngEnd = floatval($_POST['lng_End']);
+		$latEnd = floatval($_POST['lat_End']);
 		try {
 			//Insertion du nouvel Event en base via les paramètres ci-dessus
-			$query = "CALL insertEvent('$name', '$date', '$time', $lngStart, $latStart, $lngEnd, $latEnd, $this->id)";
+			$query = "INSERT INTO `event` (`name`, `nbr_runners`,`event_time`,`statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`) VALUES ('$name', 1, $time, 0, $lngStart, $latStart, $lngEnd, $latEnd, $this->id);";
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
 			if ($bdd->lastInsertId() != null){
+				$id = $bdd->lastInsertId(); 
 				try{
-				//Recuperation du max id de la table event en vue d'une requete
-					$var = $bdd->prepare("SELECT max(`id`) FROM `event`");
-					$var->execute();
-					$var = $var->fetch();
-					if ($var[0] != null){
-						try{
-						//Mise en relation de Event et User dans la table user_event via l'id du user et le max id de event
-							$query = "CALL addUserEvent($this->id, $var[0])";
-							$prepared = $bdd->prepare($query);
-							$prepared->execute();
-							if($prepared->rowCount() === 1){
+						//Mise en relation de Event et User dans la table user_event via l'id du user et l'id de event
+					$query = "CALL addUserEvent($this->id, $id)";
+					$prepared = $bdd->prepare($query);
+					$prepared->execute();
+					if($prepared->rowCount() === 1){
 							//instanciation de l'evenement
-								array_push($this->myEvents, new Event($name, $bdd));
-								return true;
-							}else{
-								return false;
-							}
-						}catch (Exception $e){
-							echo "Error : ", $e->getMessage(), "\n";
-							return false;
-						}
+						array_push($this->myEvents, new Event($name, $bdd));
+						return true;
 					}else{
+						global $a;
+						$a = "erreur lors du lien de l'event avec l'utilisateur , le nom  de l'evenement est certainement deja pris, choisissez en un autre";
 						return false;
 					}
 				}catch (Exception $e){
-					echo "Error : ", $e->getMessage(), "\n";
-					return false;					
+					global $a ;
+					$a = "Error : ". $e->getMessage(). "\n";
+					return false;
 				}
 			}else{
-				echo "<script> alert(\"Ce nom d'Event est déjà pris ! choisissez en un autre.\") </script>";
+				global $a;
+				$a =  "Ce nom d'Event est déjà pris ! choisissez en un autre.";
 				return false;
 			}
 		} catch (Exception $e) {
-			echo "Error : ", $e->getMessage(), "\n";
+			global $a;
+			$a =  "Error : ". $e->getMessage(). "\n";
 			return False;
 		}
 	}

@@ -15,12 +15,49 @@ function getAddr($lat,$lng){
 		return false;
 }
 
+$p = $user->myEvents;
+$p_size = count($p);
+$messagesParPage = 2; 
+$nombreDePages = ceil ($p_size/$messagesParPage);
+$a = 0;
+$c = 0;
 
-	for ($i = 0; $i < sizeof($user->myEvents); $i++){
-		$event = $user->myEvents[$i];
-		$author = $user->getUserById($event->lead_user, $bdd);
-	 	?>
-	 		<!-- events list-->
+// js pour switch entre les pages
+for ($i=0; $i < $nombreDePages ; ++$i) { 
+	echo(" <script type='text/javascript'>$(document).ready(function(){");echo" $('#btn".$i."').click(function(){";
+	for ($e=0; $e < $nombreDePages; $e++) { 
+		echo("$('#page".$e."').hide();");
+		echo("$('#btn".$e."').css('background','#bbb');");
+		echo("$('#btn".$e."').css('border-bottom','1px solid black');");
+		echo("$('#btn".$e."').css('z-index','1');");
+	}
+	echo("$('#page".$i."').show();");
+	echo("$('#btn".$i."').css('background','#fff');");
+	echo("$('#btn".$i."').css('border-bottom','0px');");
+	echo("$('#btn".$i."').css('z-index','1000');");
+	echo("});});</script>");
+}
+echo('<script type="text/javascript">$(document).ready(function(){$("#btn0").click();});</script>'); 
+
+// bouton pour les pages
+echo('<div id="btn-page-container">');
+for ($i=0; $i < $nombreDePages ; ++$i) {
+	echo("<div class='btn-page' id='btn$i' ><center>".($i+1)."</center></div>");
+}
+echo('</div>');
+
+// pages et contenu
+echo("<div class='page' id='page$c' >");
+echo('<div id="order_for_page">Trier par:<button id="status_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspstatus</button><button id="author_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspauteur</button><button id="date_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspdate</button><button id="location_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbsplieu</button></div>');
+for ($b = 0; $b < $p_size ;$b++) {
+			$event = $user->myEvents[$b];
+			$author = $user->getUserById($event->lead_user, $bdd);
+	if($b % $messagesParPage == 0 && $b != 0){
+		$c++;
+		
+		echo("</div>");
+		echo("<div class='page' id='page$c' style='display:none;'>");} 	?>
+			 		<!-- events list-->
 	<div class="event-container" >
 		<div class="event-content">
 			<div class="event-author-pic">
@@ -49,16 +86,17 @@ function getAddr($lat,$lng){
 							echo "course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						default:
-							echo "pas de status definit";
+							echo "pas de status definit</h5>";
 							break;
-					}
+				}
+				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">rejoindre</button></center>';}else{ echo '<div>la course est pleine</div>';}
 				?>
 				
 			</div>
 			<div class="event-text">
 				<label>Auteur : </label><h5>
 					<?php
-						if($author['username'] != null){echo $author['username'];}else{echo "pas de nom définit";}
+						if($author['username'] != null){echo '<center>'.$author['username'].'</center>';}else{echo "pas de nom définit";}
 					?>
 				</h5>
 			</div>
@@ -76,17 +114,17 @@ function getAddr($lat,$lng){
 					?>
 				</h5>
 			</div>
-			<div class="event-info">
-				<a href="#" title="info"><img src="./image/zoom.jpg" style="height:50px;margin:25px;"></a>
-			</div>
 			<div class="event-pic">
 				<img src="http://www.developpez.net/forums/attachments/p166896d1421856637/java/general-java/java-mobiles/android/integrer-personnaliser-carte-type-google-maps/googlemap.gif/" style="">
+				<?php echo '<a class="event-info" href="#" title="info"><img src="./image/zoom.png" style="height:50px;margin:25px;" data-event="'.$event->id.'"></a>'; ?>
 			</div>
 		</div>		
 	</div>
 	<!-- fin events list-->
-	<?php
-	}
-	?> 
+<?php
+
+}
+
+?> 
 
 </div>
