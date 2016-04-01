@@ -46,7 +46,9 @@
         }
     }
     else if(isset( $_POST['login'])){
+        $a = "toto";
         Logs::login($_POST['email'], $_POST['pass'], $bdd);
+        $a = "tata";
         include_once './view/login_register.php';
     }   
     else if(isset($_POST['register'])){
