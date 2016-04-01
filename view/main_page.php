@@ -17,7 +17,7 @@ function getAddr($lat,$lng){
 
 $p = $user->myEvents;
 $p_size = count($p);
-$messagesParPage = 5; 
+$messagesParPage = 2; 
 $nombreDePages = ceil ($p_size/$messagesParPage);
 $a = 0;
 $c = 0;

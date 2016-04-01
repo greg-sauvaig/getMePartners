@@ -138,8 +138,8 @@ abstract class Logs
 	    $mail->SMTPSecure = 'ssl'; // Gmail REQUIERT Le transfert securise
 	    $mail->Host = 'smtp.gmail.com';
 	    $mail->Port = 465;
-	    $mail->Username = "greg.sauvaigo@gmail.com";
-	    $mail->Password = "Th3rapt0r";
+	    $mail->Username = MAILUSER;
+	    $mail->Password = MAILPASS;
 	    $mail->SetFrom($from, $from_name);
 	    $mail->Subject = $subject;
 	    $mail->IsHTML(true);

@@ -99,7 +99,7 @@ class User
 				$data = $bdd->prepare($req);
 				$data->execute();
 				if($data->rowCount() == 1){
-					Logs::login($email, $password);
+					Logs::login($email, $password, $bdd);
 					return True;
 				}
 				else{
