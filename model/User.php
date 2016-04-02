@@ -53,17 +53,17 @@ class User
 		}
 	}
 
-	public function get_event_by_order($order, $AC_DC){
+	public function get_event_by_order($order, $AC_DC, $bdd){
 		try{
 			$this->myEvents = array();			
-			$query = "SELECT `name` FROM `event` INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` WHERE  `user_event`.`user_id` = '$this->id' ORDER BY `$order` '$AC_DC';";
+			$query = "SELECT * FROM `event` INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` WHERE  `user_event`.`user_id` = '$this->id' ORDER BY `$order` $AC_DC;";
 			$data = $bdd->prepare($query);
 			$data->execute();
 			$row = $data->rowCount();
 			$data = $data->fetchAll();
 			for($i = 0; $row > 0 && $i < $row; $i++){ //On push chaque instance d'event dans la liste d'event du user
 				$name = $data[$i];
-				array_push($this->myEvents, new Event($name[0], $bdd));
+				array_push($this->myEvents, $name);
 			}
 			return true;
 		}catch (Exception $e){
@@ -195,6 +195,23 @@ class User
 			$a =  "Error : ". $e->getMessage(). "\n";
 			return False;
 		}
+	}
+
+	public function get_user_data($bdd, $id){
+		try {
+			$req = "SELECT `username`, `profil_pic` FROM `user` WHERE `id` = '$id' ;";
+			$data = $bdd->prepare($req);
+			$data->execute();
+			$user_data = $data->fetchAll(PDO::FETCH_ASSOC);
+			if($data->rowCount() == 1){
+				return $user_data;
+			}
+			else{
+				return False;
+			}
+		} catch (Exception $e) {
+			return False;
+		}	
 	}
 
 }

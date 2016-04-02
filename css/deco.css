@@ -437,8 +437,27 @@ select{
 	background: grey;
 	padding-left:10px;
 	padding-top: 5px;
+	z-index: 100;
+	border:1px solid black;
+	margin-top: -1px;
 }
 
 #order_for_page>button{
 	margin-left:70px;
+}
+
+.chevron-up{
+	background:url("http://localhost/getMePartners/image/chevron-up.png");
+	display: inline-block;
+	width:20px;
+	height:20px;
+	background-size: cover;
+}
+
+.chevron-down{
+	background:url("http://localhost/getMePartners/image/chevron-down.png");
+	display: inline-block;
+	width:20px;
+	height:20px;
+	background-size: cover;
 }

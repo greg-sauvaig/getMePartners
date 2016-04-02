@@ -32,7 +32,7 @@ for ($i=0; $i < $nombreDePages ; ++$i) {
 		echo("$('#btn".$e."').css('z-index','1');");
 	}
 	echo("$('#page".$i."').show();");
-	echo("$('#btn".$i."').css('background','#fff');");
+	echo("$('#btn".$i."').css('background','grey');");
 	echo("$('#btn".$i."').css('border-bottom','0px');");
 	echo("$('#btn".$i."').css('z-index','1000');");
 	echo("});});</script>");
@@ -45,10 +45,72 @@ for ($i=0; $i < $nombreDePages ; ++$i) {
 	echo("<div class='btn-page' id='btn$i' ><center>".($i+1)."</center></div>");
 }
 echo('</div>');
+// bouton pour les tris
+echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="chevron-up"></div>&nbspstatus</button><button id="author_order"><div class="chevron-up"></div>&nbspauteur</button><button id="date_order"><div class="chevron-up"></div>&nbspdate</button><button id="location_order"><div class="chevron-up"></div>&nbsplieu</button></div>');
+?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#status_order").click(function(){
+			
+		});
+		$("#author_order").click(function(){
+			
+			});
+		$("#date_order").click(function(){
+			data = $(this).attr('id');
+			classe = $(this).children('div').attr('class');
+			order = classe.substr(8);
+			alert(classe+" "+order);
+			if (order == "up"){
+				$(this).children('div').attr("class","chevron-down");
+			}
+			else if (order == "down"){
+				$(this).children('div').attr("class","chevron-up");
+			}
+			$.getJSON({
+				url : <?php echo "'/getMePartners/index.php?send='"; ?>+'&data='+data+'&order='+order,
+				success : function(data){
+					$.each( data, function( key, val ) {
+						data = JSON.parse(val);
+						date = new Date(data["event_time"]*1000);
+					    console.log("date event: "+date.toLocaleDateString());
+					    console.log("lead_user_id :"+data["lead_user"]);
+					    user = data["lead_user"];
+					    $.getJSON({
+					    	url:'http://maps.googleapis.com/maps/api/geocode/json?latlng='+data["latStart"]+','+data["lonStart"]+'&sensor=false',
+					    	success : function(data){
+					    		console.log("adresse : "+data["results"][0]["formatted_address"]);
+					    	}
+					    });
+					    $.getJSON({
+					    	url : <?php echo "'/getMePartners/index.php?get='"; ?>+'&user='+user,
+					    	success : function(data){
+					    		data = data[0];
+					    		$.each( data, function( key, val ) {
+					    			console.log("lead user "+key+" : "+ val);
+					    		});
+					    	}
+					    });
+					});
+					
+				},
 
+				error : function(data){
+					alert(data)
+				},
+
+				complete : function(){
+				}
+		});
+			});
+		$("#location_order").click(function(){
+		});
+	});
+</script>
+<?php
 // pages et contenu
 echo("<div class='page' id='page$c' >");
-echo('<div id="order_for_page">Trier par:<button id="status_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspstatus</button><button id="author_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspauteur</button><button id="date_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbspdate</button><button id="location_order"><span class="glyphicon glyphicon-chevron-up"></span>&nbsplieu</button></div>');
+
 for ($b = 0; $b < $p_size ;$b++) {
 			$event = $user->myEvents[$b];
 			$author = $user->getUserById($event->lead_user, $bdd);
