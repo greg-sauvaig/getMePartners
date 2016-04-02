@@ -15,21 +15,34 @@
     $valid = Logs::sessionIsValid($bdd);
     global $a;
     $a = "no";
+    if (isset($_COOKIE['getMePartners']) && $valid)
+    {
+        $user = new User($_COOKIE['getMePartners'], $bdd);
+        if (isset($_GET['send'])){
+            include_once("./view/get_event_by_order.php");
+            return;
+        }
+        if(isset($_GET["get"])){
+            include_once("./view/get_user_data.php");
+            return;
+        }
+    }
+
     //header
     include_once './view/header.php';
 
     //Views
-    if (isset($_COOKIE['getMePartners']) && $_COOKIE['getMePartners'] != null && $valid)
+    if (isset($_COOKIE['getMePartners']) && $valid)
     {
         $user = new User($_COOKIE['getMePartners'], $bdd);
-        if(isset($_GET["setting"]) && $_GET["setting"] != null && $_GET["setting"] === "account_setting"){
+        if(isset($_GET["setting"]) && $_GET["setting"] === "account_setting"){
             if(isset($_POST['upload']) && $_POST["upload"] != null){
                 $user->uploadAvatar($user, $bdd);
             }
             else{
                 include_once './view/account_setting.php';
             }
-        }else if(isset($_GET['page']) && $_GET['page']!= null){
+        }else if(isset($_GET['page'])){
             if ($_GET['page'] == 'create' && !isset($_POST['create_event'])){
                 include_once './view/left-container-profil.php';
                 include_once './view/create_event.php';
@@ -60,7 +73,7 @@
             include_once './view/login_register.php';
         }
     }
-    else if(isset($_POST['retrieve']) && isset($_POST['forgotten']) && $_POST['forgotten'] != null){
+    else if(isset($_POST['retrieve']) && isset($_POST['forgotten'])){
         $pass = Logs::genKeyPass();
         if(Logs::isUser($bdd, $_POST['forgotten'])){
             if(Logs::updatePass($bdd, $_POST['forgotten'], $pass)){
