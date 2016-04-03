@@ -17,7 +17,7 @@ function getAddr($lat,$lng){
 
 $p = $user->myEvents;
 $p_size = count($p);
-$messagesParPage = 2; 
+$messagesParPage = 4; 
 $nombreDePages = ceil ($p_size/$messagesParPage);
 $a = 0;
 $c = 0;
@@ -50,61 +50,300 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 ?>
 <script type="text/javascript">
 	$(document).ready(function(){
+
+		function write_event(b,c,lead_user_pic,event_satus,nbr_runners,lead_user_name,date,event_addr,event_id){
+			var str = '<div class="event-container" >'+'<div class="event-content">'+'<div class="event-author-pic">';
+			if(lead_user_pic){
+				str += '<img src="http://localhost/getMePartners/'+lead_user_pic+'" style="height:100px;width:100px;">';
+			}else{
+				str += '<img src="./image/info.jpg" style="height:100px;width:100px;">'; 
+			}
+			str += '</div><div class="event-text"><label>Statut : </label><h5>';
+			if(event_satus == 0)
+				str += "non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
+			else if(event_satus == 1)
+				str += "en cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
+			else if(event_satus == 10)
+				str += "course fini : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
+			else if(event_satus == 11)
+				str += "course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
+			else
+				str += "pas de status definit</h5>";
+			if(nbr_runners < 10 && nbr_runners >= 1){
+				str += '<center><button class="join-event btn" data-event="'+event_id+'" >quitter</button></center>';
+			}else{ 
+				str += '<div>la course est pleine</div>';
+			}
+			str += '</div><div class="event-text"><label>Auteur : </label><h5>';
+			if(lead_user_name){
+				str += '<center>'+lead_user_name+'</center>';
+			}else{
+				str += "pas de nom définit";
+			}
+			str += '</h5></div><div class="event-text"><label>Date de l\'evenement : </label><h5>';
+			if(date != 0){
+				str += date;
+			}else{ 
+				str += "pas de date définit";
+			}
+			str += '</h5></div><div class="event-text"><label>Lieu de l\'evenement : </label><h5>';
+			if(event_addr){ 
+				str += event_addr;
+			}else{
+				str += "pas d'adresse definit";
+			}
+			str += '</h5></div><div class="event-pic"><img src="http://www.developpez.net/forums/attachments/p166896d1421856637/java/general-java/java-mobiles/android/integrer-personnaliser-carte-type-google-maps/googlemap.gif/" style="">';
+			str += '<a class="event-info" href="#" title="info"><img src="./image/zoom.png" style="height:50px;margin:25px;" data-event="'+event_id+'"></a></div></div></div>';
+			return str;
+		}
+
 		$("#status_order").click(function(){
-			
-		});
-		$("#author_order").click(function(){
-			
-			});
-		$("#date_order").click(function(){
 			data = $(this).attr('id');
 			classe = $(this).children('div').attr('class');
 			order = classe.substr(8);
-			alert(classe+" "+order);
 			if (order == "up"){
 				$(this).children('div').attr("class","chevron-down");
 			}
 			else if (order == "down"){
 				$(this).children('div').attr("class","chevron-up");
 			}
+			var pagesnbr = <?php echo "$nombreDePages";?>;
+			for(var page = 0; page < pagesnbr; page++){
+				$("#page"+page).html("");
+				$("#page"+page).html("<center><img src='http://"+<?php echo "'".$_SERVER["REMOTE_ADDR"]."'";?>+"/getMePartners/image/loader.gif'</center>");
+			}
 			$.getJSON({
 				url : <?php echo "'/getMePartners/index.php?send='"; ?>+'&data='+data+'&order='+order,
 				success : function(data){
-					$.each( data, function( key, val ) {
-						data = JSON.parse(val);
-						date = new Date(data["event_time"]*1000);
-					    console.log("date event: "+date.toLocaleDateString());
-					    console.log("lead_user_id :"+data["lead_user"]);
-					    user = data["lead_user"];
-					    $.getJSON({
-					    	url:'http://maps.googleapis.com/maps/api/geocode/json?latlng='+data["latStart"]+','+data["lonStart"]+'&sensor=false',
-					    	success : function(data){
-					    		console.log("adresse : "+data["results"][0]["formatted_address"]);
-					    	}
-					    });
-					    $.getJSON({
-					    	url : <?php echo "'/getMePartners/index.php?get='"; ?>+'&user='+user,
-					    	success : function(data){
-					    		data = data[0];
-					    		$.each( data, function( key, val ) {
-					    			console.log("lead user "+key+" : "+ val);
-					    		});
-					    	}
-					    });
-					});
-					
+					var p_size = data.length;
+					var b = 0;
+					var c = 0;
+					for(var page = 0; page < pagesnbr; page++){
+						$("#page"+page).html("");
+					}
+				    for (var name in data) {
+				   		var DATA = JSON.parse(data[name]);
+						date = new Date(DATA["event_time"]*1000);
+						var date = date.toLocaleDateString();
+						var event_id = DATA["id_event"];
+						var user = DATA["lead_user"];
+						var event_satus = DATA["statut"];
+						var nbr_runners = DATA["nbr_runners"];
+						var lead_user_name = DATA['username'];
+					    var lead_user_pic = DATA['profil_pic'];
+					    var lat = DATA["latStart"];
+					    var lon = DATA["lonStart"];
+						var event_addr = DATA["addr_Start"];
+						var messagesParPage = 4; 
+						var nombreDePages = Math.ceil(p_size/messagesParPage);
+						str = write_event(b,c,lead_user_pic,event_satus,nbr_runners,lead_user_name,date,event_addr,event_id);
+						$("#page"+c).append(str);
+						b++;
+						if(b % 4 == 0){
+							c++;
+						}
+					}
 				},
-
-				error : function(data){
-					alert(data)
+				error:function(){
+					for(var page = 0; page < pagesnbr; page++){
+						$("#page"+page).html("");
+					}
 				},
+				complete:function(){
 
-				complete : function(){
 				}
-		});
 			});
-		$("#location_order").click(function(){
 		});
+
+		$("#author_order").click(function(){
+			data = $(this).attr('id');
+			classe = $(this).children('div').attr('class');
+			order = classe.substr(8);
+			if (order == "up"){
+				$(this).children('div').attr("class","chevron-down");
+			}
+			else if (order == "down"){
+				$(this).children('div').attr("class","chevron-up");
+			}
+			var pagesnbr = <?php echo "$nombreDePages";?>;
+			for(var page = 0; page < pagesnbr; page++){
+				$("#page"+page).html("");
+				$("#page"+page).html("<center><img src='http://"+<?php echo "'".$_SERVER["REMOTE_ADDR"]."'";?>+"/getMePartners/image/loader.gif'</center>");
+			}
+			$.getJSON({
+				url : <?php echo "'/getMePartners/index.php?send='"; ?>+'&data='+data+'&order='+order,
+				success : function(data){
+					var p_size = data.length;
+					var b = 0;
+					var c = 0;
+					for(var page = 0; page < pagesnbr; page++){
+						$("#page"+page).html("");
+					}
+				    for (var name in data) {
+				   		var DATA = JSON.parse(data[name]);
+						date = new Date(DATA["event_time"]*1000);
+						var date = date.toLocaleDateString();
+						var event_id = DATA["id_event"];
+						var user = DATA["lead_user"];
+						var event_satus = DATA["statut"];
+						var nbr_runners = DATA["nbr_runners"];
+						var lead_user_name = DATA['username'];
+					    var lead_user_pic = DATA['profil_pic'];
+					    var lat = DATA["latStart"];
+					    var lon = DATA["lonStart"];
+						var event_addr = DATA["addr_Start"];
+						var messagesParPage = 4; 
+						var nombreDePages = Math.ceil(p_size/messagesParPage);
+						str = write_event(b,c,lead_user_pic,event_satus,nbr_runners,lead_user_name,date,event_addr,event_id);
+						$("#page"+c).append(str);
+						b++;
+						if(b % 4 == 0){
+							c++;
+						}
+					}
+				},
+				error:function(){
+					for(var page = 0; page < pagesnbr; page++){
+						$("#page"+page).html("");
+					}
+				},
+				complete:function(){
+
+				}
+			});
+		});
+		
+		$("#date_order").click(function(){
+			data = $(this).attr('id');
+			classe = $(this).children('div').attr('class');
+			order = classe.substr(8);
+			if (order == "up"){
+				$(this).children('div').attr("class","chevron-down");
+			}
+			else if (order == "down"){
+				$(this).children('div').attr("class","chevron-up");
+			}
+			var pagesnbr = <?php echo "$nombreDePages";?>;
+			for(var page = 0; page < pagesnbr; page++){
+				$("#page"+page).html("");
+				$("#page"+page).html("<center><img src='http://"+<?php echo "'".$_SERVER["REMOTE_ADDR"]."'";?>+"/getMePartners/image/loader.gif'</center>");
+			}
+			$.getJSON({
+				url : <?php echo "'/getMePartners/index.php?send='"; ?>+'&data='+data+'&order='+order,
+				success : function(data){
+					var p_size = data.length;
+					var b = 0;
+					var c = 0;
+					for(var page = 0; page < pagesnbr; page++){
+						$("#page"+page).html("");
+					}
+				    for (var name in data) {
+				   		var DATA = JSON.parse(data[name]);
+						date = new Date(DATA["event_time"]*1000);
+						var date = date.toLocaleDateString();
+						var event_id = DATA["id_event"];
+						var user = DATA["lead_user"];
+						var event_satus = DATA["statut"];
+						var nbr_runners = DATA["nbr_runners"];
+						var lead_user_name = DATA['username'];
+					    var lead_user_pic = DATA['profil_pic'];
+					    var lat = DATA["latStart"];
+					    var lon = DATA["lonStart"];
+						var event_addr = DATA["addr_Start"];
+						var messagesParPage = 4; 
+						var nombreDePages = Math.ceil(p_size/messagesParPage);
+						str = write_event(b,c,lead_user_pic,event_satus,nbr_runners,lead_user_name,date,event_addr,event_id);
+						$("#page"+c).append(str);
+						b++;
+						if(b % 4 == 0){
+							c++;
+						}
+					}
+				},
+				error:function(){
+					for(var page = 0; page < pagesnbr; page++){
+						$("#page"+page).html("");
+					}
+				},
+				complete:function(){
+
+				}
+			});
+		});
+
+		$("#location_order").click(function(){
+			data = $(this).attr('id');
+			classe = $(this).children('div').attr('class');
+			order = classe.substr(8);
+			if (order == "up"){
+				$(this).children('div').attr("class","chevron-down");
+			}
+			else if (order == "down"){
+				$(this).children('div').attr("class","chevron-up");
+			}
+			var pagesnbr = <?php echo "$nombreDePages";?>;
+			for(var page = 0; page < pagesnbr; page++){
+				$("#page"+page).html("");
+				$("#page"+page).html("<center><img src='http://"+<?php echo "'".$_SERVER["REMOTE_ADDR"]."'";?>+"/getMePartners/image/loader.gif'</center>");
+			}
+			$.getJSON({
+				url : <?php echo "'/getMePartners/index.php?send='"; ?>+'&data='+data+'&order='+order,
+				success : function(data){
+					var p_size = data.length;
+					var b = 0;
+					var c = 0;
+					for(var page = 0; page < pagesnbr; page++){
+						$("#page"+page).html("");
+					}
+				    for (var name in data) {
+				   		var DATA = JSON.parse(data[name]);
+						date = new Date(DATA["event_time"]*1000);
+						var date = date.toLocaleDateString();
+						var event_id = DATA["id_event"];
+						var user = DATA["lead_user"];
+						var event_satus = DATA["statut"];
+						var nbr_runners = DATA["nbr_runners"];
+						var lead_user_name = DATA['username'];
+					    var lead_user_pic = DATA['profil_pic'];
+					    var lat = DATA["latStart"];
+					    var lon = DATA["lonStart"];
+						var event_addr = DATA["addr_Start"];
+						var messagesParPage = 4; 
+						var nombreDePages = Math.ceil(p_size/messagesParPage);
+						str = write_event(b,c,lead_user_pic,event_satus,nbr_runners,lead_user_name,date,event_addr,event_id);
+						$("#page"+c).append(str);
+						b++;
+						if(b % 4 == 0){
+							c++;
+						}
+					}
+				},
+				error:function(){
+					for(var page = 0; page < pagesnbr; page++){
+						$("#page"+page).html("");
+					}
+				},
+				complete:function(){
+
+				}
+			});
+		});
+
+
+		$('.join-event').click(function(){
+			$(this).parent().parent().parent().parent().addClass('removed-item');
+			$(this).parent().parent().parent().parent().fadeOut();
+		});
+
+		$(".event-info").on("click",function(){
+			alert($(this).children().data('event'));
+		})
+		$(document).on('change', function(){
+			$(".event-info").on("click",function(){
+				alert($(this).children().data('event'));
+			})
+		});
+
 	});
 </script>
 <?php
@@ -118,7 +357,9 @@ for ($b = 0; $b < $p_size ;$b++) {
 		$c++;
 		
 		echo("</div>");
-		echo("<div class='page' id='page$c' style='display:none;'>");} 	?>
+		echo("<div class='page' id='page$c' style='display:none;'>");
+	} 	
+?>
 			 		<!-- events list-->
 	<div class="event-container" >
 		<div class="event-content">
@@ -151,7 +392,7 @@ for ($b = 0; $b < $p_size ;$b++) {
 							echo "pas de status definit</h5>";
 							break;
 				}
-				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">rejoindre</button></center>';}else{ echo '<div>la course est pleine</div>';}
+				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">quitter</button></center>';}else{ echo '<div>la course est pleine</div>';}
 				?>
 				
 			</div>
@@ -165,7 +406,7 @@ for ($b = 0; $b < $p_size ;$b++) {
 			<div class="event-text">
 				<label>Date de l'evenement : </label><h5>
 					<?php
-						if($event->event_time != 0){echo date('l jS \of F Y h:i:s A',$event->event_time);}else{ echo "pas de date définit";}
+						if($event->event_time != 0){echo strftime("%A %d %B %Y",$event->event_time);}else{ echo "pas de date définit";}
 					?>
 				</h5>
 			</div>

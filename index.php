@@ -1,6 +1,8 @@
 <?php 
 	error_reporting(E_ALL);
 	ini_set("display_errors", 1);
+    date_default_timezone_set('Europe/Paris');
+    setlocale(LC_TIME, 'fr_FR.utf8','fra');
     
     //core
     require_once './core/psl-config.php';

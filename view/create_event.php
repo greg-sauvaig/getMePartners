@@ -13,7 +13,7 @@ if($a != "no"){
         <center><div class="row"  >
             <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
                 <label for="run_start">Lieu de depart</label>
-                <input type="text" id="start" name="run_start" style="width:300px;"  id="origin">
+                <input type="text" id="start" name="addrStart" style="width:300px;"  id="origin">
             </div>
             <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
                 <label for="run_date">Date de depart</label>
@@ -24,7 +24,7 @@ if($a != "no"){
         <center><div class="row" >
             <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
                 <label for="run_">Lieu d'arrivée</label>
-                <input type="text" name="run_end" id="end" style="width:300px;" id="destination">
+                <input type="text" name="addrEnd" id="end" style="width:300px;" id="destination">
             </div>
             <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
                 <label for="run_end">Temps de course</label>
