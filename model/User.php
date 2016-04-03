@@ -56,16 +56,18 @@ class User
 	public function get_event_by_order($order, $AC_DC, $bdd){
 		try{
 			$this->myEvents = array();			
-			$query = "SELECT * FROM `event` INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` WHERE  `user_event`.`user_id` = '$this->id' ORDER BY `$order` $AC_DC;";
+			$query = "SELECT `event`.`id` as `id_event`,`name`,`nbr_runners`,`event_time`,`statut`,`lonStart`,`latStart`,`lonEnd`,`latEnd`,`lead_user`,`username`,`profil_pic`,`addr_start`,`addr_end` FROM `event` INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` INNER JOIN `user` ON `event`.`lead_user` = `user`.`id` WHERE  `user_event`.`user_id` = '$this->id' ORDER BY $order $AC_DC;";
 			$data = $bdd->prepare($query);
 			$data->execute();
 			$row = $data->rowCount();
-			$data = $data->fetchAll();
-			for($i = 0; $row > 0 && $i < $row; $i++){ //On push chaque instance d'event dans la liste d'event du user
-				$name = $data[$i];
-				array_push($this->myEvents, $name);
+			$data = $data->fetchAll(PDO::FETCH_ASSOC);
+			if($row >= 1){
+				$this->myEvents = $data;
+				return true;
 			}
-			return true;
+			else{
+				return False;
+			}
 		}catch (Exception $e){
 			$a = "Error: ". $e->getMessage(). "\n";
 			return false;
@@ -159,9 +161,11 @@ class User
 		$latStart = floatval($_POST['lat_Start']);
 		$lngEnd = floatval($_POST['lng_End']);
 		$latEnd = floatval($_POST['lat_End']);
+		$addrStart = $_POST['addrStart'];
+		$addrEnd = $_POST['addrEnd'];
 		try {
 			//Insertion du nouvel Event en base via les paramètres ci-dessus
-			$query = "INSERT INTO `event` (`name`, `nbr_runners`,`event_time`,`statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`) VALUES ('$name', 1, $time, 0, $lngStart, $latStart, $lngEnd, $latEnd, $this->id);";
+			$query = "INSERT INTO `event` (`name`, `nbr_runners`,`event_time`,`statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`, `addr_start`,`addr_end`) VALUES ('$name', 1, $time, 0, $lngStart, $latStart, $lngEnd, $latEnd, $this->id, '$addrStart', '$addrEnd');";
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
 			if ($bdd->lastInsertId() != null){
