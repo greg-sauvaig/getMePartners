@@ -64,7 +64,7 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 			else if(event_satus == 1)
 				str += "en cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
 			else if(event_satus == 10)
-				str += "course fini : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
+				str += "course finie : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
 			else if(event_satus == 11)
 				str += "course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
 			else
@@ -73,6 +73,7 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 				str += '<center><button class="join-event btn" data-event="'+event_id+'" >quitter</button></center>';
 			}else{ 
 				str += '<div>la course est pleine</div>';
+				str += '<center><button class="join-event btn" data-event="'+event_id+'" >quitter</button></center>';
 			}
 			str += '</div><div class="event-text"><label>Auteur : </label><h5>';
 			if(lead_user_name){
@@ -93,7 +94,7 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 				str += "pas d'adresse definit";
 			}
 			str += '</h5></div><div class="event-pic"><img src="http://www.developpez.net/forums/attachments/p166896d1421856637/java/general-java/java-mobiles/android/integrer-personnaliser-carte-type-google-maps/googlemap.gif/" style="">';
-			str += '<a class="event-info" href="#" title="info"><img src="./image/zoom.png" style="height:50px;margin:25px;" data-event="'+event_id+'"></a></div></div></div>';
+			str += '<a class="event-info" href="#" title="info"><img src="./image/zoom.png" style="height:50px;margin:25px;" data-event="'+event_id+'" data-toggle="modal" data-target="#myModal"></a></div></div></div>';
 			return str;
 		}
 
@@ -212,7 +213,7 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 				}
 			});
 		});
-		
+
 		$("#date_order").click(function(){
 			data = $(this).attr('id');
 			classe = $(this).children('div').attr('class');
@@ -307,7 +308,7 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 					    var lead_user_pic = DATA['profil_pic'];
 					    var lat = DATA["latStart"];
 					    var lon = DATA["lonStart"];
-						var event_addr = DATA["addr_Start"];
+						var event_addr = DATA["addr_start"];
 						var messagesParPage = 4; 
 						var nombreDePages = Math.ceil(p_size/messagesParPage);
 						str = write_event(b,c,lead_user_pic,event_satus,nbr_runners,lead_user_name,date,event_addr,event_id);
@@ -329,19 +330,9 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 			});
 		});
 
-
-		$('.join-event').click(function(){
+		$(document).on('click', '.join-event', function () {
 			$(this).parent().parent().parent().parent().addClass('removed-item');
 			$(this).parent().parent().parent().parent().fadeOut();
-		});
-
-		$(".event-info").on("click",function(){
-			alert($(this).children().data('event'));
-		})
-		$(document).on('change', function(){
-			$(".event-info").on("click",function(){
-				alert($(this).children().data('event'));
-			})
 		});
 
 	});
@@ -392,7 +383,7 @@ for ($b = 0; $b < $p_size ;$b++) {
 							echo "pas de status definit</h5>";
 							break;
 				}
-				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">quitter</button></center>';}else{ echo '<div>la course est pleine</div>';}
+				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">quitter</button></center>';}else{ echo '<div>la course est pleine</div>';echo '<center><button class="join-event btn" data-event="'.$event->id.'">quitter</button></center>';}
 				?>
 				
 			</div>
@@ -413,13 +404,13 @@ for ($b = 0; $b < $p_size ;$b++) {
 			<div class="event-text">
 				<label>Lieu de l'evenement : </label><h5>
 					<?php
-						if($addr = getAddr($event->latStart,$event->lonStart)){ echo $addr;}else{echo "pas d'adresse definit";}
+						if($addr = $event->addr_start){ echo $addr;}else{echo "pas d'adresse definit";}
 					?>
 				</h5>
 			</div>
 			<div class="event-pic">
 				<img src="http://www.developpez.net/forums/attachments/p166896d1421856637/java/general-java/java-mobiles/android/integrer-personnaliser-carte-type-google-maps/googlemap.gif/" style="">
-				<?php echo '<a class="event-info" href="#" title="info"><img src="./image/zoom.png" style="height:50px;margin:25px;" data-event="'.$event->id.'"></a>'; ?>
+				<?php echo '<a class="event-info" href="#" title="info"><img src="./image/zoom.png" style="height:50px;margin:25px;" data-event="'.$event->id.'" data-toggle="modal" data-target="#myModal"></a>'; ?>
 			</div>
 		</div>		
 	</div>
@@ -431,3 +422,31 @@ for ($b = 0; $b < $p_size ;$b++) {
 ?> 
 
 </div>
+<script type="text/javascript" src="js/functions_modal.js"></script>
+
+<!-- modal for event detail -->
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Detail du trajet de la course</h4>
+      </div>
+      <div class="modal-body">
+        	<center><p id="modal-title"></p></center>
+    		<div id="map" style="width:500px;height:350px;"></div>
+    		<div id="panel"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- END Modal -->

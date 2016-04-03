@@ -218,6 +218,23 @@ class User
 		}	
 	}
 
+	public function getEventById($id, $bdd){
+		try{
+			//Recuperation de l'evenement en fonction de son nom (champ unique en bdd)
+			$query = "SELECT * FROM `event` WHERE `id` = $id;";
+			$data = $bdd->prepare($query);
+			$data->execute();
+			if ($data->rowCount() === 1){
+				$data = $data->fetch(PDO::FETCH_ASSOC);
+				return $data;
+			}else{
+				return false;
+			}
+		}catch (Exception $e){
+			echo "Error : ", $e->getMessage(), "\n";
+			return false;
+		}
+	}
 }
 
 ?>

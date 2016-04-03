@@ -30,7 +30,7 @@
 		$a++;
 	}
 	echo ("<label>adresse : ");
-	echo ("<input name='5' type='text' placeholder='".$user->addr."' value='".$user->addr."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
+	echo ("<input id='adresse' name='5' type='text' placeholder='".$user->addr."' value='".$user->addr."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
 	echo "<input class='btn' type='submit' name='send-maj-profil' value='mettre à jours'>";
 	echo "</form>";
 		// handling form validation 
@@ -62,6 +62,8 @@
 	</fieldset>
 	<script language="javascript" type="text/javascript">
 	$(function () {
+		$("#adresse").geocomplete({
+        });
 		$('#date').combodate();
 		    $('#imageField').on('change', function (e) {
 	    	var files = $(this)[0].files;

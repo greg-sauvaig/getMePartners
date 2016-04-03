@@ -28,6 +28,10 @@
             include_once("./view/get_user_data.php");
             return;
         }
+        if(isset($_GET["event"])){
+            include_once("./view/get_event_data.php");
+            return;
+        }
     }
 
     //header
