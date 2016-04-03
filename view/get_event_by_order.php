@@ -13,7 +13,7 @@ switch ($data) {
 	$data = 'lead_user';
 	break;
 	case 'location_order':
-	$data = 'lonStart AND latStart';
+	$data = 'addr_start';
 	break;
 }
 switch ($order) {

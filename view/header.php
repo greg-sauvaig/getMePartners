@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="css/deco.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" type="image/png" href="image/favicon.gif" />
         <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type='text/javascript' ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type='text/javascript' ></script>

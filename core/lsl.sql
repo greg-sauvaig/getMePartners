@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 01 Avril 2016 à 19:19
+-- Généré le :  Dim 03 Avril 2016 à 11:09
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -50,10 +50,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBySession`(IN `p_session` VA
 SELECT * FROM user 
 WHERE user.session = p_session$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertEvent`(IN `p_name` VARCHAR(255), IN `p_run_date` DATE, IN `p_run_time` BIGINT, IN `p_lngStart` FLOAT, IN `p_latStart` FLOAT, IN `p_lngEnd` FLOAT(11), IN `p_latEnd` FLOAT(11), IN `p_leader` INT(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertEvent`(IN `p_name` VARCHAR(255), IN `p_run_date` DATE, IN `p_run_time` BIGINT, IN `p_lngStart` FLOAT, IN `p_latStart` FLOAT, IN `p_lngEnd` FLOAT(11), IN `p_latEnd` FLOAT(11), IN `p_leader` INT(11), IN `p_addr_start` VARCHAR(255), IN `p_addr_end` VARCHAR(255))
     NO SQL
 INSERT INTO `event`
-VALUES ('', p_name, p_run_date, p_run_time, 0, p_lngStart, p_latStart, p_lngEnd, p_latEnd, p_leader)$$
+VALUES ('', p_name, p_run_date, p_run_time, 0, p_lngStart, p_latStart, p_lngEnd, p_latEnd, p_leader, p_addr_start, p_addr_end)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `register`(IN `p_username` VARCHAR(255), IN `p_pass` VARCHAR(255), IN `p_mail` VARCHAR(255))
     NO SQL
@@ -88,6 +88,8 @@ CREATE TABLE IF NOT EXISTS `event` (
   `lonEnd` varchar(255) DEFAULT NULL,
   `latEnd` varchar(255) DEFAULT NULL,
   `lead_user` int(11) NOT NULL,
+  `addr_start` varchar(255) DEFAULT NULL,
+  `addr_end` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `lead_user` (`lead_user`),
@@ -97,22 +99,23 @@ CREATE TABLE IF NOT EXISTS `event` (
   KEY `lead_user_2` (`lead_user`),
   KEY `lonStart` (`lonStart`),
   KEY `latStart` (`latStart`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=189 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=190 ;
 
 --
 -- Contenu de la table `event`
 --
 
-INSERT INTO `event` (`id`, `name`, `nbr_runners`, `event_time`, `statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`) VALUES
-(180, 'run to poutre', 1, 1456963320, 0, '2.280339', '48.897236', '2.4026819000001', '48.8583703', 10),
-(181, 'm to p', 1, 1456970520, 0, '5.36978', '43.296482', '0', '0', 10),
-(182, 'lol', 1, 1491091260, 0, '-80.782127', '8.537981', '-75.015152', '-9.189967', 10),
-(183, 'test', 1, 1425434580, 0, '7.4246158', '43.7384176', '2.319287', '48.891986', 10),
-(184, 'm&m', 1, 1459728180, 0, '2.2713699999999', '48.730756', '2.23847', '48.812995', 10),
-(185, 'm to n', 1, 1456876980, 0, '2.619156', '48.98543', '2.55261', '48.848579', 10),
-(186, 'coursera', 1, 1462489260, 0, '2.40963', '48.894533', '2.3409635', '48.8607149', 10),
-(187, 'paris mars', 1, 1459724520, 0, '2.3522219', '48.856614', '3.013609', '47.067507', 10),
-(188, 'coursera ou pas', 1, 1428030180, 11, '2.4066412', '48.8599825', '2.319287', '48.891986', 15);
+INSERT INTO `event` (`id`, `name`, `nbr_runners`, `event_time`, `statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`, `addr_start`, `addr_end`) VALUES
+(180, 'run to poutre', 10, 1456963320, 0, '2.280339', '48.897236', '2.4026819000001', '48.8583703', 10, 'Paris, France', NULL),
+(181, 'm to p', 10, 1456970520, 0, '5.36978', '43.296482', '0', '0', 10, NULL, NULL),
+(182, 'lol', 1, 1491091260, 0, '-80.782127', '8.537981', '-75.015152', '-9.189967', 10, NULL, NULL),
+(183, 'test', 1, 1425434580, 10, '7.4246158', '43.7384176', '2.319287', '48.891986', 10, NULL, NULL),
+(184, 'm&m', 1, 1459728180, 0, '2.2713699999999', '48.730756', '2.23847', '48.812995', 10, NULL, NULL),
+(185, 'm to n', 1, 1456876980, 11, '2.619156', '48.98543', '2.55261', '48.848579', 10, NULL, NULL),
+(186, 'coursera', 1, 1462489260, 0, '2.40963', '48.894533', '2.3409635', '48.8607149', 10, NULL, NULL),
+(187, 'paris mars', 1, 1459724520, 1, '2.3522219', '48.856614', '3.013609', '47.067507', 10, 'Paris, France', NULL),
+(188, 'coursera ou pas', 1, 1428030180, 11, '2.4066412', '48.8599825', '2.319287', '48.891986', 15, 'Paris, France', NULL),
+(189, 'paris la glace', 1, 1428019320, 10, '2.3522219', '48.856614', '37.6173', '55.755826', 10, 'Paris, France', 'Moscou, Russie');
 
 -- --------------------------------------------------------
 
@@ -158,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `addr` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail` (`mail`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Contenu de la table `user`
@@ -168,9 +171,10 @@ INSERT INTO `user` (`id`, `username`, `password`, `mail`, `birthdate`, `session`
 (0, 'greg', '8VLLPCA0F0', 'nosfe.ratus@laposte.net', '0000-00-00 00:00:00', '8XPBHJG9NJYBT72EK840', 1459329704, '/image/avatar/greg-greg-[000645].png', ''),
 (1, 'momo', 'momopass', 'mail@momo.fr', '0000-00-00 00:00:00', '6CKYNPCX0HRYRHJH8SNB', 1459206910, '/image/avatar/momo-arborescence_app.png', ''),
 (9, 'mike', 'mikepass', 'mail@mike.fr', '0000-00-00 00:00:00', '2UUNZI6OB22UGCGGPDV7', 1459194613, '', ''),
-(10, 'gregoire', 'gregpass', 'mail@greg.fr', '1992-05-24 22:00:00', 'ZUJPZ71AQA8UKIALBVQA', 1459519615, '/image/avatar/gregoire-greg-200.gif', '22 rue des rameaux paris'),
+(10, 'gregoire', 'gregpass', 'mail@greg.fr', '1992-05-24 22:00:00', 'HWX83EN6QHQ1X8EQMBCK', 1459754905, '/image/avatar/gregoire-200.gif', '22 Rue Soleillet, Paris, France'),
 (12, 'clem', 'clempass', 'mail@clem.fr', '0000-00-00 00:00:00', 'LXVU89OZH5S5QJD9Y8X7', 1459185791, '', ''),
-(15, 'papa', '123456789', 'patrick.billard@sippar.fr', NULL, 'CSO3HAQR3TYI0CZ2KCWM', 1459521032, '/image/avatar/papa-momo-ninja2.jpg', NULL);
+(15, 'papa', '123456789', 'patrick.billard@sippar.fr', NULL, 'CSO3HAQR3TYI0CZ2KCWM', 1459521032, '/image/avatar/papa-momo-ninja2.jpg', NULL),
+(16, 'Ononosfe', '123456789', 'greg.sauvaigo@gmail.com', NULL, 'LYZ120SP4LQHQ9JPE4E8', 1459618539, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -198,6 +202,7 @@ INSERT INTO `user_event` (`user_id`, `event_id`) VALUES
 (10, 185),
 (10, 186),
 (10, 187),
+(10, 189),
 (15, 188);
 
 -- --------------------------------------------------------

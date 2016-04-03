@@ -324,6 +324,7 @@ input:focus {
 	padding:5px;
 	height:112px;
 	min-width:886px;
+	transition-duration: 1s;
 }
 
 .event-content{
@@ -354,7 +355,9 @@ input:focus {
 	height:100%;
 	display:inline-block;
 	float:left;
+	font-size: 11px;
 	padding-left: 10px;
+	margin-left: 10px;
 }
 .event-info{
 	width:100px;
@@ -406,8 +409,10 @@ select{
 }
 
 #btn-page-container{
+	position: relative;
 	width:100%;
 	height:20px;
+	min-width: 906px;
 }
 
 .btn-page{
@@ -429,6 +434,7 @@ select{
 	width:100%;
 	min-width: 906px;
 	margin-top:-1px;
+	margin-bottom: 40px;
 }
 
 #order_for_page{
@@ -440,6 +446,7 @@ select{
 	z-index: 100;
 	border:1px solid black;
 	margin-top: -1px;
+	min-width:906px;
 }
 
 #order_for_page>button{
@@ -452,6 +459,7 @@ select{
 	width:20px;
 	height:20px;
 	background-size: cover;
+	vertical-align: middle;
 }
 
 .chevron-down{
@@ -460,4 +468,24 @@ select{
 	width:20px;
 	height:20px;
 	background-size: cover;
+	vertical-align: middle;
+}
+
+.removed-item{
+    animation: removed-item-animation 1s cubic-bezier(0.55, -0.04, 0.91, 0.94) forwards;
+    /*transform origin is moved to the bottom left corner*/
+    transform-origin: 0% 100%;
+}
+ 
+@keyframes removed-item-animation {
+    0% {
+        opacity: 1;
+        transform: rotateZ(0);
+}
+ 
+    100% {
+        opacity: 0;
+        transform: translateX(-5000px) rotateZ(590deg);
+        transition: fade-out 0.1s;
+    }
 }
