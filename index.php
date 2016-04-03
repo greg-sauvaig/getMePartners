@@ -10,6 +10,8 @@
     require_once './model/Logs.php';
     require_once './model/Event.php';
     require_once './model/Session.php';
+    require_once './model/EventList.php';
+
 
     $bdd = Db::dbConnect();
     $valid = Logs::sessionIsValid($bdd);
@@ -49,6 +51,9 @@
             }else if ($_GET['page'] == 'search'){
                 include_once './view/left-container-profil.php';
                 include_once './view/search.php';
+                if (isset($_POST['search'])){
+                    EventList::getAllEventsButMines($user->id, $bdd);
+                }
             }
         }else{
             include_once './view/left-container-profil.php';
@@ -91,5 +96,5 @@
     echo '</div>';
 
     //footer
-    include_once 'view/footer.php'; 
+    //include_once 'view/footer.php'; 
 ?>
