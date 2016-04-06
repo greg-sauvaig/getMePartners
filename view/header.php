@@ -31,16 +31,16 @@
                     <ul class="nav navbar-nav">
                     <?php if($valid){ ?>
                         <li class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" id="drop-header-btn" type="button" data-toggle="dropdown">EVENT
+                            <button class="btn btn-primary dropdown-toggle" id="drop-header-btn" type="button" data-toggle="dropdown">Evénement
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="./index.php?page=create">Create Event</a></li>
-                                <li><a href="./index.php?page=search">Search Event</a></li>
+                                <li><a href="./index.php?page=create">Créer un événement</a></li>
+                                <li><a href="./index.php?page=search">Chercher un événement</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <form action="./view/deco.php" method="post"><input type="submit"  id="deco" value="X deconnexion"></form>
+                    <form action="./view/deco.php" method="post"><input type="submit"  id="deco" value="X Deconnexion"></form>
                     <?php } ?>
                 </div>
             </div>
