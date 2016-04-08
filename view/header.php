@@ -40,7 +40,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <form action="./view/deco.php" method="post"><input type="submit"  id="deco" value="X Deconnexion"></form>
+                    <form action="./view/deco.php" method="post"><input type="submit"  id="deco" value="x Deconnexion"></form>
                     <?php } ?>
                 </div>
             </div>
