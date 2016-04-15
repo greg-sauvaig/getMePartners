@@ -39,7 +39,7 @@ if($a != "no"){
             <input type="submit" name="create_event" class="btn btn-default">
         </center>
     </form>
-    <button id="recall" class="btn btn-default" onclick="calculate();">recalculer le trajet</button>
+    <button id="recall" class="btn btn-default" onclick="calculate();">Recalculer le trajet</button>
 
     <div id="panel"></div>
     <div id="map"></div>

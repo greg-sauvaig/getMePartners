@@ -3,7 +3,7 @@
 	<div class="col-lg-1 col-md-1 col-xs-1 col-sm-1"></div>
 	<div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" id="left-setting-container">
 		<h4 class="col-lg-12 col-md-12 col-xs-12 col-sm-12" >Mon Compte</h4>
-		<div class="">vous pouvez modifier vos parametres ici !</div>
+		<div class="">Vous pouvez modifier vos parametres ici !</div>
 <?php
 	$at = get_object_vars ( $user ); // i know (^_^)...! 
 	$a = 0;
@@ -54,7 +54,7 @@
 	}
 	
 ?>	    
-	<fieldset >changez votre photo de profil ici:		
+	<fieldset >Changez votre photo de profil ici:		
 		<form method="post" enctype="multipart/form-data" action="index.php/?setting=account_setting" id="f1">
 			<p>
 				<input id="imageField" type="file" name="fichier" size="30">
@@ -93,27 +93,27 @@
 	        </div>
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>nom d'utilisateur:</h6><h5 id='1' class='center-text'><?php  echo $user->username;?></h5>
+	            <h6>Nom d'utilisateur:</h6><h5 id='1' class='center-text'><?php  echo $user->username;?></h5>
 	        </div>
 	    </div>  
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>birthdate:</h6><h5 id="4" class='center-text'><?php if ($user->birthdate != "0000-00-00 00:00:00"){ echo $user->birthdate; }else{ echo("pas renseigné");} ?></h5>
+	            <h6>Date d'anniversaire:</h6><h5 id="4" class='center-text'><?php if ($user->birthdate != "0000-00-00 00:00:00"){ echo $user->birthdate; }else{ echo("pas renseigné");} ?></h5>
 	        </div>
 	    </div>
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>adresse:</h6><h5 id="5" class='center-text'><?php if ($user->addr != null){ echo $user->addr; }else{ echo("pas renseigné");} ?> </h5>
+	            <h6>Adresse:</h6><h5 id="5" class='center-text'><?php if ($user->addr != null){ echo $user->addr; }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>email:</h6><h5 id='3' class='center-text'><?php if ($user->mail != null){ echo $user->mail; }else{ echo("pas renseigné");} ?> </h5>
+	            <h6>Email:</h6><h5 id='3' class='center-text'><?php if ($user->mail != null){ echo $user->mail; }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	    <div class="row">
 	        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	            <h6>mot de passe:</h6><h5 id='2' class='center-text'><?php if ($user->password != null){ echo $user->password; }else{ echo("pas renseigné");} ?> </h5>
+	            <h6>Mot de passe:</h6><h5 id='2' class='center-text'><?php if ($user->password != null){ echo $user->password; }else{ echo("pas renseigné");} ?> </h5>
 	        </div>
 	    </div>
 	</div>

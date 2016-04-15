@@ -1,6 +1,6 @@
 <!-- right container -->
 <div  id="my-event-container">
-    <div ><h3 class="center-text">Mes evenements:</h3></div>
+    <div ><h3 class="center-text">Mes événements:</h3></div>
 <?php
 
 
@@ -70,10 +70,10 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 			else
 				str += "pas de status definit</h5>";
 			if(nbr_runners < 10 && nbr_runners >= 1){
-				str += '<center><button class="join-event btn" data-event="'+event_id+'" >quitter</button></center>';
+				str += '<center><button class="join-event btn" data-event="'+event_id+'" >Quitter</button></center>';
 			}else{ 
 				str += '<div>la course est pleine</div>';
-				str += '<center><button class="join-event btn" data-event="'+event_id+'" >quitter</button></center>';
+				str += '<center><button class="join-event btn" data-event="'+event_id+'" >Quitter</button></center>';
 			}
 			str += '</div><div class="event-text"><label>Auteur : </label><h5>';
 			if(lead_user_name){
@@ -404,7 +404,7 @@ for ($b = 0; $b < $p_size ;$b++) {
 							echo "pas de status definit</h5>";
 							break;
 				}
-				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">quitter</button></center>';}else{ echo '<div>la course est pleine</div>';echo '<center><button class="join-event btn" data-event="'.$event->id.'">quitter</button></center>';}
+				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">Quitter</button></center>';}else{ echo '<div>la course est pleine</div>';echo '<center><button class="join-event btn" data-event="'.$event->id.'">Quitter</button></center>';}
 				?>
 				
 			</div>
@@ -416,14 +416,14 @@ for ($b = 0; $b < $p_size ;$b++) {
 				</h5>
 			</div>
 			<div class="event-text">
-				<label>Date de l'evenement : </label><h5>
+				<label>Date de l'événement : </label><h5>
 					<?php
 						if($event->event_time != 0){echo strftime("%A %d %B %Y",$event->event_time);}else{ echo "pas de date définit";}
 					?>
 				</h5>
 			</div>
 			<div class="event-text">
-				<label>Lieu de l'evenement : </label><h5>
+				<label>Lieu de l'événement : </label><h5>
 					<?php
 						if($addr = $event->addr_start){ echo $addr;}else{echo "pas d'adresse definit";}
 					?>
