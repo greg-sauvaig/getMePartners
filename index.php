@@ -32,6 +32,10 @@
             include_once("./view/get_event_data.php");
             return;
         }
+        if(isset($_GET["delete"])){
+            include_once("./view/delete_event_user.php");
+            return;
+        }
     }
 
     //header
@@ -48,6 +52,9 @@
             else{
                 include_once './view/account_setting.php';
             }
+        }
+        if(isset($_GET["voir"])){
+            include_once "./view/event_info.php"; 
         }else if(isset($_GET['page'])){
             if ($_GET['page'] == 'create' && !isset($_POST['create_event'])){
                 include_once './view/left-container-profil.php';

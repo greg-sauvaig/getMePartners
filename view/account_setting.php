@@ -1,3 +1,4 @@
+<div id="error"></div>
 <div id="profil-container" class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 	<div class="col-lg-1 col-md-1 col-xs-1 col-sm-1"></div>
 	<div class="col-lg-5 col-md-5 col-xs-5 col-sm-5" id="left-setting-container">
@@ -43,11 +44,12 @@
 		$addr = $_POST["5"];
 			//$pic = $_POST["6"];
 		if($user->maj_profil($username, $password, $password2, $email, $birthdate, $addr, $bdd)){
-			header("location: ./index.php?setting=account_setting");
+			echo('<script type="text/javascript">$(document).ready(function(){$("#error").html("");$("#error").html("<center style=\'font-size:20px;padding:30px;\'>votre profil a bien été mit a jours</center>");});</script>');
+			echo('<script type="text/javascript">$(document).ready(function(){$("#error").slideDown(4000).delay(1000).slideUp(4000);});</script>');
 		}
 		else{
-			echo('<script type="text/javascript">$(document).ready(function(){$("#error").html("");$("#error").html("erreur");});</script>');
-			echo('<script type="text/javascript">$(document).ready(function(){$("#error").slideDown(4000).slideUp(4000);});</script>');
+			echo('<script type="text/javascript">$(document).ready(function(){$("#error").html("");$("#error").html("<center \'font-size:20px;padding:30px;\'>erreur</center>");});</script>');
+			echo('<script type="text/javascript">$(document).ready(function(){$("#error").slideDown(4000).delay(1000).slideUp(4000);});</script>');
 		}
 	}
 	

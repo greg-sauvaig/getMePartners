@@ -235,6 +235,22 @@ class User
 			return false;
 		}
 	}
+
+	public function delete_event_user($bdd, $id){
+		try {
+			$req = "DELETE FROM `event` WHERE `id` = $id ;";
+			$data = $bdd->prepare($req);
+			$data->execute();
+			if($data->rowCount() == 1){
+				return ['satus' => "ok, vous avez quitté la course."];
+			}
+			else{
+				return ['satus' => "erreur lors de la suppression."];
+			}
+		} catch (Exception $e) {
+			return ['satus' => "erreur lors de la suppression."];
+		}	
+	}
 }
 
 ?>

@@ -333,6 +333,27 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 		$(document).on('click', '.join-event', function () {
 			$(this).parent().parent().parent().parent().addClass('removed-item');
 			$(this).parent().parent().parent().parent().fadeOut();
+			id = $(this).attr("data-event");
+			$.getJSON({
+				url : '/getMePartners/index.php?delete='+id,
+				success : function(data){
+						var items = [];
+  						$.each( data, function( key, val ) {
+    							items.push( val );
+  						});
+  						setTimeout(function(){alert(items)}, 1000);	
+				},
+				error:function(data){
+						var items = [];
+  						$.each( data, function( key, val ) {
+    							items.push( val );
+  						});
+  						setTimeout(function(){alert(items)}, 1000);	
+				},
+				complete:function(){
+
+				}
+			});
 		});
 
 	});
