@@ -32,7 +32,7 @@
 	}
 	echo ("<label>adresse : ");
 	echo ("<input id='adresse' name='5' type='text' placeholder='".$user->addr."' value='".$user->addr."' style='width:100%;padding:5px;height:40px;' required>"."</label></br>");
-	echo "<input class='btn' type='submit' name='send-maj-profil' value='mettre à jours'>";
+	echo "<input class='btn' type='submit' name='send-maj-profil' value='Mettre à jour'>";
 	echo "</form>";
 		// handling form validation 
 	if(isset($_POST["send-maj-profil"], $_POST["1"], $_POST["2"], $_POST["3"], $_POST["4"], $_POST["pass2"], $_POST["5"])){
