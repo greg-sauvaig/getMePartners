@@ -27,7 +27,7 @@ if($a != "no"){
                 <input type="text" name="addrEnd" id="end" style="width:300px;" id="destination">
             </div>
             <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-                <label for="run_end">Temps de course</label>
+                <label for="run_end">Heure de départ</label>
                 <input id="time" data-format="HH:mm" data-template="HH : mm" name="run_time" type="text" required>
             </div>
             </div>
