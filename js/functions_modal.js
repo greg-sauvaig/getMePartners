@@ -1,8 +1,11 @@
 $(function(){
 
-    initialize = function(){
-  var latLng = new google.maps.LatLng(50.6371834, 3.063017400000035); // Correspond au coordonnées de Lille
-  var myOptions = {
+initialize = function(){
+    data = $(this).children().data('event');
+    var latStart = DATA["latStart"];
+    var lonStart = DATA["lonStart"];
+    var latLng = new google.maps.LatLng(latStart, lonStart); // Correspond au coordonnées de Lille
+    var myOptions = {
     zoom      : 10, // Zoom par défaut
     center    : latLng, // Coordonnées de départ de la carte de type latLng 
     mapTypeId : google.maps.MapTypeId.TERRAIN, // Type de carte, différentes valeurs possible HYBRID, ROADMAP, SATELLITE, TERRAIN
@@ -11,13 +14,21 @@ $(function(){
 
 map      = new google.maps.Map(document.getElementById('map'), myOptions);
 panel    = document.getElementById('panel');
+// Création de l'icône
+var myMarkerImage = new google.maps.MarkerImage("image/runner.png");
+
 
 var marker = new google.maps.Marker({
     position : latLng,
     map      : map,
-    title    : "Lille"
-    //icon     : "marker_lille.gif" // Chemin de l'image du marqueur pour surcharger celui par défaut
+    title    : "Moi",
+    icon     :  myMarkerImage// Chemin de l'image du marqueur pour surcharger celui par défaut
 });
+
+var watchID = navigator.geolocation.watchPosition(function(position) {
+                    marker.setPosition({lat : position.coords.latitude, lng :position.coords.longitude});
+                    console.log("lat" + position.coords.latitude+ ","+ "lng"  + position.coords.longitude);
+            });
 
 var contentMarker = [
 '<div id="containerTabs">',
@@ -79,9 +90,9 @@ calculate = function(origin_lat,origin_lng,destination_lat,destination_lng){
     }
 };
 
+
 $(document).on('click', '.event-info', function () {
     data = $(this).children().data('event');
-    
     $.getJSON({
         url : "/getMePartners/index.php?event="+data,
         success : function(data){
@@ -93,6 +104,7 @@ $(document).on('click', '.event-info', function () {
             var name = DATA["name"];
             $('#panel').html("");
             calculate(latStart,lonStart,latEnd,lonEnd);
+            
             initialize();
             $("#modal-title").html("");
             $("#modal-title").html(name);
@@ -106,8 +118,4 @@ $(document).on('click', '.event-info', function () {
     });
 });
 
-$("#myModal").is(':animated',function(){
-  initialize();
-});
-    initialize();
 });

@@ -6,16 +6,16 @@
      ?>
         </div>
         <div class="left-profil-text">
-            <label>nom:</br><?php  echo $user->username;?></label>
+            <label>Nom:</br><?php  echo $user->username;?></label>
         </div>
         <div class="left-profil-text">
-            <label>birthdate:</br><?php if ($user->birthdate != "0000-00-00 00:00:00"){ echo $user->birthdate; }else{ echo("pas renseigné");} ?></label>
+            <label>Date d'anniversaire:</br><?php if ($user->birthdate != "0000-00-00 00:00:00"){ echo $user->birthdate; }else{ echo("Pas renseigné");} ?></label>
         </div>
         <div class="left-profil-text">
-            <label>adresse:</br><?php if ($user->addr != null){ echo $user->addr; }else{ echo("pas renseigné");} ?> </label>
+            <label>Adresse:</br><?php if ($user->addr != null){ echo $user->addr; }else{ echo("Pas renseigné");} ?> </label>
         </div>
         <div id="btn-settings-container">
-            <button id="btn-settings" class="btn btn-default">&nbsp;<img src="./image/setting.png" style="height:20px;width:20px;">&nbsp;Account Settings&nbsp;</button>
+            <button id="btn-settings" class="btn btn-default">&nbsp;<img src="./image/setting.png" style="height:20px;width:20px;">&nbsp;Paramètre du compte&nbsp;</button>
         </div>
     </div>
 </div>

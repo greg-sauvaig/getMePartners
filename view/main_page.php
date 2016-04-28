@@ -1,6 +1,6 @@
 <!-- right container -->
 <div  id="my-event-container">
-    <div ><h3 class="center-text">Mes evenements:</h3></div>
+    <div ><h3 class="center-text">Mes événements:</h3></div>
 <?php
 
 
@@ -46,7 +46,7 @@ for ($i=0; $i < $nombreDePages ; ++$i) {
 }
 echo('</div>');
 // bouton pour les tris
-echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="chevron-up"></div>&nbspstatus</button><button id="author_order"><div class="chevron-up"></div>&nbspauteur</button><button id="date_order"><div class="chevron-up"></div>&nbspdate</button><button id="location_order"><div class="chevron-up"></div>&nbsplieu</button></div>');
+echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="chevron-up"></div>&nbspStatus</button><button id="author_order"><div class="chevron-up"></div>&nbspAuteur</button><button id="date_order"><div class="chevron-up"></div>&nbspDate</button><button id="location_order"><div class="chevron-up"></div>&nbspLieu</button></div>');
 ?>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -60,38 +60,38 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 			}
 			str += '</div><div class="event-text"><label>Statut : </label><h5>';
 			if(event_satus == 0)
-				str += "non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
+				str += "Non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
 			else if(event_satus == 1)
-				str += "en cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
+				str += "En cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
 			else if(event_satus == 10)
-				str += "course finie : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
+				str += "Course finie : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
 			else if(event_satus == 11)
-				str += "course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
+				str += "Course annulée : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
 			else
 				str += "pas de status definit</h5>";
 			if(nbr_runners < 10 && nbr_runners >= 1){
-				str += '<center><button class="join-event btn" data-event="'+event_id+'" >quitter</button></center>';
+				str += '<center><button class="join-event btn" data-event="'+event_id+'" >Quitter</button></center>';
 			}else{ 
-				str += '<div>la course est pleine</div>';
-				str += '<center><button class="join-event btn" data-event="'+event_id+'" >quitter</button></center>';
+				str += '<div>La course est pleine</div>';
+				str += '<center><button class="join-event btn" data-event="'+event_id+'" >Quitter</button></center>';
 			}
 			str += '</div><div class="event-text"><label>Auteur : </label><h5>';
 			if(lead_user_name){
 				str += '<center>'+lead_user_name+'</center>';
 			}else{
-				str += "pas de nom définit";
+				str += "Pas de nom définit";
 			}
 			str += '</h5></div><div class="event-text"><label>Date de l\'evenement : </label><h5>';
 			if(date != 0){
 				str += date;
 			}else{ 
-				str += "pas de date définit";
+				str += "Pas de date définit";
 			}
 			str += '</h5></div><div class="event-text"><label>Lieu de l\'evenement : </label><h5>';
 			if(event_addr){ 
 				str += event_addr;
 			}else{
-				str += "pas d'adresse definit";
+				str += "Pas d'adresse definit";
 			}
 			str += '</h5></div><div class="event-pic"><img src="http://www.developpez.net/forums/attachments/p166896d1421856637/java/general-java/java-mobiles/android/integrer-personnaliser-carte-type-google-maps/googlemap.gif/" style="">';
 			str += '<a class="event-info" href="#" title="info"><img src="./image/zoom.png" style="height:50px;margin:25px;" data-event="'+event_id+'" data-toggle="modal" data-target="#myModal"></a></div></div></div>';
@@ -333,6 +333,27 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 		$(document).on('click', '.join-event', function () {
 			$(this).parent().parent().parent().parent().addClass('removed-item');
 			$(this).parent().parent().parent().parent().fadeOut();
+			id = $(this).attr("data-event");
+			$.getJSON({
+				url : '/getMePartners/index.php?delete='+id,
+				success : function(data){
+						var items = [];
+  						$.each( data, function( key, val ) {
+    							items.push( val );
+  						});
+  						setTimeout(function(){alert(items)}, 1000);	
+				},
+				error:function(data){
+						var items = [];
+  						$.each( data, function( key, val ) {
+    							items.push( val );
+  						});
+  						setTimeout(function(){alert(items)}, 1000);	
+				},
+				complete:function(){
+
+				}
+			});
 		});
 
 	});
@@ -368,43 +389,43 @@ for ($b = 0; $b < $p_size ;$b++) {
 				<?php
 				switch ($event->statut) {
 						case 0:
-							echo "non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
+							echo "Non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						case 1:
-							echo "en cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
+							echo "En cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						case 10:
-							echo "course fini : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
+							echo "Course fini : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						case 11:
-							echo "course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
+							echo "Course annulée : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
 							break;
 						default:
-							echo "pas de status definit</h5>";
+							echo "Pas de status definit</h5>";
 							break;
 				}
-				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">quitter</button></center>';}else{ echo '<div>la course est pleine</div>';echo '<center><button class="join-event btn" data-event="'.$event->id.'">quitter</button></center>';}
+				if($event->nbr_runners < 10 && $event->nbr_runners >= 1){echo '<center><button class="join-event btn" data-event="'.$event->id.'">Quitter</button></center>';}else{ echo '<div>La course est pleine</div>';echo '<center><button class="join-event btn" data-event="'.$event->id.'">Quitter</button></center>';}
 				?>
 				
 			</div>
 			<div class="event-text">
 				<label>Auteur : </label><h5>
 					<?php
-						if($author['username'] != null){echo '<center>'.$author['username'].'</center>';}else{echo "pas de nom définit";}
+						if($author['username'] != null){echo '<center>'.$author['username'].'</center>';}else{echo "Pas de nom définit";}
 					?>
 				</h5>
 			</div>
 			<div class="event-text">
-				<label>Date de l'evenement : </label><h5>
+				<label>Date de l'événement : </label><h5 class="date">
 					<?php
-						if($event->event_time != 0){echo strftime("%A %d %B %Y",$event->event_time);}else{ echo "pas de date définit";}
+						if($event->event_time != 0){echo strftime("%A %d %B %Y",$event->event_time);}else{ echo "Pas de date définit";}
 					?>
 				</h5>
 			</div>
 			<div class="event-text">
-				<label>Lieu de l'evenement : </label><h5>
+				<label>Lieu de l'événement : </label><h5>
 					<?php
-						if($addr = $event->addr_start){ echo $addr;}else{echo "pas d'adresse definit";}
+						if($addr = $event->addr_start){ echo $addr;}else{echo "Pas d'adresse definit";}
 					?>
 				</h5>
 			</div>

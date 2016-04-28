@@ -30,16 +30,16 @@ if($a != "no"){
 	    <div  id="login-content">
 	        <form method="post"  action="index.php">
 	            <div >
-	                <label for="email">Email Address:</label>
+	                <label for="email">Adresse mail:</label>
 	                <input type="email"  id="email" name="email" required>
 	            </div>
 	            <div >
-	                <label for="pwd">Password:</label>
+	                <label for="pwd">Mot de passe:</label>
 	                <input type="password" id="password" name="pass" required>
 	            </div>
 	            <input class="btn-submit" type="submit" name="login" value="Connexion">
 	        </form>
-	        <h1>vouc possedez un compte? connectez-vous!
+	        <h1>Vous possedez un compte? connectez-vous!
 	        <div id="forgotmdp"><h6 style="margin:0px;">Mot de passe oublié ? cliquez ici !</h6></div>
 	    </div>
 	</div>
@@ -47,19 +47,19 @@ if($a != "no"){
     	<div id="register-content">
 	        <form method="post" role="form" action="index.php">
 	            <div class="form-group">
-	                <label for="username">Username:</label>
+	                <label for="username">Nom utilisateur:</label>
 	                <input type="text" id="username" name="username" required>
 	            </div>
 	            <div class="form-group">
-	                <label for="mail">Mail:</label>
+	                <label for="mail">Adresse mail:</label>
 	                <input type="email"  id="mail" name="mail" required>
 	            </div>
 	            <div class="form-group">
-	                <label for="password">Password:</label>
+	                <label for="password">Mot de passe:</label>
 	                <input type="password"  id="password" name="pass" required>
 	            </div>
 	            <div class="form-group">
-	                <label for="password2">Repeat Password:</label>
+	                <label for="password2">Répétez le mot de passe:</label>
 	                <input type="password"  id="password2" name="pass2" required>
 	            </div>
 	            <input class="btn-submit" type="submit" name="register" value="Inscription">

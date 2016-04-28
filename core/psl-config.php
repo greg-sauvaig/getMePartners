@@ -1,9 +1,9 @@
 <?php
 
 define('HOST', 'localhost');
-define('DB', 'lsl');
+define('DB', 'momo');
 define('DBUSER', 'root');
-define('DBPASS', '');
+define('DBPASS', 'root');
 define('MAILUSER', 'greg.sauvaigo@gmail.com');
 define('MAILPASS', 'Th3rapt0r');
 
