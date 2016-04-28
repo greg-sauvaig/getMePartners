@@ -15,7 +15,7 @@
             <label>Adresse:</br><?php if ($user->addr != null){ echo $user->addr; }else{ echo("Pas renseigné");} ?> </label>
         </div>
         <div id="btn-settings-container">
-            <button id="btn-settings" class="btn btn-default">&nbsp;<img src="./image/setting.png" style="height:20px;width:20px;">&nbsp;Paramètre du compte&nbsp;</button>
+            <center><button id="btn-settings " class="btn btn-default"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;Paramètre du compte</button></center>
         </div>
     </div>
 </div>

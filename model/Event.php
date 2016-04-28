@@ -41,6 +41,8 @@ class Event{
 		}
 	}
 
+
+
 	public function getEventById($id, $bdd){
 		try{
 			//Recuperation de l'evenement en fonction de son nom (champ unique en bdd)
@@ -60,3 +62,5 @@ class Event{
 	}
 
 }
+
+?>

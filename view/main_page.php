@@ -46,7 +46,7 @@ for ($i=0; $i < $nombreDePages ; ++$i) {
 }
 echo('</div>');
 // bouton pour les tris
-echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="chevron-up"></div>&nbspStatus</button><button id="author_order"><div class="chevron-up"></div>&nbspAuteur</button><button id="date_order"><div class="chevron-up"></div>&nbspDate</button><button id="location_order"><div class="chevron-up"></div>&nbspLieu</button></div>');
+echo('<div id="order_for_page">Trier par:<button id="status_order"><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbspStatus</button><button id="author_order"><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbspAuteur</button><button id="date_order"><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbspDate</button><button id="location_order"><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbspLieu</button></div>');
 ?>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -70,10 +70,10 @@ echo('<div id="order_for_page">Trier par:<button id="status_order"><div class="c
 			else
 				str += "pas de status definit</h5>";
 			if(nbr_runners < 10 && nbr_runners >= 1){
-				str += '<center><button class="join-event btn" data-event="'+event_id+'" >Quitter</button></center>';
+				str += '<center><button class="join-event btn" data-event="'+event_id+'" ><i class="fa fa-trash" aria-hidden="true"></i> Quitter</button></center>';
 			}else{ 
 				str += '<div>La course est pleine</div>';
-				str += '<center><button class="join-event btn" data-event="'+event_id+'" >Quitter</button></center>';
+				str += '<center><button class="join-event btn" data-event="'+event_id+'" ><i class="fa fa-trash" aria-hidden="true"></i> Quitter</button></center>';
 			}
 			str += '</div><div class="event-text"><label>Auteur : </label><h5>';
 			if(lead_user_name){

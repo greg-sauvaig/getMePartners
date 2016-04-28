@@ -11,6 +11,7 @@
     require_once './model/User.php';
     require_once './model/Logs.php';
     require_once './model/Event.php';
+    require_once './model/EventList.php';
     require_once './model/Session.php';
 
     $bdd = Db::dbConnect();
@@ -20,6 +21,7 @@
     if (isset($_COOKIE['getMePartners']) && $valid)
     {
         $user = new User($_COOKIE['getMePartners'], $bdd);
+        $eventList = EventList::getAllEventsButMines($user->id, $bdd);
         if (isset($_GET['send'])){
             include_once("./view/get_event_by_order.php");
             return;
@@ -45,6 +47,7 @@
     if (isset($_COOKIE['getMePartners']) && $valid)
     {
         $user = new User($_COOKIE['getMePartners'], $bdd);
+        $eventList = EventList::getAllEventsButMines($user->id, $bdd);
         if(isset($_GET["setting"]) && $_GET["setting"] === "account_setting"){
             if(isset($_POST['upload']) && $_POST["upload"] != null){
                 $user->uploadAvatar($user, $bdd);
@@ -54,6 +57,7 @@
             }
         }
         if(isset($_GET["voir"])){
+            $userList = User::getUsersByEventId($_GET['voir'], $bdd);
             include_once "./view/event_info.php"; 
         }else if(isset($_GET['page'])){
             if ($_GET['page'] == 'create' && !isset($_POST['create_event'])){
@@ -63,7 +67,7 @@
                 include_once './view/left-container-profil.php';
                 include_once './view/search.php';
             }
-        }else{
+        }else if(!isset($_GET['setting'])){
             include_once './view/left-container-profil.php';
             include_once './view/main_page.php';
         }
