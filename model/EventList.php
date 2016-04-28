@@ -18,11 +18,10 @@ abstract class EventList{
 
 			$d = $R * $c;
 			$d /= 1000;
-			echo $d, "</br>";	
 			if( $d <= $radius){
 				return true;
 			}
-			return true;
+			return false;
 		}else{
 			return false;			
 		}
@@ -30,30 +29,26 @@ abstract class EventList{
 
 	public static function getAllEventsButMines($id, $bdd){
 		try{
+			$i = 0;
 			$query = "CALL getAllEventsButMines($id)";
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
-			var_dump($prepared->rowCount());
+			$eventList = array();
 			if ($prepared->rowCount() != NULL){
 				$data = $prepared->fetchAll(PDO::FETCH_ASSOC);
 				foreach ($data as $key => $value) 
 				{
-					$event = $data[$key];
 					if(isset($_POST['lat_Search']) && isset($_POST['lng_Search']) && isset($_POST['searchRadius']))
 					{
-						if (self::isInArea($_POST['lat_Search'], $_POST['lng_Search'],$event["latStart"], $event['lonStart'], $_POST['searchRadius'])){
-							echo "<pre>";
-							var_dump($event["name"]);
-							var_dump("latStart:" . $event["latStart"]);
-							var_dump("lonStart:" . $event["lonStart"]);
-							var_dump("latEnd:" . $event["latEnd"]);
-							var_dump("lonEnd:" . $event["lonEnd"]);
-							echo "</pre>";
+						if (self::isInArea($_POST['lat_Search'], $_POST['lng_Search'],$value["latStart"], $value['lonStart'], $_POST['searchRadius'])){
+							$eventList[$i] = $value;
+							$i++;
 						}
 
 					}
 					
 				}
+				return $eventList;
 			}else{
 				return false;
 			}
@@ -64,6 +59,42 @@ abstract class EventList{
 		return false;
 	}
 
+	public static function getAllEventsButMinesSorted($id, $lat, $lon, $radius, $data, $order, $bdd){
+		try{
+			$i = 0;
+			$query = "SELECT  `event`.`id` AS  `id_event` ,  `name` ,  `nbr_runners` ,  `event_time` ,  `statut` ,  `lonStart` ,  `latStart` ,  `lonEnd` ,  `latEnd` ,  `lead_user` ,  `username` ,  `profil_pic` ,  `addr_start` ,  `addr_end` , `event`.`max_runners`
+			FROM  `event` 
+			INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` 
+			INNER JOIN  `user` ON  `event`.`lead_user` =  `user`.`id` 
+			WHERE  `user_event`.`user_id` != $id
+			ORDER BY $data $order;";
+			$prepared = $bdd->prepare($query);
+			$prepared->execute();
+			$eventList = array();
+			if ($prepared->rowCount() != NULL){
+				$data = $prepared->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($data as $key => $value) 
+				{
+					if ($lat && $lon && $radius)
+					{
+						if (self::isInArea($lat, $lon, $value["latStart"], $value['lonStart'], $radius)){
+							$eventList[$i] = $value;
+							$i++;
+						}
+
+					}
+					
+				}
+				return $eventList;
+			}else{
+				return false;
+			}
+		}catch (Exception $e){
+			echo "Errpr :", $e->getMessage(), "\n";
+		}
+
+		return false;
+	}
 }
 
 ?>

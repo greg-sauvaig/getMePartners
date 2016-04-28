@@ -56,7 +56,7 @@ class User
 	public function get_event_by_order($order, $AC_DC, $bdd){
 		try{
 			$this->myEvents = array();			
-			$query = "SELECT `event`.`id` as `id_event`,`name`,`nbr_runners`,`event_time`,`statut`,`lonStart`,`latStart`,`lonEnd`,`latEnd`,`lead_user`,`username`,`profil_pic`,`addr_start`,`addr_end` FROM `event` INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` INNER JOIN `user` ON `event`.`lead_user` = `user`.`id` WHERE  `user_event`.`user_id` = '$this->id' ORDER BY $order $AC_DC;";
+			$query = "SELECT `event`.`id` as `id_event`,`name`,`nbr_runners`,`max_runners`,`event_time`,`statut`,`lonStart`,`latStart`,`lonEnd`,`latEnd`,`lead_user`,`username`,`profil_pic`,`addr_start`,`addr_end` FROM `event` INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` INNER JOIN `user` ON `event`.`lead_user` = `user`.`id` WHERE  `user_event`.`user_id` = '$this->id' ORDER BY $order $AC_DC;";
 			$data = $bdd->prepare($query);
 			$data->execute();
 			$row = $data->rowCount();
@@ -151,6 +151,7 @@ class User
 	public function createEvent($bdd){
 		//formatage des parametres en vue d'une requète vers la bdd
 		$name = $_POST['event_name'];
+		$maxRunners = intval($_POST['maxRunners']);
 		$date = substr($_POST['run_date'], 0,10);
 		$timestamp = strtotime( $date);
 		$time = str_replace(":", "", $_POST['run_time']);
@@ -165,7 +166,7 @@ class User
 		$addrEnd = $_POST['addrEnd'];
 		try {
 			//Insertion du nouvel Event en base via les paramètres ci-dessus
-			$query = "INSERT INTO `event` (`name`, `nbr_runners`,`event_time`,`statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`, `addr_start`,`addr_end`) VALUES ('$name', 1, $time, 0, $lngStart, $latStart, $lngEnd, $latEnd, $this->id, '$addrStart', '$addrEnd');";
+			$query = "INSERT INTO `event` (`name`, `nbr_runners`,`max_runners`,`event_time`,`statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`, `addr_start`,`addr_end`) VALUES ('$name', 1, $maxRunners ,$time, 0, $lngStart, $latStart, $lngEnd, $latEnd, $this->id, '$addrStart', '$addrEnd');";
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
 			if ($bdd->lastInsertId() != null){
@@ -220,7 +221,7 @@ class User
 
 	public function getEventById($id, $bdd){
 		try{
-			//Recuperation de l'evenement en fonction de son nom (champ unique en bdd)
+			//Recuperation de l'evenement en fonction de son id (champ unique en bdd)
 			$query = "SELECT * FROM `event` WHERE `id` = $id;";
 			$data = $bdd->prepare($query);
 			$data->execute();
@@ -232,6 +233,25 @@ class User
 			}
 		}catch (Exception $e){
 			echo "Error : ", $e->getMessage(), "\n";
+			return false;
+		}
+	}
+
+	public static function getUsersByEventId($id, $bdd){
+		try{
+			$query = "SELECT * FROM user 
+			INNER JOIN user_event ON user.id = user_event.user_id 
+			WHERE user_event.event_id = $id;";
+			$data = $bdd->prepare($query);
+			$data->execute();
+			if ($data->rowCount() > 0){
+				$data = $data->fetchAll(PDO::FETCH_ASSOC);
+				return $data;
+			}else{
+				return false;
+			}
+		}catch (Exception $e){
+			echo "Error: ", $e->getMessage(),  "\n";
 			return false;
 		}
 	}
