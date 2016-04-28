@@ -254,6 +254,8 @@ class User
 			echo "Error: ", $e->getMessage(),  "\n";
 			return false;
 		}
+	}
+	
 	public function delete_event_user($bdd, $id){
 		try {
 			$req = "DELETE FROM `event` WHERE `id` = $id ;";

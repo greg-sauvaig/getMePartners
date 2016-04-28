@@ -18,10 +18,8 @@
 </div>
 <script type="text/javascript" src="./js/search.js"></script>
 
-
 <?php
 if (isset($eventList)){
-
 $p = $eventList;
 $p_size = count($p);
 $messagesParPage = 4; 
