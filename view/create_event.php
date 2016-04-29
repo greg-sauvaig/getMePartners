@@ -40,6 +40,7 @@ if($a != "no"){
             <input type="hidden" data-start="lng" name="lng_Start" id="lng_Start" required>
             <input type="hidden" data-end="lat" name="lat_End" id="lat_End" required>
             <input type="hidden" data-end="lng" name="lng_End" id="lng_End" required>
+            <input type='hidden' name='runDistance' id='runDistance' value="" required>
             <input type="submit" name="create_event" class="btn btn-default">
         </center>
     </form>

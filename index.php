@@ -57,6 +57,9 @@
             }
         }
         if(isset($_GET["voir"])){
+            if(isset($_POST['joinEvent'])){
+                $user->joinEvent($user->id, $_GET['voir'], $bdd);
+            }
             $userList = User::getUsersByEventId($_GET['voir'], $bdd);
             include_once "./view/event_info.php"; 
         }else if(isset($_GET['page'])){

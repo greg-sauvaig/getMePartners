@@ -162,11 +162,12 @@ class User
 		$latStart = floatval($_POST['lat_Start']);
 		$lngEnd = floatval($_POST['lng_End']);
 		$latEnd = floatval($_POST['lat_End']);
+		$runDistance = $_POST['runDistance'];
 		$addrStart = $_POST['addrStart'];
 		$addrEnd = $_POST['addrEnd'];
 		try {
 			//Insertion du nouvel Event en base via les paramètres ci-dessus
-			$query = "INSERT INTO `event` (`name`, `nbr_runners`,`max_runners`,`event_time`,`statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `lead_user`, `addr_start`,`addr_end`) VALUES ('$name', 1, $maxRunners ,$time, 0, $lngStart, $latStart, $lngEnd, $latEnd, $this->id, '$addrStart', '$addrEnd');";
+			$query = "INSERT INTO `event` (`name`, `nbr_runners`,`max_runners`,`event_time`,`statut`, `lonStart`, `latStart`, `lonEnd`, `latEnd`, `runDistance`, `lead_user`, `addr_start`,`addr_end`) VALUES ('$name', 1, $maxRunners ,$time, 0, $lngStart, $latStart, $lngEnd, $latEnd, '$runDistance', $this->id, '$addrStart', '$addrEnd');";
 			$prepared = $bdd->prepare($query);
 			$prepared->execute();
 			if ($bdd->lastInsertId() != null){
@@ -270,6 +271,28 @@ class User
 		} catch (Exception $e) {
 			return ['satus' => "erreur lors de la suppression."];
 		}	
+	}
+
+	public function joinEvent($idUser, $idEvent, $bdd){
+		for ($i=0; isset($this->myEvents[$i]) ; $i++) {
+			if ($this->myEvents[$i]->id == $idEvent) {
+				return false;
+			} 
+		}
+
+		try{
+			$query = "INSERT INTO `user_event`(`user_id`, `event_id`) VALUES ($idUser, $idEvent);";
+			$data = $bdd->prepare($query);
+			$data->execute();
+			if ($data->rowCount() == 1) {
+				return true;
+			}else{
+				return false;
+			}
+		}catch (Exception $e){
+			echo "Error: ", $e->getMessage(),  "\n";
+			return false;
+		}
 	}
 }
 

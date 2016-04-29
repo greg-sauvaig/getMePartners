@@ -93,6 +93,8 @@ var marker = new google.maps.Marker({
 
 };
 
+var runDistance = 0;
+
 calculate = function(){
     origin_lat      = document.getElementById('lat_Start').value; // Le point départ
     destination_lat = document.getElementById('lat_End').value; // Le point départ
@@ -110,6 +112,9 @@ calculate = function(){
         directionsService.route(request, function(response, status){ // Envoie de la requête pour calculer le parcours
             if(status == google.maps.DirectionsStatus.OK){
                 direction.setDirections(response); // Trace l'itinéraire sur la carte et les différentes étapes du parcours
+
+                runDistance = response['routes'][0]['legs'][0]['distance']['text'];
+                $('#runDistance').attr("value", runDistance);
             }
         });
     }
