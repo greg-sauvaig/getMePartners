@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données :  `momo`
+-- Base de données :  `lsl`
 --
 
 DELIMITER $$
@@ -44,13 +44,6 @@ SELECT `name`
 FROM `event` 
 INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` 
 WHERE  `user_event`.`user_id` =p_id$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllEventsButMines`(IN `p_id` INT(11))
-    NO SQL
-SELECT * 
-FROM  `event` 
-INNER JOIN  `user_event` ON  `user_event`.`event_id` =  `event`.`id` 
-WHERE  `user_event`.`user_id` != p_id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBySession`(IN `p_session` VARCHAR(255))
     NO SQL
