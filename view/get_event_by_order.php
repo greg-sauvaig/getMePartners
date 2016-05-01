@@ -29,7 +29,14 @@ $events = $user->myEvents;
 $json = array();
 foreach ($events as $key => $value) {
 	array_push($json, json_encode($value)); 
-}  
-echo(json_encode($json));
+}
+if(!empty($json)){
+	http_response_code(200);  
+	echo(json_encode($json));
+}
+else{
+	http_response_code(405);
+	echo(json_encode($json));
+}
 
 ?>

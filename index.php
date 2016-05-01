@@ -53,7 +53,7 @@
                 include_once './view/account_setting.php';
             }
         }
-        if(isset($_GET["voir"])){
+        else if(isset($_GET["voir"])){
             include_once "./view/event_info.php"; 
         }else if(isset($_GET['page'])){
             if ($_GET['page'] == 'create' && !isset($_POST['create_event'])){
@@ -63,14 +63,15 @@
                 include_once './view/left-container-profil.php';
                 include_once './view/search.php';
             }
-        }else{
-            include_once './view/left-container-profil.php';
-            include_once './view/main_page.php';
         }
-        if (isset($_POST['create_event'])){
+        else if (isset($_POST['create_event'])){
             $user->createEvent($bdd);
             include_once './view/left-container-profil.php';
             include_once './view/create_event.php';
+        }
+        else{
+            include_once './view/left-container-profil.php';
+            include_once './view/main_page.php';
         }
     }
     else if(isset( $_POST['login'])){
