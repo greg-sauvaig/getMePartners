@@ -27,15 +27,20 @@ if($a != "no"){
                 <input type="text" name="addrEnd" id="end" style="width:300px;" id="destination">
             </div>
             <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-                <label for="run_end">Temps de course</label>
+                <label for="run_end">Heure de départ de la course</label>
                 <input id="time" data-format="HH:mm" data-template="HH : mm" name="run_time" type="text" required>
             </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+                <label for="maxRunners">Nb max de Participants</label>
+                <input type="number" name="maxRunners" min="2" max="50" required>                
             </div>
             <input type="text" placeholder="Titre de l'Event" name="event_name" required>
             <input type="hidden" data-start="lat" name="lat_Start" id="lat_Start" required>
             <input type="hidden" data-start="lng" name="lng_Start" id="lng_Start" required>
             <input type="hidden" data-end="lat" name="lat_End" id="lat_End" required>
             <input type="hidden" data-end="lng" name="lng_End" id="lng_End" required>
+            <input type='hidden' name='runDistance' id='runDistance' value="" required>
             <input type="submit" name="create_event" class="btn btn-default">
         </center>
     </form>

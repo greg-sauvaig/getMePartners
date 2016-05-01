@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.css" rel="stylesheet">
         <link href="css/deco.css" rel="stylesheet" type="text/css"/>
         <link rel="icon" type="image/png" href="image/favicon.gif" />
         <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -31,8 +32,8 @@
                     <ul class="nav navbar-nav">
                     <?php if($valid){ ?>
                         <li class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" id="drop-header-btn" type="button" data-toggle="dropdown">Evénement
-                                <span class="caret"></span>
+                            <button class="btn btn-primary dropdown-toggle" id="drop-header-btn" type="button" data-toggle="dropdown">Evénement&nbsp;
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a href="./index.php?page=create">Créer un événement</a></li>
