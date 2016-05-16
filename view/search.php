@@ -2,17 +2,17 @@
 <div class="col-lg-9 col-md-9 col-xs-9 col-sm-9" style="max-height:80vh;">
     <form action="" method="post" id="mapform">    
         <div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
-            <label for="searchFrom">Search Events from ?</label>
+            <label for="searchFrom">Rechercher l'évènement à</label>
             <input type="text" id="searchFrom" name="searchFrom">
         </div>
         <div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
-            <label for="searchRadius">Select Search Radius</label>
+            <label for="searchRadius">Sélectionner un rayon</label>
             <input <?php if (isset($_POST['searchRadius'])){echo 'data-radius="'.$_POST['searchRadius'].'"';}?> type="range" id="searchRadius" name="searchRadius" max="50" min="1"></input>
         </div>
         <input <?php if (isset($_POST['lat_Search'])){echo 'data-lat="'.$_POST['lat_Search'].'"';}?> type="hidden" data-search="lat" name="lat_Search" id="lat_Search" required>
         <input <?php if (isset($_POST['lng_Search'])){echo 'data-lon="'.$_POST['lng_Search'].'"';}?> type="hidden" data-search="lng" name="lng_Search" id="lng_Search" required>
         <div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
-            <input type="submit" value="search" name="search"></input>
+            <input type="submit" value="Rechercher" name="search"></input>
         </div>
     </form>
 </div>
@@ -51,11 +51,11 @@ for ($i=0; $i < $nombreDePages ; ++$i) {
 }
 echo('</div>');
 // bouton pour les tris
-echo('<div id="order_for_page">Trier par:
-            <button id="author_order"><div class="chevron-up"></div>&nbspauteur</button>
-            <button id="date_order"><div class="chevron-up"></div>&nbspdate</button>
-            <button id="location_order"><div class="chevron-up"></div>&nbsplieu</button>
-            <button id="nbUser_order"><div class="chevron-up"></div>&nbspNb Participants</button>
+echo('<div id="order_for_page"><strong>Trier par:</strong>
+            <button id="author_order"><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbspAuteur</button>
+            <button id="date_order"><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbspDate</button>
+            <button id="location_order"><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbspLieu</button>
+            <button id="nbUser_order"><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbspNb Participants</button>
      </div>');
 ?>
 <script type="text/javascript">
@@ -70,7 +70,7 @@ echo('<div id="order_for_page">Trier par:
             }
             str += '</div><div class="event-text"><label>Statut : </label><h5>';
             if(event_satus == 0)
-                str += "non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
+                str += "Non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
             if(nbr_runners < max_runners)
                 str += '<center><button class="voir-event btn" data-event="'+event_id+'">Voir</button></center>';
             str += '</div><div class="event-text"><label>Auteur : </label>';
@@ -378,19 +378,19 @@ for ($b = 0; $b < $p_size ;$b++) {
                 <?php
                 switch ($event['statut']) {
                         case 0:
-                            echo "non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
+                            echo "Non commencé : <img src='./image/waiting.jpg' style='height:10px;width:10px;'></h5>";
                             break;
                         case 1:
-                            echo "en cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
+                            echo "En cours : <img src='./image/on.jpg' style='height:10px;width:10px;'></h5>";
                             break;
                         case 10:
-                            echo "course fini : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
+                            echo "Course fini : <img src='./image/end.jpg' style='height:10px;width:10px;'></h5>";
                             break;
                         case 11:
-                            echo "course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
+                            echo "Course annulé : <img src='./image/cancel.jpg' style='height:10px;width:10px;'></h5>";
                             break;
                         default:
-                            echo "pas de statut definis</h5>";
+                            echo "Pas de statut definis</h5>";
                             break;
                 }
                 if($event['nbr_runners'] < $event['max_runners']){
@@ -402,14 +402,14 @@ for ($b = 0; $b < $p_size ;$b++) {
             <div class="event-text">
                 <label>Auteur : </label><h5>
                     <?php
-                        if($author['username'] != null){echo '<center>'.$author['username'].'</center>';}else{echo "pas de nom définit";}
+                        if($author['username'] != null){echo '<center>'.$author['username'].'</center>';}else{echo "Pas de nom définit";}
                     ?>
                 </h5>
             </div>
             <div class="event-text">
                 <label>Date de l'evenement : </label><h5>
                     <?php
-                        if($event['event_time'] != 0){echo strftime("%A %d %B %Y",$event['event_time']);}else{ echo "pas de date définit";}
+                        if($event['event_time'] != 0){echo strftime("%A %d %B %Y",$event['event_time']);}else{ echo "Pas de date définit";}
                     ?>
                 </h5>
             </div>
@@ -417,7 +417,7 @@ for ($b = 0; $b < $p_size ;$b++) {
                 <label>Lieu de l'evenement : </label>
                 <h5>
                     <?php
-                        if($addr = $event['addr_start']){ echo $addr;}else{echo "pas d'adresse definit";}
+                        if($addr = $event['addr_start']){ echo $addr;}else{echo "Pas d'adresse definit";}
                     ?>
                 </h5>
             </div>
